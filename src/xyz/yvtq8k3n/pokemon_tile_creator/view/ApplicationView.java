@@ -30,9 +30,8 @@ public class ApplicationView extends JFrame{
         try {
             //Attempting to get System Look and Feel
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException | UnsupportedLookAndFeelException e ) {
+        } catch (ClassNotFoundException | InstantiationException
+                | IllegalAccessException | UnsupportedLookAndFeelException e ) {
             e.printStackTrace();
         }
         setTitle("Pokemon Tile Creator");
@@ -42,20 +41,9 @@ public class ApplicationView extends JFrame{
     }
 
     private void addEventListeners() {
-        btnPalette.addActionListener(e ->
-        {
-            MAIN_CONTROLLER.loadPalette();
-        });
-
-        btnImage.addActionListener(e ->
-        {
-            MAIN_CONTROLLER.loadImage();
-        });
-
-        btnExport.addActionListener(e ->
-        {
-            MAIN_CONTROLLER.exportImage();
-        });
+        btnPalette.addActionListener(e -> MAIN_CONTROLLER.loadPalette());
+        btnImage.addActionListener(e -> MAIN_CONTROLLER.loadImage());
+        btnExport.addActionListener(e -> MAIN_CONTROLLER.exportTileset());
     }
 
     public void initComponents(){
@@ -63,9 +51,9 @@ public class ApplicationView extends JFrame{
         JPanel pnlDisplayImages = new JPanel();
 
         imgDisplayOriginal = new ImageDisplay();
-        imgDisplayOriginal.getLblTitle().setText("Old:");
+        imgDisplayOriginal.lblTitle.setText("Old:");
         imgDisplayConverted = new ImageDisplay();
-        imgDisplayConverted.getLblTitle().setText("New:");
+        imgDisplayConverted.lblTitle.setText("New:");
 
         pnlDisplayImages.setLayout(new FlowLayout());
         pnlDisplayImages.add(imgDisplayOriginal);
