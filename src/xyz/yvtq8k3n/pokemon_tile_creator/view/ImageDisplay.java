@@ -7,6 +7,8 @@ import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
 import javax.swing.*;
 import java.awt.*;
 
+import static xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController.MAIN_CONTROLLER;
+
 public class ImageDisplay extends JPanel{
     private static final int[] FILLER_DIMENSIONS = {1, 5};
     private static final int[] OPTIONS_DIMENSIONS = {25, 25};
@@ -22,6 +24,12 @@ public class ImageDisplay extends JPanel{
     public ImageDisplay() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         initComponents();
+        addEventListeners();
+    }
+
+    private void addEventListeners() {
+        btnSelect.addActionListener(e -> System.out.println("nice"));
+        btnGrid.addActionListener(e -> pnlTileRepresentation.changeGridIndex());
     }
 
     private void initComponents() {
