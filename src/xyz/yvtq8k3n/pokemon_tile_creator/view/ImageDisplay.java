@@ -11,12 +11,13 @@ public class ImageDisplay extends JPanel{
     private static final int[] FILLER_DIMENSIONS = {1, 5};
     private static final int[] OPTIONS_DIMENSIONS = {25, 25};
     private static final int[] IMG_DIMENSIONS = {128, 320};
-    private static final int[] PALETTE_BOX = {25, 25};
+    private static final int[] PALETTE_BOX = {128, 48};
 
     @Getter @Setter private JLabel lblTitle;
     @Getter @Setter private JButton btnSelect;
     @Getter @Setter private JButton btnGrid;
-    @Getter @Setter private JPanel pnlImage;
+    @Getter @Setter
+    public PanelTileRepresentation pnlTileRepresentation;
     @Getter @Setter private JPanel pnlPalette;
 
     public ImageDisplay() {
@@ -55,19 +56,19 @@ public class ImageDisplay extends JPanel{
         pnlMenu.add(pnlLabel);
         pnlMenu.add(pnlButtons);
 
-        pnlImage = new JPanel();
-        pnlImage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        pnlImage.setPreferredSize(HelperCreator.createDimension(IMG_DIMENSIONS));
+        pnlTileRepresentation = new PanelTileRepresentation();
+        pnlTileRepresentation.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        pnlTileRepresentation.setPreferredSize(HelperCreator.createDimension(IMG_DIMENSIONS));
 
         pnlPalette = new JPanel();
         pnlPalette.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        pnlPalette.setPreferredSize(new Dimension(PALETTE_BOX[0] * 8,  PALETTE_BOX[1] * 2));
+        pnlPalette.setPreferredSize(HelperCreator.createDimension(PALETTE_BOX));
 
         //Add Components
         Dimension dimFiller = HelperCreator.createDimension(FILLER_DIMENSIONS);
         add(pnlMenu);
         add(new Box.Filler(dimFiller, dimFiller, dimFiller));
-        add(pnlImage);
+        add(pnlTileRepresentation);
         add(new Box.Filler(dimFiller, dimFiller, dimFiller));
         add(pnlPalette);
     }

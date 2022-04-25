@@ -8,22 +8,25 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 
+import static xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController.MAIN_CONTROLLER;
+
 public class ApplicationView extends JFrame{
     private static final int[] MENU_DIMENSION = {128, 128};
     private static final int[] DISPLAY_DIMENSION = {128, 10};
 
     //Center
-    ImageDisplay imgDisplayOriginal;
-    ImageDisplay imgDisplayConverted;
+    public ImageDisplay imgDisplayOriginal;
+    public ImageDisplay imgDisplayConverted;
 
     //Left
-    BlockDisplay blockDisplay;
-    JButton btnPalette;
-    JButton btnImage;
-    JButton btnExport;
+    public BlockDisplay blockDisplay;
+    public JButton btnPalette;
+    public JButton btnImage;
+    public JButton btnExport;
 
     public ApplicationView() {
         initComponents();
+        addEventListeners();
         try {
             //Attempting to get System Look and Feel
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -37,14 +40,32 @@ public class ApplicationView extends JFrame{
         setVisible(true);
         pack();
     }
+
+    private void addEventListeners() {
+        btnPalette.addActionListener(e ->
+        {
+            MAIN_CONTROLLER.loadPalette();
+        });
+
+        btnImage.addActionListener(e ->
+        {
+            MAIN_CONTROLLER.loadImage();
+        });
+
+        btnExport.addActionListener(e ->
+        {
+            MAIN_CONTROLLER.exportImage();
+        });
+    }
+
     public void initComponents(){
         //CENTER
         JPanel pnlDisplayImages = new JPanel();
 
         imgDisplayOriginal = new ImageDisplay();
-        imgDisplayOriginal.getLblTitle().setText("Original:");
+        imgDisplayOriginal.getLblTitle().setText("Old:");
         imgDisplayConverted = new ImageDisplay();
-        imgDisplayConverted.getLblTitle().setText("Converted:");
+        imgDisplayConverted.getLblTitle().setText("New:");
 
         pnlDisplayImages.setLayout(new FlowLayout());
         pnlDisplayImages.add(imgDisplayOriginal);
