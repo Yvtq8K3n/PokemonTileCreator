@@ -55,7 +55,8 @@ public enum MainController {
     public void exportTileset() {
         if (model.hasConvertedImage()){
             Tileset paletteConverted = model.getPaletteConverted();
-            FileWriter.exportTileset(paletteConverted.getImage());
+            FileWriter.writeTileset(paletteConverted.getImage(),
+                    model.getPaletteOriginal().getWritablePalette());
         }
     }
 }

@@ -7,31 +7,30 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.prefs.Preferences;
 
 public class FileWriter {
-    public static void exportTileset(BufferedImage image){
+    public static void writeTileset(BufferedImage image, byte[] palette) {
         Preferences pref = Preferences.userRoot();
         String path = pref.get("DEFAULT_PATH", "");
 
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(path));
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "BMP, JPG, PNG & GIF Images", "bmp", "jpg", "png", "gif");
+                "Tileset", "bmp", "jpg", "png","pal");
         fileChooser.setFileFilter(filter);
-        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+        int returnVal = fileChooser.showOpenDialog(new JFrame());
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 File f = fileChooser.getSelectedFile();
-                ImageIO.write(image, "bmp", new File(f.getAbsolutePath()+".bmp"));
-
-                // Save the selected path
-                fileChooser.setCurrentDirectory(f);
-                pref.put("DEFAULT_PATH", f.getAbsolutePath());
+                ImageIO.write(image, "bmp", new File(f.getAbsolutePath() + ".bmp"));
+                Files.write(new File(f.getAbsolutePath() + ".pal").toPath(), palette);
             } catch (IOException ex) {
-                System.out.println("Failed to save image!");
+                JOptionPane.showMessageDialog(null, "Failed to save Tileset!");
             }
         } else {
-            System.out.println("No file choosen!");
+            System.out.println("No file chosen!");
         }
     }
 }

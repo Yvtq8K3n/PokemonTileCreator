@@ -18,7 +18,7 @@ public class FileReader {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(path));
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "BMP, JPG, PNG & GIF Images", "bmp", "jpg", "png", "gif");
+                "BMP, JPG, PNG & GIF Images", "bmp", "jpg", "png");
         fileChooser.setFileFilter(filter);
         int returnVal = fileChooser.showOpenDialog(new JFrame());
         if(returnVal == JFileChooser.APPROVE_OPTION) {
@@ -31,7 +31,7 @@ public class FileReader {
                 pref.put("DEFAULT_PATH", f.getAbsolutePath());
 
             }catch (Exception ex){
-                JOptionPane.showMessageDialog(null, ex.getMessage());
+                JOptionPane.showMessageDialog(null, "Failed to load Image!");
             }
             System.out.println("You chose to open this file: " +
                     fileChooser.getSelectedFile().getName());
@@ -61,7 +61,7 @@ public class FileReader {
                 pref.put("DEFAULT_PATH", f.getAbsolutePath());
 
             }catch (Exception ex){
-                JOptionPane.showMessageDialog(null, ex.getMessage());
+                JOptionPane.showMessageDialog(null, "Failed to load Palette!");
             }
             System.out.println("You chose to open this file: " +
                     chooser.getSelectedFile().getName());

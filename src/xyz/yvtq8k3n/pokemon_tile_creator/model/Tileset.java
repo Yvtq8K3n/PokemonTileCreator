@@ -5,6 +5,10 @@ import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -80,5 +84,17 @@ public class Tileset {
             }
         }
         this.image = image_clone;
+    }
+
+    //Converts the palette to a writable byte[]
+    public byte[] getWritablePalette() {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        for (Color color:palette) {
+            outputStream.write(color.getRed());
+            outputStream.write(color.getGreen());
+            outputStream.write(color.getBlue());
+            outputStream.write(color.getAlpha());
+        }
+        return outputStream.toByteArray();
     }
 }
