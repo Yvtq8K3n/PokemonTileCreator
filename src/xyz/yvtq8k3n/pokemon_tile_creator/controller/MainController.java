@@ -4,16 +4,33 @@ import xyz.yvtq8k3n.pokemon_tile_creator.FileReader;
 import xyz.yvtq8k3n.pokemon_tile_creator.FileWriter;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.Tileset;
+import xyz.yvtq8k3n.pokemon_tile_creator.operators.Operator;
+import xyz.yvtq8k3n.pokemon_tile_creator.operators.ResetOperator;
+import xyz.yvtq8k3n.pokemon_tile_creator.operators.SelectorOperator;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.ApplicationView;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.CustomBehaviour;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public enum MainController {
     MAIN_CONTROLLER;
 
     static ApplicationModel model;
     static ApplicationView view;
+
+    static Operator[] operators;
+    public static Operator selectedOperator;
+
+    private static ArrayList<CustomBehaviour> customBehaviours;
+
     public static void launchApplication(ApplicationModel model, ApplicationView view) {
+        //Create Operator
+        MainController.operators = new Operator[]{
+                new ResetOperator(),
+                new SelectorOperator()
+        };
+        selectedOperator = operators[0];
         MainController.model = model;
         MainController.view = view;
     }
@@ -57,6 +74,29 @@ public enum MainController {
             Tileset paletteConverted = model.getPaletteConverted();
             FileWriter.writeTileset(paletteConverted.getImage(),
                     model.getPaletteOriginal().getWritablePalette());
+        }
+    }
+
+    public void changeState() {
+        Operator operator = operators[0];
+        if (selectedOperator == operator){
+            selectedOperator = operators[1];
+        }else{
+            selectedOperator = operators[0];
+            reset();
+        }
+    }
+
+    public void addCustomBehaviourComponents(CustomBehaviour c){
+        if (customBehaviours == null){
+            customBehaviours = new ArrayList<>();
+        }
+        MainController.customBehaviours.add(c);
+    }
+
+    public void reset() {
+        for (CustomBehaviour c:customBehaviours) {
+            c.reset();
         }
     }
 }

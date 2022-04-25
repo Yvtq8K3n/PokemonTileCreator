@@ -28,7 +28,7 @@ public class ImageDisplay extends JPanel{
     }
 
     private void addEventListeners() {
-        btnSelect.addActionListener(e -> System.out.println("nice"));
+        btnSelect.addActionListener(e -> MAIN_CONTROLLER.changeState());
         btnGrid.addActionListener(e -> pnlTileRepresentation.changeGridIndex());
     }
 
