@@ -72,6 +72,7 @@ public class PanelTileRepresentation extends JPanel implements CustomBehaviour, 
                 x / (GRID_DIMENSIONS[0] * 2) * GRID_DIMENSIONS[0] *2,
                 y / (GRID_DIMENSIONS[1] * 2) * GRID_DIMENSIONS[1] *2
         };
+        MainController.setDisplayBlock(image, selectorLocation[0], selectorLocation[1]);
         repaint();
     }
 

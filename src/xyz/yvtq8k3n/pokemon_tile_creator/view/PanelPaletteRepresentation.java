@@ -56,6 +56,7 @@ public class PanelPaletteRepresentation extends JPanel implements CustomBehaviou
                 x / BOX_DIMENSIONS[0] * BOX_DIMENSIONS[0],
                 y / BOX_DIMENSIONS[1] * BOX_DIMENSIONS[1]
         };
+        //MainController.setBlock()
         repaint();
     }
 

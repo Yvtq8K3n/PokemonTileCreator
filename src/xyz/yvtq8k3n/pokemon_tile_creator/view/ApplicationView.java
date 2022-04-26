@@ -11,8 +11,7 @@ import java.awt.*;
 import static xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController.MAIN_CONTROLLER;
 
 public class ApplicationView extends JFrame{
-    private static final int[] MENU_DIMENSION = {128, 128};
-    private static final int[] DISPLAY_DIMENSION = {128, 10};
+    private static final int[] MENU_DIMENSION = {128, 186};
 
     //Center
     public ImageDisplay imgDisplayOriginal;
@@ -64,7 +63,6 @@ public class ApplicationView extends JFrame{
 
         JPanel pnlBlockDisplay = new JPanel();
         blockDisplay = new BlockDisplay();
-        pnlBlockDisplay.setPreferredSize(HelperCreator.createDimension(DISPLAY_DIMENSION));
         pnlBlockDisplay.add(blockDisplay);
 
         JPanel pnlButtons = new JPanel();
@@ -73,16 +71,14 @@ public class ApplicationView extends JFrame{
         btnExport = new JButton("EXPORT");
         pnlButtons.setLayout(new GridLayout(3, 1, 15, 15));
         pnlButtons.setPreferredSize(HelperCreator.createDimension(MENU_DIMENSION));
-        //pnlButtons.setBorder(BorderFactory.createLineBorder(Color.RED));
         pnlButtons.add(btnPalette);
         pnlButtons.add(btnImage);
         pnlButtons.add(btnExport);
 
-        pnlRightMenu.setLayout(new BoxLayout(pnlRightMenu, BoxLayout.PAGE_AXIS));
-        //pnlRightMenu.setBorder(BorderFactory.createLineBorder(Color.RED));
-        pnlRightMenu.add(pnlBlockDisplay);
-        pnlRightMenu.add(pnlButtons);
-        pnlRightMenu.add(Box.createVerticalGlue());
+        pnlRightMenu.setLayout(new BorderLayout());
+        pnlRightMenu.add(pnlBlockDisplay,BorderLayout.PAGE_START);
+        pnlRightMenu.add(pnlButtons,BorderLayout.CENTER);
+
 
         //MAIN PANEL
         JPanel mainJPanel = new JPanel();

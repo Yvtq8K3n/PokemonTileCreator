@@ -35,6 +35,10 @@ public enum MainController {
         MainController.view = view;
     }
 
+    public static void setDisplayBlock(BufferedImage image, int x, int y) {
+        view.blockDisplay.setImage(image, x, y);
+    }
+
     public void loadPalette(){
         //Call Helper File Reader to load Palette
         byte [] palette = FileReader.loadPalette();
