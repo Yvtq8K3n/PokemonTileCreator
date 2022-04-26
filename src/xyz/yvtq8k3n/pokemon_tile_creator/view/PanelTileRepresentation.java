@@ -1,8 +1,6 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
-import xyz.yvtq8k3n.pokemon_tile_creator.operators.Operator;
-import xyz.yvtq8k3n.pokemon_tile_creator.operators.SelectorOperator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +11,7 @@ import java.awt.image.BufferedImage;
 
 import static xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController.MAIN_CONTROLLER;
 
-public class PanelTileRepresentation extends JPanel implements CustomBehaviour, MouseListener, MouseMotionListener {
+public class PanelTileRepresentation extends JPanel implements SelectableBehaviour, MouseListener, MouseMotionListener {
     private static final int[] GRID_DIMENSIONS = {8,8};
     private static final int[] GRID_SIZE = {2,1,0};
 
@@ -66,7 +64,12 @@ public class PanelTileRepresentation extends JPanel implements CustomBehaviour, 
     }
 
     @Override
-    public void customAction(int x, int y){
+    public void mousePressedSelectedAction(int x, int y){
+        mouseDraggedSelectedAction(x, y);
+    }
+
+    @Override
+    public void mouseDraggedSelectedAction(int x, int y){
         hasSelector = true;
         selectorLocation = new int[]{
                 x / (GRID_DIMENSIONS[0] * 2) * GRID_DIMENSIONS[0] *2,
@@ -74,6 +77,11 @@ public class PanelTileRepresentation extends JPanel implements CustomBehaviour, 
         };
         MainController.setDisplayBlock(image, selectorLocation[0], selectorLocation[1]);
         repaint();
+    }
+
+    @Override
+    public void mouseExitSelectedAction(int x, int y) {
+
     }
 
     @Override

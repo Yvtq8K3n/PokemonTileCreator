@@ -8,7 +8,7 @@ import xyz.yvtq8k3n.pokemon_tile_creator.operators.Operator;
 import xyz.yvtq8k3n.pokemon_tile_creator.operators.ResetOperator;
 import xyz.yvtq8k3n.pokemon_tile_creator.operators.SelectorOperator;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.ApplicationView;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.CustomBehaviour;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.SelectableBehaviour;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public enum MainController {
     static Operator[] operators;
     public static Operator selectedOperator;
 
-    private static ArrayList<CustomBehaviour> customBehaviours;
+    private static ArrayList<SelectableBehaviour> selectableBehaviours;
 
     public static void launchApplication(ApplicationModel model, ApplicationView view) {
         //Create Operator
@@ -91,15 +91,15 @@ public enum MainController {
         }
     }
 
-    public void addCustomBehaviourComponents(CustomBehaviour c){
-        if (customBehaviours == null){
-            customBehaviours = new ArrayList<>();
+    public void addCustomBehaviourComponents(SelectableBehaviour c){
+        if (selectableBehaviours == null){
+            selectableBehaviours = new ArrayList<>();
         }
-        MainController.customBehaviours.add(c);
+        MainController.selectableBehaviours.add(c);
     }
 
     public void reset() {
-        for (CustomBehaviour c:customBehaviours) {
+        for (SelectableBehaviour c: selectableBehaviours) {
             c.reset();
         }
     }

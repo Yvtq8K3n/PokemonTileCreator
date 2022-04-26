@@ -1,9 +1,6 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.operators;
 
-import xyz.yvtq8k3n.pokemon_tile_creator.view.CustomBehaviour;
-
 import java.awt.event.*;
-import java.util.ArrayList;
 
 public abstract class Operator implements MouseListener, MouseMotionListener {
 
