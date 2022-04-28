@@ -1,25 +1,43 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.model;
 
 import lombok.Data;
-import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
 
+import org.apache.log4j.helpers.FileWatchdog;
+import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.nio.ByteBuffer;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 @Data
 public class Tileset {
+    private SomeWatchFile watchFile;
     private static final int PALETTE_LIMIT = 16;
+    private File imageFile;
     private BufferedImage image;
     private Color[] palette;
 
     public Tileset() {
         palette = new Color[0];
+    }
+
+    public void setImageFile(File imageFile) throws IOException {
+        this.imageFile = imageFile;
+        loadImage();
+        calculatePalette();
+
+        //Create watcher for file
+        if (watchFile != null) watchFile.stop();
+        watchFile = new SomeWatchFile(imageFile.getPath());
+        watchFile.start();
+    }
+
+    public void loadImage() throws IOException {
+        this.image = ImageIO.read(this.imageFile);
     }
 
     public void addPalette(byte[] palette) {
@@ -36,7 +54,7 @@ public class Tileset {
         this.palette = colors;
     }
 
-    public void calculatePalette() {
+    private void calculatePalette() {
         Color[] colors = new Color[PALETTE_LIMIT];
 
         int count = 0;
@@ -97,4 +115,21 @@ public class Tileset {
         }
         return outputStream.toByteArray();
     }
+
+    class SomeWatchFile extends FileWatchdog {
+        protected SomeWatchFile(String filename) {
+            super(filename);
+            setDelay(1000);
+        }
+
+        int count = 1;
+        @Override
+        protected void doOnChange() {
+            MainController.reloadImage();
+            System.out.println(count);
+            count ++;
+        }
+    }
 }
+
+

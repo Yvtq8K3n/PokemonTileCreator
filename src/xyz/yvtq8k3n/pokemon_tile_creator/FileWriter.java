@@ -12,6 +12,15 @@ import java.util.prefs.Preferences;
 
 public class FileWriter {
     public static void writeTileset(BufferedImage image, byte[] palette) {
+        //Switch to Operative System L&F
+        LookAndFeel originalLaf = UIManager.getLookAndFeel();
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException
+                | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+
         Preferences pref = Preferences.userRoot();
         String path = pref.get("DEFAULT_PATH", "");
 
@@ -31,6 +40,13 @@ public class FileWriter {
             }
         } else {
             System.out.println("No file chosen!");
+        }
+
+        //Flick the L&F back to the default
+        try {
+            UIManager.setLookAndFeel(originalLaf);
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -1,17 +1,23 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view;
 
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import lombok.experimental.Helper;
 import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
+import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 
 import static xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController.MAIN_CONTROLLER;
 
 public class ApplicationView extends JFrame{
     private static final int[] MENU_DIMENSION = {128, 186};
+
+    //Top
+    public OperationsMenu operationsMenu;
 
     //Center
     public ImageDisplay imgDisplayOriginal;
@@ -26,26 +32,24 @@ public class ApplicationView extends JFrame{
     public ApplicationView() {
         initComponents();
         addEventListeners();
-        try {
-            //Attempting to get System Look and Feel
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException
-                | IllegalAccessException | UnsupportedLookAndFeelException e ) {
-            e.printStackTrace();
-        }
+
         setTitle("Pokemon Tile Creator");
         setResizable(false);
+        setAlwaysOnTop(true);
         setVisible(true);
         pack();
     }
 
     private void addEventListeners() {
-        btnPalette.addActionListener(e -> MAIN_CONTROLLER.loadPalette());
-        btnImage.addActionListener(e -> MAIN_CONTROLLER.loadImage());
-        btnExport.addActionListener(e -> MAIN_CONTROLLER.exportTileset());
+        btnPalette.addActionListener(e -> MainController.loadPalette());
+        btnImage.addActionListener(e -> MainController.loadImage());
+        btnExport.addActionListener(e -> MainController.exportTileset());
     }
 
     public void initComponents(){
+        //TOP
+        operationsMenu = new OperationsMenu();
+
         //CENTER
         JPanel pnlDisplayImages = new JPanel();
 
@@ -84,6 +88,7 @@ public class ApplicationView extends JFrame{
         JPanel mainJPanel = new JPanel();
         mainJPanel.setLayout(new BorderLayout());
         mainJPanel.setBorder(new EmptyBorder(10, 5, 10, 5));
+        mainJPanel.add(operationsMenu, BorderLayout.PAGE_START);
         mainJPanel.add(pnlDisplayImages, BorderLayout.CENTER);
         mainJPanel.add(pnlRightMenu, BorderLayout.LINE_END);
         add(mainJPanel);

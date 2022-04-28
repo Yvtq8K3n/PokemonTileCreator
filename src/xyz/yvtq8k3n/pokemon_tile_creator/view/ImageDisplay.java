@@ -1,7 +1,6 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
 
 import javax.swing.*;
@@ -11,12 +10,11 @@ import static xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController.MAIN_C
 
 public class ImageDisplay extends JPanel{
     private static final int[] FILLER_DIMENSIONS = {1, 5};
-    private static final int[] OPTIONS_DIMENSIONS = {25, 25};
+    private static final int[] OPTIONS_DIMENSIONS = {28, 28};
     private static final int[] IMG_DIMENSIONS = {128, 320};
     private static final int[] PALETTE_BOX = {128, 32};
 
     public JLabel lblTitle;
-    public JButton btnSelect;
     public JButton btnGrid;
     public PanelTileRepresentation pnlTileRepresentation;
     public PanelPaletteRepresentation pnlPaletteRepresentation;
@@ -28,7 +26,6 @@ public class ImageDisplay extends JPanel{
     }
 
     private void addEventListeners() {
-        btnSelect.addActionListener(e -> MAIN_CONTROLLER.changeState());
         btnGrid.addActionListener(e -> pnlTileRepresentation.changeGridIndex());
     }
 
@@ -37,26 +34,17 @@ public class ImageDisplay extends JPanel{
 
         JPanel pnlLabel = new JPanel();
         lblTitle = new JLabel();
-        lblTitle.setFont(new Font("SansSerif", Font.BOLD, 16));
-
-        pnlLabel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        lblTitle.setFont(new Font("SansSerif", Font.BOLD, 18));
+        pnlLabel.setLayout(new BoxLayout(pnlLabel, BoxLayout.Y_AXIS) );
         pnlLabel.add(lblTitle);
 
         //Replace for icon later
         JPanel pnlButtons = new JPanel();
-        btnSelect = new JButton("S");
-        btnSelect.setFont(new Font("SansSerif", Font.BOLD, 12)); //remove me after icons
-        btnSelect.setMargin(new Insets(0, -1, 0, 0)); //remove me after icons
-        btnSelect.setPreferredSize(HelperCreator.createDimension(OPTIONS_DIMENSIONS));
-        btnSelect.setToolTipText("Select to show on rectangle red");
-        btnGrid = new JButton("G");
-        btnGrid.setFont(new Font("SansSerif", Font.BOLD, 12));//remove me after icons
-        btnGrid.setMargin(new Insets(0, -1, 0, 0)); //remove me after icons
+        btnGrid = new JButton();
+        btnGrid.setIcon(new FlatSVGIcon("xyz/yvtq8k3n/pokemon_tile_creator/resources/grid.svg", 16, 16));
         btnGrid.setPreferredSize(HelperCreator.createDimension(OPTIONS_DIMENSIONS));
         btnGrid.setToolTipText("Toggle for grid");
-
         pnlButtons.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        pnlButtons.add(btnSelect);
         pnlButtons.add(btnGrid);
 
         pnlMenu.setLayout(new BoxLayout(pnlMenu, BoxLayout.LINE_AXIS));

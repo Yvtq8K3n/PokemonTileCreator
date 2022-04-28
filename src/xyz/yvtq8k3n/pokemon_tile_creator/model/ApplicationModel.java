@@ -2,8 +2,13 @@ package xyz.yvtq8k3n.pokemon_tile_creator.model;
 
 import lombok.Data;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.*;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -17,12 +22,21 @@ public class ApplicationModel {
         this.paletteConverted = new Tileset();
     }
 
-    public void addImage(BufferedImage image){
-        if (image == null) throw new IllegalArgumentException("Expecting an image got invalid object");
-        this.paletteOriginal.setImage(image);
-        this.paletteOriginal.calculatePalette();
+    public void addImageFile(File imageFile) {
+        if (imageFile == null) throw new IllegalArgumentException("Expecting an image got invalid object");
+        try {
+            this.paletteOriginal.setImageFile(imageFile);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Expecting an image got invalid object");
+        }
+    }
 
-
+    public void reload() {
+        try {
+            this.paletteOriginal.loadImage();
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Unable to reload the image");
+        }
     }
 
     //Applies in case the final palette is the source of the provided image
@@ -54,4 +68,5 @@ public class ApplicationModel {
     public boolean hasConvertedImage(){
         return paletteConverted.hasImage();
     }
+
 }

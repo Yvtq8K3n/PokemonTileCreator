@@ -1,6 +1,7 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +29,7 @@ public class PanelTileRepresentation extends JPanel implements SelectableBehavio
         //Add event listeners
         addMouseListener(this);
         addMouseMotionListener(this);
-        MAIN_CONTROLLER.addCustomBehaviourComponents(this);
+        MainController.addCustomBehaviourComponents(this);
     }
 
     @Override

@@ -1,6 +1,6 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view;
+package xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour;
 
-public interface SelectableBehaviour extends CustomBehaviour{
+public interface SelectableBehaviour extends CustomBehaviour {
 
     void mouseDraggedSelectedAction(int x, int y);
 

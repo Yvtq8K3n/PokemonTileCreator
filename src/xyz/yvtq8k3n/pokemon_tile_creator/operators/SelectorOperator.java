@@ -1,10 +1,8 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.operators;
 
-import xyz.yvtq8k3n.pokemon_tile_creator.view.SelectableBehaviour;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
 
 import java.awt.event.MouseEvent;
-
-import static xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController.MAIN_CONTROLLER;
 
 public class SelectorOperator extends Operator {
 

@@ -3,14 +3,26 @@ package xyz.yvtq8k3n.pokemon_tile_creator;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.util.prefs.Preferences;
 
 public class FileReader {
-    public static BufferedImage loadImage(){
-        BufferedImage image = null;
+
+    public static File loadImage(){
+        File file = null;
+
+        //Switch to Operative System L&F
+        LookAndFeel originalLaf = UIManager.getLookAndFeel();
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException
+                | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
 
         Preferences pref = Preferences.userRoot();
         String path = pref.get("DEFAULT_PATH", "");
@@ -23,12 +35,10 @@ public class FileReader {
         int returnVal = fileChooser.showOpenDialog(new JFrame());
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             try {
-                File f = fileChooser.getSelectedFile();
-                image = ImageIO.read(f);
-
-                fileChooser.setCurrentDirectory(f);
+                file = fileChooser.getSelectedFile();
+                fileChooser.setCurrentDirectory(file);
                 // Save the selected path
-                pref.put("DEFAULT_PATH", f.getAbsolutePath());
+                pref.put("DEFAULT_PATH", file.getAbsolutePath());
 
             }catch (Exception ex){
                 JOptionPane.showMessageDialog(null, "Failed to load Image!");
@@ -36,10 +46,27 @@ public class FileReader {
             System.out.println("You chose to open this file: " +
                     fileChooser.getSelectedFile().getName());
         }
-        return image;
+
+        //Flick the L&F back to the default
+        try {
+            UIManager.setLookAndFeel(originalLaf);
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+
+        return file;
     }
 
     public static byte[] loadPalette(){
+        //Switch to Operative System L&F
+        LookAndFeel originalLaf = UIManager.getLookAndFeel();
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException
+                | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+
         byte[] palette = new byte[0];
 
         Preferences pref = Preferences.userRoot();
@@ -66,6 +93,14 @@ public class FileReader {
             System.out.println("You chose to open this file: " +
                     chooser.getSelectedFile().getName());
         }
+
+        //Flick the L&F back to the default
+        try {
+            UIManager.setLookAndFeel(originalLaf);
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+
         return palette;
     }
 }

@@ -8,9 +8,10 @@ import xyz.yvtq8k3n.pokemon_tile_creator.operators.Operator;
 import xyz.yvtq8k3n.pokemon_tile_creator.operators.ResetOperator;
 import xyz.yvtq8k3n.pokemon_tile_creator.operators.SelectorOperator;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.ApplicationView;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.SelectableBehaviour;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 
 public enum MainController {
@@ -39,7 +40,7 @@ public enum MainController {
         view.blockDisplay.setImage(image, x, y);
     }
 
-    public void loadPalette(){
+    public static void loadPalette(){
         //Call Helper File Reader to load Palette
         byte [] palette = FileReader.loadPalette();
         model.addNewPalette(palette);
@@ -52,10 +53,10 @@ public enum MainController {
         updateView();
     }
 
-    public void loadImage(){
+    public static void loadImage(){
         //Call Helper File Reader to load Image
-        BufferedImage image = FileReader.loadImage();
-        model.addImage(image);
+        File image = FileReader.loadImage();
+        model.addImageFile(image);
         view.imgDisplayOriginal.pnlTileRepresentation.setImage(model.getPaletteOriginal().getImage());
         view.imgDisplayOriginal.pnlPaletteRepresentation.setPalette(model.getPaletteOriginal().getPalette());
 
@@ -63,7 +64,16 @@ public enum MainController {
         updateView();
     }
 
-    public void convertImage(){
+    public static void reloadImage() {
+        model.reload();
+        view.imgDisplayOriginal.pnlTileRepresentation.setImage(model.getPaletteOriginal().getImage());
+        view.imgDisplayOriginal.pnlPaletteRepresentation.setPalette(model.getPaletteOriginal().getPalette());
+
+        convertImage();
+        updateView();
+    }
+
+    public static void convertImage(){
         model.convertImage();
         view.imgDisplayConverted.pnlTileRepresentation.setImage(model.getPaletteConverted().getImage());
         view.imgDisplayOriginal.pnlPaletteRepresentation.setPalette(model.getPaletteOriginal().getPalette());
@@ -73,7 +83,7 @@ public enum MainController {
         view.repaint();
     }
 
-    public void exportTileset() {
+    public static void exportTileset() {
         if (model.hasConvertedImage()){
             Tileset paletteConverted = model.getPaletteConverted();
             FileWriter.writeTileset(paletteConverted.getImage(),
@@ -81,7 +91,7 @@ public enum MainController {
         }
     }
 
-    public void changeState() {
+    public static void changeState() {
         Operator operator = operators[0];
         if (selectedOperator == operator){
             selectedOperator = operators[1];
@@ -91,14 +101,14 @@ public enum MainController {
         }
     }
 
-    public void addCustomBehaviourComponents(SelectableBehaviour c){
+    public static void addCustomBehaviourComponents(SelectableBehaviour c){
         if (selectableBehaviours == null){
             selectableBehaviours = new ArrayList<>();
         }
         MainController.selectableBehaviours.add(c);
     }
 
-    public void reset() {
+    public static void reset() {
         for (SelectableBehaviour c: selectableBehaviours) {
             c.reset();
         }
