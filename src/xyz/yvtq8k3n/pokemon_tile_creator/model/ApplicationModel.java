@@ -2,13 +2,8 @@ package xyz.yvtq8k3n.pokemon_tile_creator.model;
 
 import lombok.Data;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URI;
-import java.net.URL;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -26,7 +21,7 @@ public class ApplicationModel {
         if (imageFile == null) throw new IllegalArgumentException("Expecting an image got invalid object");
         try {
             this.paletteOriginal.setImageFile(imageFile);
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new IllegalArgumentException("Expecting an image got invalid object");
         }
     }

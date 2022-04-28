@@ -2,7 +2,7 @@ package xyz.yvtq8k3n.pokemon_tile_creator.model;
 
 import lombok.Data;
 
-import org.apache.log4j.helpers.FileWatchdog;
+import xyz.yvtq8k3n.pokemon_tile_creator.FileWatcher;
 import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
 
@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 @Data
 public class Tileset {
-    private SomeWatchFile watchFile;
+    private MyFileWatcher fileWatcher;
     private static final int PALETTE_LIMIT = 16;
     private File imageFile;
     private BufferedImage image;
@@ -25,15 +25,14 @@ public class Tileset {
         palette = new Color[0];
     }
 
-    public void setImageFile(File imageFile) throws IOException {
+    public void setImageFile(File imageFile) throws Exception {
         this.imageFile = imageFile;
         loadImage();
         calculatePalette();
 
-        //Create watcher for file
-        if (watchFile != null) watchFile.stop();
-        watchFile = new SomeWatchFile(imageFile.getPath());
-        watchFile.start();
+        if (fileWatcher != null) fileWatcher.stopThread();
+        fileWatcher = new MyFileWatcher(imageFile);
+        fileWatcher.start();
     }
 
     public void loadImage() throws IOException {
@@ -116,10 +115,10 @@ public class Tileset {
         return outputStream.toByteArray();
     }
 
-    class SomeWatchFile extends FileWatchdog {
-        protected SomeWatchFile(String filename) {
-            super(filename);
-            setDelay(1000);
+    class MyFileWatcher extends FileWatcher {
+        public MyFileWatcher(File file) {
+            super(file);
+            setDelay(200);
         }
 
         int count = 1;

@@ -18,6 +18,5 @@
     </orderEntry>
     <orderEntry type="library" name="formdev.flatlaf" level="project" />
     <orderEntry type="library" name="formdev.flatlaf.extras" level="project" />
-    <orderEntry type="library" name="eclipse.ecf.apache.log4j" level="project" />
   </component>
 </module>
