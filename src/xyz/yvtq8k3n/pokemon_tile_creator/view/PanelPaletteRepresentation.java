@@ -7,8 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController.MAIN_CONTROLLER;
-
 public class PanelPaletteRepresentation extends JPanel implements SelectableBehaviour, MouseListener, MouseMotionListener {
     private final static int[] BOX_DIMENSIONS = {16, 16};
     Color[] palette;
@@ -23,7 +21,7 @@ public class PanelPaletteRepresentation extends JPanel implements SelectableBeha
         //Add event listeners
         addMouseListener(this);
         addMouseMotionListener(this);
-        MainController.addCustomBehaviourComponents(this);
+        MainController.addSelectableBehaviour(this);
     }
 
     @Override
@@ -51,12 +49,12 @@ public class PanelPaletteRepresentation extends JPanel implements SelectableBeha
     }
 
     @Override
-    public void mousePressedSelectedAction(int x, int y){
-        mouseDraggedSelectedAction(x, y);
+    public void startSelector(int x, int y){
+        moveSelector(x, y);
     }
 
     @Override
-    public void mouseDraggedSelectedAction(int x, int y){
+    public void moveSelector(int x, int y){
         hasSelector = true;
         selectorLocation = new int[]{
                 x / BOX_DIMENSIONS[0] * BOX_DIMENSIONS[0],
@@ -67,7 +65,7 @@ public class PanelPaletteRepresentation extends JPanel implements SelectableBeha
     }
 
     @Override
-    public void mouseExitSelectedAction(int x, int y) {
+    public void exitSelectedAction(int x, int y) {
         reset();
     }
 

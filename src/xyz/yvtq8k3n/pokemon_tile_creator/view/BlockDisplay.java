@@ -15,7 +15,7 @@ import static xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController.MAIN_C
 
 public class BlockDisplay extends JPanel implements SelectableBehaviour, MouseListener, MouseMotionListener {
     private static final int[] DISPLAY_DIMENSIONS = {128, 128};
-    private static final int[] BLOCK = {16, 16};
+    private static final int BLOCK = 16;
     private BufferedImage image;
     private boolean enableGrid;
 
@@ -27,7 +27,7 @@ public class BlockDisplay extends JPanel implements SelectableBehaviour, MouseLi
         //Add event listeners
         addMouseListener(this);
         addMouseMotionListener(this);
-        MainController.addCustomBehaviourComponents(this);
+        MainController.addSelectableBehaviour(this);
     }
 
     @Override
@@ -49,8 +49,16 @@ public class BlockDisplay extends JPanel implements SelectableBehaviour, MouseLi
     }
 
     public void setImage(BufferedImage image, int x, int y) {
+        //Replace x(0, max) if it's out of viewport
+        x = Math.min(x + BLOCK, image.getWidth() - BLOCK);
+        x = Math.max(x, 0);
+
+        //Replace y(0, max) if it's out of viewport
+        y = Math.min(y + BLOCK, image.getHeight() - BLOCK);
+        y = Math.max(y, 0);
+
         //Crop from image wanted box
-        BufferedImage subImage = image.getSubimage(x, y, BLOCK[0], BLOCK[1]);
+        BufferedImage subImage = image.getSubimage(x, y, BLOCK, BLOCK);
 
         //Scale image
         this.image = generateScaledImage(subImage);
@@ -75,18 +83,18 @@ public class BlockDisplay extends JPanel implements SelectableBehaviour, MouseLi
     }
 
     @Override
-    public void mousePressedSelectedAction(int x, int y) {
+    public void startSelector(int x, int y) {
         enableGrid = !enableGrid;
         repaint();
     }
 
     @Override
-    public void mouseDraggedSelectedAction(int x, int y) {
+    public void moveSelector(int x, int y) {
 
     }
 
     @Override
-    public void mouseExitSelectedAction(int x, int y) {
+    public void exitSelectedAction(int x, int y) {
 
     }
 

@@ -1,6 +1,8 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view;
 
+import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.MultiSelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
 
 import javax.swing.*;
@@ -10,26 +12,29 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
-import static xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController.MAIN_CONTROLLER;
-
-public class PanelTileRepresentation extends JPanel implements SelectableBehaviour, MouseListener, MouseMotionListener {
-    private static final int[] GRID_DIMENSIONS = {8,8};
+public class PanelTileRepresentation extends JPanel implements SelectableBehaviour, MultiSelectableBehaviour, MouseListener, MouseMotionListener {
+    private static final int BLOCK = 16;
+    private static final int[] GRID_BASE = {8,8};
     private static final int[] GRID_SIZE = {2,1,0};
-
-    public BufferedImage image;
     int gridIndex;
 
+    public BufferedImage image;
+
     private boolean hasSelector;
+    private boolean hasMultiSelector;
+    private int[] initialLocation;
     private int[] selectorLocation;
 
     public PanelTileRepresentation() {
         this.gridIndex = GRID_SIZE.length-1;
         this.hasSelector = false;
+        this.hasMultiSelector = false;
 
         //Add event listeners
         addMouseListener(this);
         addMouseMotionListener(this);
-        MainController.addCustomBehaviourComponents(this);
+        MainController.addSelectableBehaviour(this);
+        MainController.addMultiSelectableBehaviour(this);
     }
 
     @Override
@@ -37,20 +42,25 @@ public class PanelTileRepresentation extends JPanel implements SelectableBehavio
         super.paintComponent(g);
         g.drawImage(image, 0, 0, this);
         if (image != null && GRID_SIZE[gridIndex] > 0){
-            for (int i = 0; i < image.getWidth(); i+= GRID_DIMENSIONS[0] * GRID_SIZE[gridIndex]) {
-                for (int j = 0; j < image.getHeight(); j+= GRID_DIMENSIONS[1] * GRID_SIZE[gridIndex]) {
+            for (int i = 0; i < image.getWidth(); i+= GRID_BASE[0] * GRID_SIZE[gridIndex]) {
+                for (int j = 0; j < image.getHeight(); j+= GRID_BASE[1] * GRID_SIZE[gridIndex]) {
                     g.setColor(Color.RED);
-                    g.drawRect(i, j, GRID_DIMENSIONS[0]*GRID_SIZE[gridIndex],
-                            GRID_DIMENSIONS[1]*GRID_SIZE[gridIndex]);
+                    g.drawRect(i, j, GRID_BASE[0]*GRID_SIZE[gridIndex],
+                            GRID_BASE[1]*GRID_SIZE[gridIndex]);
                 }
             }
         }
         if(hasSelector){
             g.setColor(Color.BLUE);
-            g.drawRect(selectorLocation[0], selectorLocation[1],
-                    GRID_SIZE[0] * GRID_DIMENSIONS[0],
-                    GRID_SIZE[0] * GRID_DIMENSIONS[1]
-            );
+            g.drawRect(selectorLocation[0], selectorLocation[1], BLOCK, BLOCK);
+        }
+        if(hasMultiSelector){
+            g.setColor(Color.BLUE);
+            int[] minCoordinates = HelperCreator.minCoordinates(initialLocation, selectorLocation);
+            int[] maxCoordinates = HelperCreator.maxCoordinates(initialLocation, selectorLocation);
+            g.drawRect(minCoordinates[0], minCoordinates[1],
+                    maxCoordinates[0] - minCoordinates[0] + BLOCK,
+                    maxCoordinates[1] - minCoordinates[1] + BLOCK);
         }
     }
 
@@ -65,29 +75,59 @@ public class PanelTileRepresentation extends JPanel implements SelectableBehavio
     }
 
     @Override
-    public void mousePressedSelectedAction(int x, int y){
-        mouseDraggedSelectedAction(x, y);
+    public void startSelector(int x, int y){
+        hasSelector = true;
+        moveSelector(x, y);
     }
 
     @Override
-    public void mouseDraggedSelectedAction(int x, int y){
-        hasSelector = true;
+    public void moveSelector(int x, int y){
+        //Replace x(0, max) if it's out of viewport
+        x = Math.min(x, image.getWidth() - BLOCK);
+        x = Math.max(x, 0);
+
+        //Replace y(0, max) if it's out of viewport
+        y = Math.min(y, image.getHeight() - BLOCK);
+        y = Math.max(y, 0);
+
         selectorLocation = new int[]{
-                x / (GRID_DIMENSIONS[0] * 2) * GRID_DIMENSIONS[0] *2,
-                y / (GRID_DIMENSIONS[1] * 2) * GRID_DIMENSIONS[1] *2
+                BLOCK * Math.floorDiv(x, BLOCK),
+                BLOCK * Math.floorDiv(y, BLOCK)
         };
         MainController.setDisplayBlock(image, selectorLocation[0], selectorLocation[1]);
         repaint();
     }
 
     @Override
-    public void mouseExitSelectedAction(int x, int y) {
+    public void startMultiSelector(int x, int y) {
+        hasMultiSelector = true;
+        initialLocation = new int[]{
+                BLOCK * Math.floorDiv(x, BLOCK),
+                BLOCK * Math.floorDiv(y, BLOCK)
+        };
+        resizeMultiSelector(x, y);
+    }
+
+    @Override
+    public void resizeMultiSelector(int x, int y) {
+        int[] blockSize = new int[]{GRID_SIZE[0] * GRID_BASE[0], GRID_SIZE[0] * GRID_BASE[1]};
+        selectorLocation = new int[]{
+                blockSize[0] * Math.floorDiv(x, blockSize[0]),
+                blockSize[1] * Math.floorDiv(y, blockSize[1])
+        };
+        repaint();
+    }
+
+
+    @Override
+    public void exitSelectedAction(int x, int y) {
 
     }
 
     @Override
     public void reset(){
         hasSelector = false;
+        hasMultiSelector = false;
         repaint();
     }
 

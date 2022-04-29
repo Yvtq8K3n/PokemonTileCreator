@@ -4,10 +4,11 @@ import xyz.yvtq8k3n.pokemon_tile_creator.FileReader;
 import xyz.yvtq8k3n.pokemon_tile_creator.FileWriter;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.Tileset;
+import xyz.yvtq8k3n.pokemon_tile_creator.operators.MultiSelectorOperator;
 import xyz.yvtq8k3n.pokemon_tile_creator.operators.Operator;
-import xyz.yvtq8k3n.pokemon_tile_creator.operators.ResetOperator;
 import xyz.yvtq8k3n.pokemon_tile_creator.operators.SelectorOperator;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.ApplicationView;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.MultiSelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
 
 import java.awt.image.BufferedImage;
@@ -24,12 +25,13 @@ public enum MainController {
     public static Operator selectedOperator;
 
     private static ArrayList<SelectableBehaviour> selectableBehaviours;
+    private static ArrayList<MultiSelectableBehaviour> multiSelectableBehaviours;
 
     public static void launchApplication(ApplicationModel model, ApplicationView view) {
         //Create Operator
         MainController.operators = new Operator[]{
-                new ResetOperator(),
-                new SelectorOperator()
+                new SelectorOperator(),
+                new MultiSelectorOperator()
         };
         selectedOperator = operators[0];
         MainController.model = model;
@@ -37,7 +39,7 @@ public enum MainController {
     }
 
     public static void setDisplayBlock(BufferedImage image, int x, int y) {
-        view.blockDisplay.setImage(image, x, y);
+         view.blockDisplay.setImage(image, x, y);
     }
 
     public static void loadPalette(){
@@ -91,21 +93,37 @@ public enum MainController {
         }
     }
 
-    public static void changeState() {
-        Operator operator = operators[0];
-        if (selectedOperator == operator){
-            selectedOperator = operators[1];
-        }else{
+
+    public static void setOperatorSelection() {
+        if (!selectedOperator.equals(operators[0])){
+            System.out.println("Setting selector: Single Selector");
             selectedOperator = operators[0];
             reset();
         }
     }
 
-    public static void addCustomBehaviourComponents(SelectableBehaviour c){
+    public static void setOperatorMultiSelection() {
+         if (!selectedOperator.equals(operators[1])){
+            System.out.println("Setting selector: Multi Selector");
+            selectedOperator = operators[1];
+            reset();
+        }
+    }
+
+
+
+    public static void addSelectableBehaviour(SelectableBehaviour c){
         if (selectableBehaviours == null){
             selectableBehaviours = new ArrayList<>();
         }
         MainController.selectableBehaviours.add(c);
+    }
+
+    public static void addMultiSelectableBehaviour(MultiSelectableBehaviour c){
+        if (multiSelectableBehaviours == null){
+            multiSelectableBehaviours = new ArrayList<>();
+        }
+        MainController.multiSelectableBehaviours.add(c);
     }
 
     public static void reset() {

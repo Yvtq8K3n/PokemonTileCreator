@@ -15,5 +15,24 @@ public class HelperCreator {
         g2.dispose();
         return b;
     }
+
+
+    /** Calculates the min x and y coordinates between 2 points
+     * @return the smallest point
+     */
+    public static int [] minCoordinates(int[] pointA, int[] pointB){
+        int minX = Math.min(pointA[0], pointB[0]);
+        int minY = Math.min(pointA[1], pointB[1]);
+        return new int[]{minX, minY};
+    }
+
+    /** Calculates the max x and y coordinates between 2 points
+     * @return the highest point
+     */
+    public static int [] maxCoordinates(int[] pointA, int[] pointB){
+        int minX = Math.max(pointA[0], pointB[0]);
+        int minY = Math.max(pointA[1], pointB[1]);
+        return new int[]{minX, minY};
+    }
 }
 
