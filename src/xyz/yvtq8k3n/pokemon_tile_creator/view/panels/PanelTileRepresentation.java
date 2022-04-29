@@ -1,4 +1,4 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view;
+package xyz.yvtq8k3n.pokemon_tile_creator.view.panels;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
@@ -12,8 +12,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
-public class PanelTileRepresentation extends JPanel implements SelectableBehaviour, MultiSelectableBehaviour, MouseListener, MouseMotionListener {
-    private static final int BLOCK = 16;
+public class PanelTileRepresentation extends Representation implements SelectableBehaviour, MultiSelectableBehaviour {
     private static final int[] GRID_BASE = {8,8};
     private static final int[] GRID_SIZE = {2,1,0};
     int gridIndex;
@@ -24,15 +23,15 @@ public class PanelTileRepresentation extends JPanel implements SelectableBehavio
     private boolean hasMultiSelector;
     private int[] initialLocation;
     private int[] selectorLocation;
+    private Color filter;
 
     public PanelTileRepresentation() {
+        super();
         this.gridIndex = GRID_SIZE.length-1;
         this.hasSelector = false;
         this.hasMultiSelector = false;
 
         //Add event listeners
-        addMouseListener(this);
-        addMouseMotionListener(this);
         MainController.addSelectableBehaviour(this);
         MainController.addMultiSelectableBehaviour(this);
     }
@@ -40,8 +39,8 @@ public class PanelTileRepresentation extends JPanel implements SelectableBehavio
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(image, 0, 0, this);
         if (image != null) {
+            g.drawImage(image, 0, 0, this);
 
             if (GRID_SIZE[gridIndex] > 0) {
                 for (int i = 0; i < image.getWidth(); i += GRID_BASE[0] * GRID_SIZE[gridIndex]) {
@@ -65,13 +64,27 @@ public class PanelTileRepresentation extends JPanel implements SelectableBehavio
                 g.drawRect(minCoordinates[0], minCoordinates[1],
                         maxCoordinates[0] - minCoordinates[0] + BLOCK,
                         maxCoordinates[1] - minCoordinates[1] + BLOCK);
+
+                if (filter != null){
+                    g.setColor(Color.BLACK);
+                    for (int i = minCoordinates[0]; i < maxCoordinates[0] - minCoordinates[0] + BLOCK; i++) {
+                        for (int j = minCoordinates[1]; j < maxCoordinates[1] - minCoordinates[1] + BLOCK; j++) {
+                            Color pixelColor = new Color(image.getRGB(i, j));
+                            if (!pixelColor.equals(filter)){
+                                g.fillRect(i, j, 1,1);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
-    public void setImage(BufferedImage image) {
-        this.image = image;
+    public void setColorFilter(Color color) {
+        this.filter = color;
+        repaint();
     }
+
 
     public void changeGridIndex() {
         this.gridIndex++;
@@ -128,7 +141,6 @@ public class PanelTileRepresentation extends JPanel implements SelectableBehavio
         repaint();
     }
 
-
     @Override
     public void exitSelectedAction(int x, int y) {
 
@@ -141,9 +153,8 @@ public class PanelTileRepresentation extends JPanel implements SelectableBehavio
         repaint();
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        MainController.selectedOperator.mouseClicked(e);
+    public void setImage(BufferedImage image) {
+        this.image = image;
     }
 
     @Override
@@ -157,22 +168,7 @@ public class PanelTileRepresentation extends JPanel implements SelectableBehavio
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-        MainController.selectedOperator.mouseEntered(e);
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        MainController.selectedOperator.mouseExited(e);
-    }
-
-    @Override
     public void mouseDragged(MouseEvent e) {
         MainController.selectedOperator.mouseDragged(e);
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        MainController.selectedOperator.mouseMoved(e);
     }
 }

@@ -1,27 +1,22 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view;
+package xyz.yvtq8k3n.pokemon_tile_creator.view.panels;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class PanelPaletteRepresentation extends JPanel implements SelectableBehaviour, MouseListener, MouseMotionListener {
-    private final static int BOX_DIMENSIONS = 16;
+public class PanelPaletteRepresentation extends Representation {
     Color[] palette;
 
     private boolean hasSelector;
     private int[] selectorLocation;
 
     public PanelPaletteRepresentation() {
+        super();
+
         palette = new Color[0];
         this.hasSelector = false;
-
-        //Add event listeners
-        addMouseListener(this);
-        addMouseMotionListener(this);
-        MainController.addSelectableBehaviour(this);
     }
 
     @Override
@@ -30,17 +25,17 @@ public class PanelPaletteRepresentation extends JPanel implements SelectableBeha
         int count = 0;
 
         if(palette.length > 0){
-            for(int j = 0; j < BOX_DIMENSIONS+2; j += BOX_DIMENSIONS){
-                 for(int i = 0; i < BOX_DIMENSIONS*8; i += BOX_DIMENSIONS){
+            for(int j = 0; j < BLOCK +2; j += BLOCK){
+                 for(int i = 0; i < BLOCK *8; i += BLOCK){
                     g.setColor(palette[count]);
-                    g.fillRect(i, j, BOX_DIMENSIONS, BOX_DIMENSIONS);
+                    g.fillRect(i, j, BLOCK, BLOCK);
                     count++;
                 }
             }
         }
         if(hasSelector){
             g.setColor(Color.BLUE);
-            g.drawRect(selectorLocation[0], selectorLocation[1],BOX_DIMENSIONS,BOX_DIMENSIONS);
+            g.drawRect(selectorLocation[0], selectorLocation[1], BLOCK, BLOCK);
         }
     }
 
@@ -48,40 +43,33 @@ public class PanelPaletteRepresentation extends JPanel implements SelectableBeha
         this.palette = palette;
     }
 
-    @Override
     public void startSelector(int x, int y){
         hasSelector = true;
         moveSelector(x, y);
     }
 
-    @Override
     public void moveSelector(int x, int y){
         selectorLocation = new int[]{
-                x / BOX_DIMENSIONS * BOX_DIMENSIONS,
-                y / BOX_DIMENSIONS * BOX_DIMENSIONS
+                x / BLOCK * BLOCK,
+                y / BLOCK * BLOCK
         };
         //Given the x and y coordinates calculate the index of the wanted color
-        int x1 = Math.min(Math.floorDiv(x, BOX_DIMENSIONS), 7);
+        int x1 = Math.min(Math.floorDiv(x, BLOCK), 7);
         x1 = Math.max(x1, 0);
-        int y1 = Math.min(Math.floorDiv(y, BOX_DIMENSIONS) * 8, 1);
+        int y1 = Math.min(Math.floorDiv(y, BLOCK) * 8, 1);
         y1 = Math.max(y1, 0);
 
         Color selectedColor = palette[x1 + y1];
-        MainController.setDisplayBlockFilter(selectedColor);
+        MainController.setImageColorFilter(selectedColor);
         repaint();
     }
 
-    @Override
     public void releaseSelector(int x, int y) {
-        MainController.setDisplayBlockFilter(null);
+        MainController.setImageColorFilter(null);
         repaint();
     }
 
-    @Override
-    public void exitSelectedAction(int x, int y) {
-    }
 
-    @Override
     public void reset(){
         hasSelector = false;
         repaint();
@@ -89,36 +77,34 @@ public class PanelPaletteRepresentation extends JPanel implements SelectableBeha
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        MainController.selectedOperator.mouseClicked(e);
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        MainController.selectedOperator.mousePressed(e);
+        startSelector(e.getX(), e.getY());
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        MainController.selectedOperator.mouseReleased(e);
+        releaseSelector(e.getX(), e.getY());
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        MainController.selectedOperator.mouseEntered(e);
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        MainController.selectedOperator.mouseExited(e);
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        MainController.selectedOperator.mouseDragged(e);
+        moveSelector(e.getX(), e.getY());
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        MainController.selectedOperator.mouseMoved(e);
     }
 }

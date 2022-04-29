@@ -2,11 +2,11 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.panels.PanelPaletteRepresentation;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.panels.PanelTileRepresentation;
 
 import javax.swing.*;
 import java.awt.*;
-
-import static xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController.MAIN_CONTROLLER;
 
 public class ImageDisplay extends JPanel{
     private static final int[] FILLER_DIMENSIONS = {1, 5};
@@ -67,5 +67,4 @@ public class ImageDisplay extends JPanel{
         add(new Box.Filler(dimFiller, dimFiller, dimFiller));
         add(pnlPaletteRepresentation);
     }
-
 }

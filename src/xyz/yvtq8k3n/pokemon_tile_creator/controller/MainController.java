@@ -43,8 +43,13 @@ public enum MainController {
          view.blockDisplay.setImage(image, x, y);
     }
 
-    public static void setDisplayBlockFilter(Color color) {
-        view.blockDisplay.setColorFilter(color);
+    public static void setImageColorFilter(Color color) {
+        if (selectedOperator == operators[0]){
+            view.blockDisplay.setColorFilter(color);
+        }
+        if (selectedOperator == operators[1]){
+            view.imgDisplayOriginal.pnlTileRepresentation.setColorFilter(color);
+        }
     }
 
     public static void loadPalette(){
