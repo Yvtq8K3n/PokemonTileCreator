@@ -41,26 +41,31 @@ public class PanelTileRepresentation extends JPanel implements SelectableBehavio
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(image, 0, 0, this);
-        if (image != null && GRID_SIZE[gridIndex] > 0){
-            for (int i = 0; i < image.getWidth(); i+= GRID_BASE[0] * GRID_SIZE[gridIndex]) {
-                for (int j = 0; j < image.getHeight(); j+= GRID_BASE[1] * GRID_SIZE[gridIndex]) {
-                    g.setColor(Color.RED);
-                    g.drawRect(i, j, GRID_BASE[0]*GRID_SIZE[gridIndex],
-                            GRID_BASE[1]*GRID_SIZE[gridIndex]);
+        if (image != null) {
+
+            if (GRID_SIZE[gridIndex] > 0) {
+                for (int i = 0; i < image.getWidth(); i += GRID_BASE[0] * GRID_SIZE[gridIndex]) {
+                    for (int j = 0; j < image.getHeight(); j += GRID_BASE[1] * GRID_SIZE[gridIndex]) {
+                        g.setColor(Color.RED);
+                        g.drawRect(i, j, GRID_BASE[0] * GRID_SIZE[gridIndex],
+                                GRID_BASE[1] * GRID_SIZE[gridIndex]);
+                    }
                 }
             }
-        }
-        if(hasSelector){
-            g.setColor(Color.BLUE);
-            g.drawRect(selectorLocation[0], selectorLocation[1], BLOCK, BLOCK);
-        }
-        if(hasMultiSelector){
-            g.setColor(Color.BLUE);
-            int[] minCoordinates = HelperCreator.minCoordinates(initialLocation, selectorLocation);
-            int[] maxCoordinates = HelperCreator.maxCoordinates(initialLocation, selectorLocation);
-            g.drawRect(minCoordinates[0], minCoordinates[1],
-                    maxCoordinates[0] - minCoordinates[0] + BLOCK,
-                    maxCoordinates[1] - minCoordinates[1] + BLOCK);
+
+            if(hasSelector && selectorLocation!=null){
+                g.setColor(Color.BLUE);
+                g.drawRect(selectorLocation[0], selectorLocation[1], BLOCK, BLOCK);
+            }
+
+            if(hasMultiSelector){
+                g.setColor(Color.BLUE);
+                int[] minCoordinates = HelperCreator.minCoordinates(initialLocation, selectorLocation);
+                int[] maxCoordinates = HelperCreator.maxCoordinates(initialLocation, selectorLocation);
+                g.drawRect(minCoordinates[0], minCoordinates[1],
+                        maxCoordinates[0] - minCoordinates[0] + BLOCK,
+                        maxCoordinates[1] - minCoordinates[1] + BLOCK);
+            }
         }
     }
 
@@ -76,12 +81,13 @@ public class PanelTileRepresentation extends JPanel implements SelectableBehavio
 
     @Override
     public void startSelector(int x, int y){
-        hasSelector = true;
         moveSelector(x, y);
+        hasSelector = true;
     }
 
     @Override
     public void moveSelector(int x, int y){
+        if (image == null) return;
         //Replace x(0, max) if it's out of viewport
         x = Math.min(x, image.getWidth() - BLOCK);
         x = Math.max(x, 0);
@@ -96,6 +102,10 @@ public class PanelTileRepresentation extends JPanel implements SelectableBehavio
         };
         MainController.setDisplayBlock(image, selectorLocation[0], selectorLocation[1]);
         repaint();
+    }
+    @Override
+    public void releaseSelector(int x, int y) {
+
     }
 
     @Override

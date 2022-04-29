@@ -11,6 +11,7 @@ import xyz.yvtq8k3n.pokemon_tile_creator.view.ApplicationView;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.MultiSelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -40,6 +41,10 @@ public enum MainController {
 
     public static void setDisplayBlock(BufferedImage image, int x, int y) {
          view.blockDisplay.setImage(image, x, y);
+    }
+
+    public static void setDisplayBlockFilter(Color color) {
+        view.blockDisplay.setColorFilter(color);
     }
 
     public static void loadPalette(){
@@ -131,4 +136,5 @@ public enum MainController {
             c.reset();
         }
     }
+
 }

@@ -10,17 +10,18 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-
-import static xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController.MAIN_CONTROLLER;
+import java.io.ByteArrayOutputStream;
 
 public class BlockDisplay extends JPanel implements SelectableBehaviour, MouseListener, MouseMotionListener {
     private static final int[] DISPLAY_DIMENSIONS = {128, 128};
     private static final int BLOCK = 16;
     private BufferedImage image;
+    private Color filter;
     private boolean enableGrid;
 
     public BlockDisplay() {
         enableGrid = false;
+        filter = null;
         setPreferredSize(HelperCreator.createDimension(DISPLAY_DIMENSIONS));
         setBorder(BorderFactory.createLineBorder(Color.RED));
 
@@ -33,28 +34,40 @@ public class BlockDisplay extends JPanel implements SelectableBehaviour, MouseLi
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         if (image != null) {
             g.drawImage(image, 0, 0, this);
+
+            if (filter != null){
+                g.setColor(Color.BLACK);
+                for (int i = 0; i < image.getWidth(); i++) {
+                    for (int j = 0; j < image.getHeight(); j++) {
+                        Color pixelColor = new Color(image.getRGB(i, j));
+                        if (!pixelColor.equals(filter)){
+                            g.fillRect(i, j, 1,1);
+                        }
+                    }
+                }
+            }
+
             if (enableGrid){
                 g.setColor(Color.RED);
                 for (int i = 0; i < DISPLAY_DIMENSIONS[0]; i+=DISPLAY_DIMENSIONS[0]/2) {
                     for (int j = 0; j < DISPLAY_DIMENSIONS[1]; j+=DISPLAY_DIMENSIONS[1]/2) {
-                        g.drawRect(i, j,DISPLAY_DIMENSIONS[0]/2,DISPLAY_DIMENSIONS[1]/2
-                        );
+                        g.drawRect(i, j,DISPLAY_DIMENSIONS[0]/2,DISPLAY_DIMENSIONS[1]/2);
                     }
                 }
             }
         }
-
     }
 
     public void setImage(BufferedImage image, int x, int y) {
         //Replace x(0, max) if it's out of viewport
-        x = Math.min(x + BLOCK, image.getWidth() - BLOCK);
+        x = Math.min(x, image.getWidth() - BLOCK);
         x = Math.max(x, 0);
 
         //Replace y(0, max) if it's out of viewport
-        y = Math.min(y + BLOCK, image.getHeight() - BLOCK);
+        y = Math.min(y, image.getHeight() - BLOCK);
         y = Math.max(y, 0);
 
         //Crop from image wanted box
@@ -82,9 +95,25 @@ public class BlockDisplay extends JPanel implements SelectableBehaviour, MouseLi
         return destinationBufferedImage;
     }
 
+    public void setColorFilter(Color color) {
+        this.filter = color;
+        repaint();
+    }
+
+    private BufferedImage applyFilter() {
+        return null; //filteredImage
+    }
+
+
     @Override
     public void startSelector(int x, int y) {
         enableGrid = !enableGrid;
+        repaint();
+    }
+
+    @Override
+    public void reset(){
+        enableGrid = false;
         repaint();
     }
 
@@ -94,14 +123,13 @@ public class BlockDisplay extends JPanel implements SelectableBehaviour, MouseLi
     }
 
     @Override
-    public void exitSelectedAction(int x, int y) {
+    public void releaseSelector(int x, int y) {
 
     }
 
     @Override
-    public void reset(){
-        enableGrid = false;
-        repaint();
+    public void exitSelectedAction(int x, int y) {
+
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class PanelPaletteRepresentation extends JPanel implements SelectableBehaviour, MouseListener, MouseMotionListener {
-    private final static int[] BOX_DIMENSIONS = {16, 16};
+    private final static int BOX_DIMENSIONS = 16;
     Color[] palette;
 
     private boolean hasSelector;
@@ -30,17 +30,17 @@ public class PanelPaletteRepresentation extends JPanel implements SelectableBeha
         int count = 0;
 
         if(palette.length > 0){
-            for(int j = 0; j < BOX_DIMENSIONS[1]+2; j += BOX_DIMENSIONS[1]){
-                 for(int i = 0; i < BOX_DIMENSIONS[0]*8; i += BOX_DIMENSIONS[0]){
+            for(int j = 0; j < BOX_DIMENSIONS+2; j += BOX_DIMENSIONS){
+                 for(int i = 0; i < BOX_DIMENSIONS*8; i += BOX_DIMENSIONS){
                     g.setColor(palette[count]);
-                    g.fillRect(i, j, BOX_DIMENSIONS[0], BOX_DIMENSIONS[1]);
+                    g.fillRect(i, j, BOX_DIMENSIONS, BOX_DIMENSIONS);
                     count++;
                 }
             }
         }
         if(hasSelector){
             g.setColor(Color.BLUE);
-            g.drawRect(selectorLocation[0], selectorLocation[1],BOX_DIMENSIONS[0],BOX_DIMENSIONS[1]);
+            g.drawRect(selectorLocation[0], selectorLocation[1],BOX_DIMENSIONS,BOX_DIMENSIONS);
         }
     }
 
@@ -50,23 +50,35 @@ public class PanelPaletteRepresentation extends JPanel implements SelectableBeha
 
     @Override
     public void startSelector(int x, int y){
+        hasSelector = true;
         moveSelector(x, y);
     }
 
     @Override
     public void moveSelector(int x, int y){
-        hasSelector = true;
         selectorLocation = new int[]{
-                x / BOX_DIMENSIONS[0] * BOX_DIMENSIONS[0],
-                y / BOX_DIMENSIONS[1] * BOX_DIMENSIONS[1]
+                x / BOX_DIMENSIONS * BOX_DIMENSIONS,
+                y / BOX_DIMENSIONS * BOX_DIMENSIONS
         };
-        //MainController.setBlock()
+        //Given the x and y coordinates calculate the index of the wanted color
+        int x1 = Math.min(Math.floorDiv(x, BOX_DIMENSIONS), 7);
+        x1 = Math.max(x1, 0);
+        int y1 = Math.min(Math.floorDiv(y, BOX_DIMENSIONS) * 8, 1);
+        y1 = Math.max(y1, 0);
+
+        Color selectedColor = palette[x1 + y1];
+        MainController.setDisplayBlockFilter(selectedColor);
+        repaint();
+    }
+
+    @Override
+    public void releaseSelector(int x, int y) {
+        MainController.setDisplayBlockFilter(null);
         repaint();
     }
 
     @Override
     public void exitSelectedAction(int x, int y) {
-        reset();
     }
 
     @Override

@@ -23,4 +23,10 @@ public class SelectorOperator extends Operator {
         SelectableBehaviour s = (SelectableBehaviour)e.getSource();
         s.exitSelectedAction(e.getX(), e.getY());
     }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        SelectableBehaviour s = (SelectableBehaviour)e.getSource();
+        s.releaseSelector(e.getX(), e.getY());
+    }
 }
