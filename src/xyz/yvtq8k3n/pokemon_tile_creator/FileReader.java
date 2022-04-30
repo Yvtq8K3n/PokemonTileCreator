@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.util.prefs.Preferences;
 
-public class FileReader {
+public abstract class FileReader {
 
     public static File loadImage(){
         File file = null;

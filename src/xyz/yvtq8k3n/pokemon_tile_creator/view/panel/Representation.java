@@ -1,9 +1,6 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view.panels;
-
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;

@@ -39,8 +39,8 @@ public enum MainController {
         MainController.view = view;
     }
 
-    public static void setDisplayBlock(BufferedImage image, int x, int y) {
-         view.blockDisplay.setImage(image, x, y);
+    public static void setDisplayBlock(BufferedImage image, int[] initialLocation) {
+         view.blockDisplay.setImage(image, initialLocation[0], initialLocation[1]);
     }
 
     public static void setImageColorFilter(Color color) {

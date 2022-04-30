@@ -2,8 +2,8 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.panels.PaletteRepresentation;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.panels.TileRepresentation;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.PaletteRepresentation;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.TileRepresentation;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,9 +1,11 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view.panels;
+package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
 
-import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.MultiSelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.MultiSelector;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.Selector;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.SingleSelector;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -15,18 +17,15 @@ public class TileRepresentation extends Representation implements SelectableBeha
     int gridIndex;
 
     public BufferedImage image;
-
-    private boolean hasSelector;
-    private boolean hasMultiSelector;
-    private int[] initialLocation;
-    private int[] selectorLocation;
+    private SingleSelector singleSelector;
+    private MultiSelector multiSelector;
     private Color filter;
 
     public TileRepresentation() {
         super();
         this.gridIndex = GRID_SIZE.length-1;
-        this.hasSelector = false;
-        this.hasMultiSelector = false;
+        this.singleSelector = new SingleSelector();
+        this.multiSelector = new MultiSelector();
 
         //Add event listeners
         MainController.addSelectableBehaviour(this);
@@ -49,16 +48,15 @@ public class TileRepresentation extends Representation implements SelectableBeha
                 }
             }
 
-            if(hasSelector && selectorLocation!=null){
-                g.setColor(Color.BLUE);
-                g.drawRect(selectorLocation[0], selectorLocation[1], BLOCK, BLOCK);
+            if(singleSelector.isActive()){
+                singleSelector.drawComponent(g);
             }
 
-            if(hasMultiSelector){
-                g.setColor(Color.BLUE);
-                int[] minCoordinates = HelperCreator.minCoordinates(initialLocation, selectorLocation);
-                int[] maxCoordinates = HelperCreator.maxCoordinates(initialLocation, selectorLocation);
+            if(multiSelector.isActive()){
                 if (filter != null){
+                    int[] minCoordinates = multiSelector.getStartingPoint();
+                    int[] maxCoordinates = multiSelector.getEndingPoint();
+
                     g.setColor(Color.BLACK);
                     for (int i = minCoordinates[0]; i < maxCoordinates[0] + BLOCK; i++) {
                         for (int j = minCoordinates[1]; j < maxCoordinates[1] + BLOCK; j++) {
@@ -79,10 +77,7 @@ public class TileRepresentation extends Representation implements SelectableBeha
                         }
                     }
                 }
-                g.setColor(Color.BLUE);
-                g.drawRect(minCoordinates[0], minCoordinates[1],
-                        maxCoordinates[0] - minCoordinates[0] + BLOCK,
-                        maxCoordinates[1] - minCoordinates[1] + BLOCK);
+                multiSelector.drawComponent(g);
             }
         }
     }
@@ -101,26 +96,18 @@ public class TileRepresentation extends Representation implements SelectableBeha
 
     @Override
     public void startSelector(int x, int y){
+        singleSelector.setState(Selector.ACTIVE);
         moveSelector(x, y);
-        hasSelector = true;
+
     }
 
     @Override
     public void moveSelector(int x, int y){
         if (image == null) return;
-        //Replace x(0, max) if it's out of viewport
-        x = Math.min(x, image.getWidth() - BLOCK);
-        x = Math.max(x, 0);
+        //Set selector location
+        singleSelector.setInitialLocation(x, y);
 
-        //Replace y(0, max) if it's out of viewport
-        y = Math.min(y, image.getHeight() - BLOCK);
-        y = Math.max(y, 0);
-
-        selectorLocation = new int[]{
-                BLOCK * Math.floorDiv(x, BLOCK),
-                BLOCK * Math.floorDiv(y, BLOCK)
-        };
-        MainController.setDisplayBlock(image, selectorLocation[0], selectorLocation[1]);
+        MainController.setDisplayBlock(image, singleSelector.getInitialLocation());
         repaint();
     }
     @Override
@@ -130,12 +117,7 @@ public class TileRepresentation extends Representation implements SelectableBeha
 
     @Override
     public void startMultiSelector(int x, int y) {
-        hasMultiSelector = true;
-
-        initialLocation = new int[]{
-                BLOCK * Math.floorDiv(x, BLOCK),
-                BLOCK * Math.floorDiv(y, BLOCK)
-        };
+        multiSelector.setInitialLocation(x, y);
         resizeMultiSelector(x, y);
     }
 
@@ -149,11 +131,7 @@ public class TileRepresentation extends Representation implements SelectableBeha
         y = Math.min(y, image.getHeight() - BLOCK);
         y = Math.max(y, 0);
 
-        int[] blockSize = new int[]{GRID_SIZE[0] * GRID_BASE, GRID_SIZE[0] * GRID_BASE};
-        selectorLocation = new int[]{
-                blockSize[0] * Math.floorDiv(x, blockSize[0]),
-                blockSize[1] * Math.floorDiv(y, blockSize[1])
-        };
+        multiSelector.resizeSelector(x, y);
         repaint();
     }
 
@@ -164,8 +142,8 @@ public class TileRepresentation extends Representation implements SelectableBeha
 
     @Override
     public void reset(){
-        hasSelector = false;
-        hasMultiSelector = false;
+        singleSelector.setState(Selector.INACTIVE);
+        multiSelector.setState(Selector.INACTIVE);
         repaint();
     }
 

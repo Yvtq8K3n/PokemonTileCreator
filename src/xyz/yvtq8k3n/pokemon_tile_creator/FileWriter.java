@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.prefs.Preferences;
 
-public class FileWriter {
+public abstract class FileWriter {
     public static void writeTileset(BufferedImage image, byte[] palette) {
         //Switch to Operative System L&F
         LookAndFeel originalLaf = UIManager.getLookAndFeel();
