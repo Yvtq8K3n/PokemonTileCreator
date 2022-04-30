@@ -5,15 +5,12 @@ import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.MultiSelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
 public class TileRepresentation extends Representation implements SelectableBehaviour, MultiSelectableBehaviour {
-    private static final int[] GRID_BASE = {8,8};
+    private static final int GRID_BASE = 8;
     private static final int[] GRID_SIZE = {2,1,0};
     int gridIndex;
 
@@ -43,11 +40,11 @@ public class TileRepresentation extends Representation implements SelectableBeha
             g.drawImage(image, 0, 0, this);
 
             if (GRID_SIZE[gridIndex] > 0) {
-                for (int i = 0; i < image.getWidth(); i += GRID_BASE[0] * GRID_SIZE[gridIndex]) {
-                    for (int j = 0; j < image.getHeight(); j += GRID_BASE[1] * GRID_SIZE[gridIndex]) {
+                for (int i = 0; i < image.getWidth(); i += GRID_BASE * GRID_SIZE[gridIndex]) {
+                    for (int j = 0; j < image.getHeight(); j += GRID_BASE * GRID_SIZE[gridIndex]) {
                         g.setColor(Color.RED);
-                        g.drawRect(i, j, GRID_BASE[0] * GRID_SIZE[gridIndex],
-                                GRID_BASE[1] * GRID_SIZE[gridIndex]);
+                        g.drawRect(i, j, GRID_BASE * GRID_SIZE[gridIndex],
+                                GRID_BASE * GRID_SIZE[gridIndex]);
                     }
                 }
             }
@@ -61,21 +58,31 @@ public class TileRepresentation extends Representation implements SelectableBeha
                 g.setColor(Color.BLUE);
                 int[] minCoordinates = HelperCreator.minCoordinates(initialLocation, selectorLocation);
                 int[] maxCoordinates = HelperCreator.maxCoordinates(initialLocation, selectorLocation);
-                g.drawRect(minCoordinates[0], minCoordinates[1],
-                        maxCoordinates[0] - minCoordinates[0] + BLOCK,
-                        maxCoordinates[1] - minCoordinates[1] + BLOCK);
-
                 if (filter != null){
                     g.setColor(Color.BLACK);
                     for (int i = minCoordinates[0]; i < maxCoordinates[0] + BLOCK; i++) {
                         for (int j = minCoordinates[1]; j < maxCoordinates[1] + BLOCK; j++) {
-                           Color pixelColor = new Color(image.getRGB(i, j));
-                           if (!pixelColor.equals(filter)){
+                            Color pixelColor = new Color(image.getRGB(i, j));
+                            if (!pixelColor.equals(filter)){
                                 g.fillRect(i, j, 1,1);
-                           }
+                            }
                         }
                     }
                 }
+
+                if (GRID_SIZE[gridIndex] > 0) {
+                    for (int i = 0; i < image.getWidth(); i += GRID_BASE * GRID_SIZE[gridIndex]) {
+                        for (int j = 0; j < image.getHeight(); j += GRID_BASE * GRID_SIZE[gridIndex]) {
+                            g.setColor(Color.RED);
+                            g.drawRect(i, j, GRID_BASE * GRID_SIZE[gridIndex],
+                                    GRID_BASE * GRID_SIZE[gridIndex]);
+                        }
+                    }
+                }
+                g.setColor(Color.BLUE);
+                g.drawRect(minCoordinates[0], minCoordinates[1],
+                        maxCoordinates[0] - minCoordinates[0] + BLOCK,
+                        maxCoordinates[1] - minCoordinates[1] + BLOCK);
             }
         }
     }
@@ -133,7 +140,7 @@ public class TileRepresentation extends Representation implements SelectableBeha
 
     @Override
     public void resizeMultiSelector(int x, int y) {
-        int[] blockSize = new int[]{GRID_SIZE[0] * GRID_BASE[0], GRID_SIZE[0] * GRID_BASE[1]};
+        int[] blockSize = new int[]{GRID_SIZE[0] * GRID_BASE, GRID_SIZE[0] * GRID_BASE};
         selectorLocation = new int[]{
                 blockSize[0] * Math.floorDiv(x, blockSize[0]),
                 blockSize[1] * Math.floorDiv(y, blockSize[1])
