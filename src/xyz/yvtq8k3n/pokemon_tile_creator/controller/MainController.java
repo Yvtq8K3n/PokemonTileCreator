@@ -4,11 +4,11 @@ import xyz.yvtq8k3n.pokemon_tile_creator.FileReader;
 import xyz.yvtq8k3n.pokemon_tile_creator.FileWriter;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.Tileset;
-import xyz.yvtq8k3n.pokemon_tile_creator.operators.MultiSelectorOperator;
+import xyz.yvtq8k3n.pokemon_tile_creator.operators.AreaSelectorOperator;
 import xyz.yvtq8k3n.pokemon_tile_creator.operators.Operator;
 import xyz.yvtq8k3n.pokemon_tile_creator.operators.SelectorOperator;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.ApplicationView;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.MultiSelectableBehaviour;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.AreaSelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
 
 import java.awt.*;
@@ -26,13 +26,13 @@ public enum MainController {
     public static Operator selectedOperator;
 
     private static ArrayList<SelectableBehaviour> selectableBehaviours;
-    private static ArrayList<MultiSelectableBehaviour> multiSelectableBehaviours;
+    private static ArrayList<AreaSelectableBehaviour> areaSelectableBehaviours;
 
     public static void launchApplication(ApplicationModel model, ApplicationView view) {
         //Create Operator
         MainController.operators = new Operator[]{
                 new SelectorOperator(),
-                new MultiSelectorOperator()
+                new AreaSelectorOperator()
         };
         selectedOperator = operators[0];
         MainController.model = model;
@@ -103,9 +103,9 @@ public enum MainController {
         }
     }
 
-    public static void setOperatorMultiSelection() {
+    public static void setOperatorAreaSelection() {
          if (!selectedOperator.equals(operators[1])){
-            System.out.println("Setting selector: Multi Selector");
+            System.out.println("Setting selector: Area Selector");
             selectedOperator = operators[1];
             reset();
         }
@@ -120,11 +120,11 @@ public enum MainController {
         MainController.selectableBehaviours.add(c);
     }
 
-    public static void addMultiSelectableBehaviour(MultiSelectableBehaviour c){
-        if (multiSelectableBehaviours == null){
-            multiSelectableBehaviours = new ArrayList<>();
+    public static void addAreaSelectableBehaviour(AreaSelectableBehaviour c){
+        if (areaSelectableBehaviours == null){
+            areaSelectableBehaviours = new ArrayList<>();
         }
-        MainController.multiSelectableBehaviours.add(c);
+        MainController.areaSelectableBehaviours.add(c);
     }
 
     public static void reset() {

@@ -3,10 +3,10 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view.selection;
 import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
 import java.awt.*;
 
-public class MultiSelector extends SingleSelector{
+public class AreaSelector extends SingleSelector{
     private int[] resizeLocation;
 
-    public MultiSelector() {
+    public AreaSelector() {
         super();
     }
 

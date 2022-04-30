@@ -1,9 +1,9 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.MultiSelectableBehaviour;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.AreaSelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.MultiSelector;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.AreaSelector;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.Selector;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.SingleSelector;
 
@@ -11,25 +11,25 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-public class TileRepresentation extends Representation implements SelectableBehaviour, MultiSelectableBehaviour {
+public class TileRepresentation extends Representation implements SelectableBehaviour, AreaSelectableBehaviour {
     private static final int GRID_BASE = 8;
     private static final int[] GRID_SIZE = {2,1,0};
     int gridIndex;
 
     public BufferedImage image;
     private SingleSelector singleSelector;
-    private MultiSelector multiSelector;
+    private AreaSelector areaSelector;
     private Color filter;
 
     public TileRepresentation() {
         super();
         this.gridIndex = GRID_SIZE.length-1;
         this.singleSelector = new SingleSelector();
-        this.multiSelector = new MultiSelector();
+        this.areaSelector = new AreaSelector();
 
         //Add event listeners
         MainController.addSelectableBehaviour(this);
-        MainController.addMultiSelectableBehaviour(this);
+        MainController.addAreaSelectableBehaviour(this);
     }
 
     @Override
@@ -52,10 +52,10 @@ public class TileRepresentation extends Representation implements SelectableBeha
                 singleSelector.drawComponent(g);
             }
 
-            if(multiSelector.isActive()){
+            if(areaSelector.isActive()){
                 if (filter != null){
-                    int[] minCoordinates = multiSelector.getStartingPoint();
-                    int[] maxCoordinates = multiSelector.getEndingPoint();
+                    int[] minCoordinates = areaSelector.getStartingPoint();
+                    int[] maxCoordinates = areaSelector.getEndingPoint();
 
                     g.setColor(Color.BLACK);
                     for (int i = minCoordinates[0]; i < maxCoordinates[0] + BLOCK; i++) {
@@ -77,7 +77,7 @@ public class TileRepresentation extends Representation implements SelectableBeha
                         }
                     }
                 }
-                multiSelector.drawComponent(g);
+                areaSelector.drawComponent(g);
             }
         }
     }
@@ -116,13 +116,13 @@ public class TileRepresentation extends Representation implements SelectableBeha
     }
 
     @Override
-    public void startMultiSelector(int x, int y) {
-        multiSelector.setInitialLocation(x, y);
-        resizeMultiSelector(x, y);
+    public void startAreaSelector(int x, int y) {
+        areaSelector.setInitialLocation(x, y);
+        resizeAreaSelector(x, y);
     }
 
     @Override
-    public void resizeMultiSelector(int x, int y) {
+    public void resizeAreaSelector(int x, int y) {
         //Replace x(0, max) if it's out of viewport
         x = Math.min(x, image.getWidth() - BLOCK);
         x = Math.max(x, 0);
@@ -131,7 +131,7 @@ public class TileRepresentation extends Representation implements SelectableBeha
         y = Math.min(y, image.getHeight() - BLOCK);
         y = Math.max(y, 0);
 
-        multiSelector.resizeSelector(x, y);
+        areaSelector.resizeSelector(x, y);
         repaint();
     }
 
@@ -143,7 +143,7 @@ public class TileRepresentation extends Representation implements SelectableBeha
     @Override
     public void reset(){
         singleSelector.setState(Selector.INACTIVE);
-        multiSelector.setState(Selector.INACTIVE);
+        areaSelector.setState(Selector.INACTIVE);
         repaint();
     }
 

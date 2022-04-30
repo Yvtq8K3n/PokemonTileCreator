@@ -5,12 +5,8 @@ import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 
 public class OperationsMenu extends JToolBar {
@@ -18,7 +14,7 @@ public class OperationsMenu extends JToolBar {
 
     public ButtonGroup btnGroupOperators;
     public JToggleButton btnSelectOperator;
-    public JToggleButton btnMultiSelectOperator;
+    public JToggleButton btnAreaSelectOperator;
 
 
     public OperationsMenu() {
@@ -32,7 +28,6 @@ public class OperationsMenu extends JToolBar {
 
     private void initComponents() {
         btnSelectOperator = new JToggleButton();
-        btnSelectOperator.setActionCommand("SingleOperator");
         btnSelectOperator.setSelected(true);
         btnSelectOperator.setFocusPainted(false);
         btnSelectOperator.setIcon(new FlatSVGIcon("xyz/yvtq8k3n/pokemon_tile_creator/resources/select.svg", 24, 24));
@@ -40,21 +35,20 @@ public class OperationsMenu extends JToolBar {
         btnSelectOperator.setToolTipText("Activate/Disable selection mode");
         add(btnSelectOperator);
 
-        btnMultiSelectOperator = new JToggleButton();
-        btnMultiSelectOperator.setActionCommand("MultiOperator");
-        btnMultiSelectOperator.setFocusPainted(false);
-        btnMultiSelectOperator.setIcon(new FlatSVGIcon("xyz/yvtq8k3n/pokemon_tile_creator/resources/multi_select.svg", 24, 24));
-        btnMultiSelectOperator.setPreferredSize(HelperCreator.createDimension(OPTIONS_DIMENSIONS));
-        btnMultiSelectOperator.setToolTipText("Activate/Disable selection mode");
-        add(btnMultiSelectOperator);
+        btnAreaSelectOperator = new JToggleButton();
+        btnAreaSelectOperator.setFocusPainted(false);
+        btnAreaSelectOperator.setIcon(new FlatSVGIcon("xyz/yvtq8k3n/pokemon_tile_creator/resources/area_select.svg", 24, 24));
+        btnAreaSelectOperator.setPreferredSize(HelperCreator.createDimension(OPTIONS_DIMENSIONS));
+        btnAreaSelectOperator.setToolTipText("Activate/Disable selection mode");
+        add(btnAreaSelectOperator);
 
         btnGroupOperators = new ButtonGroup();
         btnGroupOperators.add(btnSelectOperator);
-        btnGroupOperators.add(btnMultiSelectOperator);
+        btnGroupOperators.add(btnAreaSelectOperator);
     }
 
     private void addEventListeners() {
         btnSelectOperator.addActionListener(e -> MainController.setOperatorSelection());
-        btnMultiSelectOperator.addActionListener(e -> MainController.setOperatorMultiSelection());
+        btnAreaSelectOperator.addActionListener(e -> MainController.setOperatorAreaSelection());
     }
 }
