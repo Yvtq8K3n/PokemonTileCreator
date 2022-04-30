@@ -29,7 +29,7 @@ public class Tileset {
 
     public Tileset(File imageFile) throws IOException {
         this.imageFile = imageFile;
-        this.image = ImageIO.read(this.imageFile);
+        this.image = HelperCreator.readImage(imageFile);
         this.colorModel = new ColorModel(image);
 
         if (fileWatcher != null) fileWatcher.stopThread();
@@ -51,14 +51,7 @@ public class Tileset {
 
     //Converts the palette to a writable byte[]
     public byte[] getWritablePalette() {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        for (Color color: colorModel.getPalette()) {
-            outputStream.write(color.getRed());
-            outputStream.write(color.getGreen());
-            outputStream.write(color.getBlue());
-            outputStream.write(color.getAlpha());
-        }
-        return outputStream.toByteArray();
+       return colorModel.getWritablePalette();
     }
 
     public void generateImage(BufferedImage image, Color[] colors){

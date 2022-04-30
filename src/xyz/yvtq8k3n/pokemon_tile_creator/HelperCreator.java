@@ -1,11 +1,25 @@
 package xyz.yvtq8k3n.pokemon_tile_creator;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class HelperCreator {
     public static Dimension createDimension(int[] dimension){
         return new Dimension(dimension[0], dimension[1]);
+    }
+
+    public static BufferedImage readImage(File file) throws IOException {
+        BufferedImage image = ImageIO.read(file);
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                Color pixelColor = new Color(image.getRGB(x, y));
+                image.setRGB(x, y, ColorHelper.round(pixelColor));
+            }
+        }
+        return image;
     }
 
     public static BufferedImage copyImage(BufferedImage source){

@@ -4,8 +4,10 @@ import lombok.Data;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 @Data
 public class ColorModel {
@@ -23,35 +25,24 @@ public class ColorModel {
         this.image = image;
         retrieveColors();
         calculatePalette();
+        System.out.println("Colors:"+colors.length);
+        System.out.println("Palette:"+palette.length);
     }
 
     private void retrieveColors() {
-    }
-
-    private void calculatePalette() {
-        Color[] palette = new Color[PALETTE_LIMIT];
-
-        int count = 0;
+        ArrayList<Color> colors = new ArrayList<>();
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
                 Color pixelColor = new Color(image.getRGB(x, y));
-
-                boolean isOnPalette = false;
-                for (int k = 0; k<count; k++){
-                    if (pixelColor.equals(palette[k])){
-                        isOnPalette = true;
-                        break;
-                    }
-                }
-
-                //Check if is already on palette
-                if (!isOnPalette && count < PALETTE_LIMIT) {
-                    palette[count] = pixelColor;
-                    count++;
-                }
+                if (!colors.contains(pixelColor)) colors.add(pixelColor);
             }
         }
-        this.palette = palette;
+        this.colors = colors.toArray(new Color[colors.size()]);
+    }
+
+    private void calculatePalette() {
+        int limit = Math.min(PALETTE_LIMIT, colors.length);
+        this.palette = Arrays.copyOfRange(colors, 0, limit);
     }
 
     public void addPalette(byte[] palette) {
@@ -72,12 +63,23 @@ public class ColorModel {
         return palette.length > 0;
     }
 
-
     public boolean isSamePalette(Color[] convertPalette) {
         ArrayList<Color> originalPalette = new ArrayList<>(Arrays.asList(palette));
         for (Color colorSlot:convertPalette){
             if (!originalPalette.contains(colorSlot)) return false;
         }
         return true;
+    }
+
+    //Converts the palette to a writable byte[]
+    public byte[] getWritablePalette() {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        for (Color color: palette) {
+            outputStream.write(color.getBlue());
+            outputStream.write(color.getGreen());
+            outputStream.write(color.getRed());
+            outputStream.write(color.getAlpha());
+        }
+        return outputStream.toByteArray();
     }
 }
