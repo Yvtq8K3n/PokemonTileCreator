@@ -16,6 +16,7 @@ public class BlockDisplay extends JPanel implements SelectableBehaviour, MouseLi
     private static final int[] DISPLAY_DIMENSIONS = {128, 128};
     private static final int BLOCK = 16;
     private BufferedImage image;
+    private int[] initialLocation;
     private Color filter;
     private boolean enableGrid;
 
@@ -71,11 +72,18 @@ public class BlockDisplay extends JPanel implements SelectableBehaviour, MouseLi
         y = Math.max(y, 0);
 
         //Crop from image wanted box
+        this.initialLocation = new int[]{x, y};
         BufferedImage subImage = image.getSubimage(x, y, BLOCK, BLOCK);
 
         //Scale image
         this.image = generateScaledImage(subImage);
         repaint();
+    }
+
+    public void setImage(BufferedImage image) {
+        if (initialLocation!=null){
+            setImage(image, initialLocation[0], initialLocation[1]);
+        }
     }
 
 

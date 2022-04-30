@@ -78,6 +78,7 @@ public enum MainController {
         if (model.getTilesetConverted().hasPalette()){
             view.imgDisplayConverted.pnlTileRepresentation.setImage(model.getTilesetConverted().getImage());
         }
+        view.blockDisplay.setImage(model.getTilesetOriginal().getImage());
         updateView();
     }
 
