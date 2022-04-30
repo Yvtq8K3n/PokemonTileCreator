@@ -12,7 +12,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
-public class PanelTileRepresentation extends Representation implements SelectableBehaviour, MultiSelectableBehaviour {
+public class TileRepresentation extends Representation implements SelectableBehaviour, MultiSelectableBehaviour {
     private static final int[] GRID_BASE = {8,8};
     private static final int[] GRID_SIZE = {2,1,0};
     int gridIndex;
@@ -25,7 +25,7 @@ public class PanelTileRepresentation extends Representation implements Selectabl
     private int[] selectorLocation;
     private Color filter;
 
-    public PanelTileRepresentation() {
+    public TileRepresentation() {
         super();
         this.gridIndex = GRID_SIZE.length-1;
         this.hasSelector = false;
@@ -67,12 +67,12 @@ public class PanelTileRepresentation extends Representation implements Selectabl
 
                 if (filter != null){
                     g.setColor(Color.BLACK);
-                    for (int i = minCoordinates[0]; i < maxCoordinates[0] - minCoordinates[0] + BLOCK; i++) {
-                        for (int j = minCoordinates[1]; j < maxCoordinates[1] - minCoordinates[1] + BLOCK; j++) {
-                            Color pixelColor = new Color(image.getRGB(i, j));
-                            if (!pixelColor.equals(filter)){
+                    for (int i = minCoordinates[0]; i < maxCoordinates[0] + BLOCK; i++) {
+                        for (int j = minCoordinates[1]; j < maxCoordinates[1] + BLOCK; j++) {
+                           Color pixelColor = new Color(image.getRGB(i, j));
+                           if (!pixelColor.equals(filter)){
                                 g.fillRect(i, j, 1,1);
-                            }
+                           }
                         }
                     }
                 }

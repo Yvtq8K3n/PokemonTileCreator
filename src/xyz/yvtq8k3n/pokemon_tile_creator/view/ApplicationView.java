@@ -40,12 +40,6 @@ public class ApplicationView extends JFrame{
         pack();
     }
 
-    private void addEventListeners() {
-        btnPalette.addActionListener(e -> MainController.loadPalette());
-        btnImage.addActionListener(e -> MainController.loadImage());
-        btnExport.addActionListener(e -> MainController.exportTileset());
-    }
-
     public void initComponents(){
         //TOP
         operationsMenu = new OperationsMenu();
@@ -92,5 +86,11 @@ public class ApplicationView extends JFrame{
         mainJPanel.add(pnlDisplayImages, BorderLayout.CENTER);
         mainJPanel.add(pnlRightMenu, BorderLayout.LINE_END);
         add(mainJPanel);
+    }
+
+    private void addEventListeners() {
+        btnPalette.addActionListener(e -> MainController.loadPalette());
+        btnImage.addActionListener(e -> MainController.loadImage());
+        btnExport.addActionListener(e -> MainController.exportTileset());
     }
 }

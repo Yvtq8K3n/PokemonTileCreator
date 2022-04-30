@@ -58,37 +58,27 @@ public enum MainController {
         model.addNewPalette(palette);
 
         //Call Model and Update
-        Tileset paletteConverted = model.getPaletteConverted();
-        view.imgDisplayConverted.pnlPaletteRepresentation.setPalette(paletteConverted.getPalette());
-
-        convertImage();
+        view.imgDisplayConverted.pnlPaletteRepresentation.setPalette(model.getTilesetConverted().getColorModel().getPalette());
+        if (model.getTilesetOriginal().hasImage()){
+            view.imgDisplayConverted.pnlTileRepresentation.setImage(model.getTilesetConverted().getImage());
+        }
         updateView();
     }
 
     public static void loadImage(){
         //Call Helper File Reader to load Image
         File image = FileReader.loadImage();
-        model.addImageFile(image);
-        view.imgDisplayOriginal.pnlTileRepresentation.setImage(model.getPaletteOriginal().getImage());
-        view.imgDisplayOriginal.pnlPaletteRepresentation.setPalette(model.getPaletteOriginal().getPalette());
-
-        convertImage();
-        updateView();
+        loadImage(image);
     }
 
-    public static void reloadImage() {
-        model.reload();
-        view.imgDisplayOriginal.pnlTileRepresentation.setImage(model.getPaletteOriginal().getImage());
-        view.imgDisplayOriginal.pnlPaletteRepresentation.setPalette(model.getPaletteOriginal().getPalette());
-
-        convertImage();
+    public static void loadImage(File imageFile){
+        model.createTileset(imageFile);
+        view.imgDisplayOriginal.pnlTileRepresentation.setImage(model.getTilesetOriginal().getImage());
+        view.imgDisplayOriginal.pnlPaletteRepresentation.setPalette(model.getTilesetOriginal().getColorModel().getPalette());
+        if (model.getTilesetConverted().hasPalette()){
+            view.imgDisplayConverted.pnlTileRepresentation.setImage(model.getTilesetConverted().getImage());
+        }
         updateView();
-    }
-
-    public static void convertImage(){
-        model.convertImage();
-        view.imgDisplayConverted.pnlTileRepresentation.setImage(model.getPaletteConverted().getImage());
-        view.imgDisplayOriginal.pnlPaletteRepresentation.setPalette(model.getPaletteOriginal().getPalette());
     }
 
     public static void updateView() {
@@ -97,9 +87,9 @@ public enum MainController {
 
     public static void exportTileset() {
         if (model.hasConvertedImage()){
-            Tileset paletteConverted = model.getPaletteConverted();
+            Tileset paletteConverted = model.getTilesetConverted();
             FileWriter.writeTileset(paletteConverted.getImage(),
-                    model.getPaletteOriginal().getWritablePalette());
+                    model.getTilesetOriginal().getWritablePalette());
         }
     }
 

@@ -6,13 +6,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class PanelPaletteRepresentation extends Representation {
+public class PaletteRepresentation extends Representation {
     Color[] palette;
 
     private boolean hasSelector;
     private int[] selectorLocation;
 
-    public PanelPaletteRepresentation() {
+    public PaletteRepresentation() {
         super();
 
         palette = new Color[0];

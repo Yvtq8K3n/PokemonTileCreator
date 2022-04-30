@@ -13,71 +13,32 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static xyz.yvtq8k3n.pokemon_tile_creator.model.ColorModel.PALETTE_LIMIT;
+
+
 @Data
 public class Tileset {
     private MyFileWatcher fileWatcher;
-    private static final int PALETTE_LIMIT = 16;
     private File imageFile;
     private BufferedImage image;
-    private Color[] palette;
+    private ColorModel colorModel;
 
     public Tileset() {
-        palette = new Color[0];
+        colorModel = new ColorModel();
     }
 
-    public void setImageFile(File imageFile) throws Exception {
+    public Tileset(File imageFile) throws IOException {
         this.imageFile = imageFile;
-        loadImage();
-        calculatePalette();
+        this.image = ImageIO.read(this.imageFile);
+        this.colorModel = new ColorModel(image);
 
         if (fileWatcher != null) fileWatcher.stopThread();
         fileWatcher = new MyFileWatcher(imageFile);
         fileWatcher.start();
     }
 
-    public void loadImage() throws IOException {
+    public void reloadImage() throws IOException {
         this.image = ImageIO.read(this.imageFile);
-    }
-
-    public void addPalette(byte[] palette) {
-        Color[] colors = new Color[PALETTE_LIMIT];
-
-        int counter = 0;
-        for (int i=0;i<palette.length;i+=4) {
-            byte blue = palette[i];
-            byte green = palette[i+1];
-            byte red = palette[i+2];
-            colors [counter] = new Color(red & 0xFF, green & 0xFF, blue & 0xFF);
-            counter++;
-        }
-        this.palette = colors;
-    }
-
-    private void calculatePalette() {
-        Color[] colors = new Color[PALETTE_LIMIT];
-
-        int count = 0;
-        for (int x = 0; x < image.getWidth(); x++) {
-            for (int y = 0; y < image.getHeight(); y++) {
-                Color pixelColor = new Color(image.getRGB(x, y));
-
-                boolean isOnPalette = false;
-                for (int k = 0; k<count; k++){
-                    if (pixelColor.equals(colors[k])){
-                        isOnPalette = true;
-                        break;
-                    }
-                }
-
-                //Check if is already on palette
-                if (!isOnPalette && count < PALETTE_LIMIT) {
-                    colors[count] = pixelColor;
-                    count++;
-                }
-            }
-        }
-
-        this.palette = colors;
     }
 
     public boolean hasImage(){
@@ -85,34 +46,42 @@ public class Tileset {
     }
 
     public boolean hasPalette(){
-        return palette.length > 0;
-    }
-
-    public void applyPalette(BufferedImage image, Color[] colors) {
-        BufferedImage image_clone = HelperCreator.copyImage(image);
-
-        ArrayList<Color> colorsArray = new ArrayList<>(Arrays.asList(colors));
-        for (int x = 0; x < image.getWidth(); x++) {
-            for (int y = 0; y < image.getHeight(); y++) {
-                Color pixelColor = new Color(image.getRGB(x, y));
-                int colorIndex = colorsArray.indexOf(pixelColor);
-                if (colorIndex == -1) colorIndex = PALETTE_LIMIT - 1;
-                image_clone.setRGB(x, y, this.palette[colorIndex].getRGB());
-            }
-        }
-        this.image = image_clone;
+        return colorModel != null && colorModel.hasPalette();
     }
 
     //Converts the palette to a writable byte[]
     public byte[] getWritablePalette() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        for (Color color:palette) {
+        for (Color color: colorModel.getPalette()) {
             outputStream.write(color.getRed());
             outputStream.write(color.getGreen());
             outputStream.write(color.getBlue());
             outputStream.write(color.getAlpha());
         }
         return outputStream.toByteArray();
+    }
+
+    public void generateImage(BufferedImage image, Color[] colors){
+        BufferedImage image_clone = HelperCreator.copyImage(image);
+
+        //Load both palettes
+        Color[] palette = colorModel.getPalette();
+        ArrayList<Color> colorsArray = new ArrayList<>(Arrays.asList(colors));
+
+        //Match Converted Palette with Original Palette by index
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                Color pixelColor = new Color(image.getRGB(x, y));
+                int colorIndex = colorsArray.indexOf(pixelColor);
+                if (colorIndex == -1) colorIndex = PALETTE_LIMIT - 1;
+                image_clone.setRGB(x, y, palette[colorIndex].getRGB());
+            }
+        }
+        this.image = image_clone;
+    }
+
+    public boolean isSamePalette(Color[] palette) {
+        return getColorModel().isSamePalette(palette);
     }
 
     class MyFileWatcher extends FileWatcher {
@@ -124,9 +93,7 @@ public class Tileset {
         int count = 1;
         @Override
         protected void doOnChange() {
-            MainController.reloadImage();
-            System.out.println(count);
-            count ++;
+            MainController.loadImage(imageFile);
         }
     }
 }

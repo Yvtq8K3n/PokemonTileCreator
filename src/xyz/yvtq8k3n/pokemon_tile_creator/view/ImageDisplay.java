@@ -2,8 +2,8 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.panels.PanelPaletteRepresentation;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.panels.PanelTileRepresentation;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.panels.PaletteRepresentation;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.panels.TileRepresentation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,8 +16,8 @@ public class ImageDisplay extends JPanel{
 
     public JLabel lblTitle;
     public JButton btnGrid;
-    public PanelTileRepresentation pnlTileRepresentation;
-    public PanelPaletteRepresentation pnlPaletteRepresentation;
+    public TileRepresentation pnlTileRepresentation;
+    public PaletteRepresentation pnlPaletteRepresentation;
 
     public ImageDisplay() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -51,11 +51,11 @@ public class ImageDisplay extends JPanel{
         pnlMenu.add(pnlLabel);
         pnlMenu.add(pnlButtons);
 
-        pnlTileRepresentation = new PanelTileRepresentation();
+        pnlTileRepresentation = new TileRepresentation();
         pnlTileRepresentation.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         pnlTileRepresentation.setPreferredSize(HelperCreator.createDimension(IMG_DIMENSIONS));
 
-        pnlPaletteRepresentation = new PanelPaletteRepresentation();
+        pnlPaletteRepresentation = new PaletteRepresentation();
         pnlPaletteRepresentation.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         pnlPaletteRepresentation.setPreferredSize(HelperCreator.createDimension(PALETTE_BOX));
 
