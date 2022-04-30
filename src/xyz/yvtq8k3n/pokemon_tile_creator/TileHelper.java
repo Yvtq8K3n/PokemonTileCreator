@@ -6,7 +6,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class HelperCreator {
+public class TileHelper {
+    protected final static int BLOCK = 16;
+
     public static Dimension createDimension(int[] dimension){
         return new Dimension(dimension[0], dimension[1]);
     }
@@ -47,6 +49,16 @@ public class HelperCreator {
         int minX = Math.max(pointA[0], pointB[0]);
         int minY = Math.max(pointA[1], pointB[1]);
         return new int[]{minX, minY};
+    }
+
+
+    /** Given an
+     * @param x coordinate
+     * @param y coordinate
+     * @return a Point that its multiple of BLOCK
+     */
+    public static Point blockAdjustment(int x, int y){
+        return new Point(BLOCK * Math.floorDiv(x, BLOCK),BLOCK * Math.floorDiv(y, BLOCK));
     }
 }
 

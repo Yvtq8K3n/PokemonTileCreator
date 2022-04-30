@@ -5,10 +5,12 @@ import xyz.yvtq8k3n.pokemon_tile_creator.FileWriter;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.Tileset;
 import xyz.yvtq8k3n.pokemon_tile_creator.operators.AreaSelectorOperator;
+import xyz.yvtq8k3n.pokemon_tile_creator.operators.MultiSelectorOperator;
 import xyz.yvtq8k3n.pokemon_tile_creator.operators.Operator;
-import xyz.yvtq8k3n.pokemon_tile_creator.operators.SelectorOperator;
+import xyz.yvtq8k3n.pokemon_tile_creator.operators.SingleSelectorOperator;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.ApplicationView;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.AreaSelectableBehaviour;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.MultiSelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
 
 import java.awt.*;
@@ -27,12 +29,14 @@ public enum MainController {
 
     private static ArrayList<SelectableBehaviour> selectableBehaviours;
     private static ArrayList<AreaSelectableBehaviour> areaSelectableBehaviours;
+    private static ArrayList<MultiSelectableBehaviour> multiSelectableBehaviours;
 
     public static void launchApplication(ApplicationModel model, ApplicationView view) {
         //Create Operator
         MainController.operators = new Operator[]{
-                new SelectorOperator(),
-                new AreaSelectorOperator()
+                new SingleSelectorOperator(),
+                new AreaSelectorOperator(),
+                new MultiSelectorOperator()
         };
         selectedOperator = operators[0];
         MainController.model = model;
@@ -40,12 +44,12 @@ public enum MainController {
     }
 
     public static void setDisplayBlock(BufferedImage image, int[] initialLocation) {
-         view.blockDisplay.setImage(image, initialLocation[0], initialLocation[1]);
+         view.blockRepresentation.setImage(image, initialLocation[0], initialLocation[1]);
     }
 
     public static void setImageColorFilter(Color color) {
         if (selectedOperator == operators[0]){
-            view.blockDisplay.setColorFilter(color);
+            view.blockRepresentation.setColorFilter(color);
         }
         if (selectedOperator == operators[1]){
             view.imgDisplayOriginal.pnlTileRepresentation.setColorFilter(color);
@@ -78,7 +82,7 @@ public enum MainController {
         if (model.getTilesetConverted().hasPalette()){
             view.imgDisplayConverted.pnlTileRepresentation.setImage(model.getTilesetConverted().getImage());
         }
-        view.blockDisplay.setImage(model.getTilesetOriginal().getImage());
+        view.blockRepresentation.setImage(model.getTilesetOriginal().getImage());
         updateView();
     }
 
@@ -108,10 +112,16 @@ public enum MainController {
             System.out.println("Setting selector: Area Selector");
             selectedOperator = operators[1];
             reset();
-        }
+         }
     }
 
-
+    public static void setOperatorMultiSelection() {
+        if (!selectedOperator.equals(operators[2])){
+            System.out.println("Setting selector: Area Selector");
+            selectedOperator = operators[2];
+            reset();
+        }
+    }
 
     public static void addSelectableBehaviour(SelectableBehaviour c){
         if (selectableBehaviours == null){
@@ -127,10 +137,16 @@ public enum MainController {
         MainController.areaSelectableBehaviours.add(c);
     }
 
+    public static void addMultiSelectableBehaviour(MultiSelectableBehaviour c){
+        if (multiSelectableBehaviours == null){
+            multiSelectableBehaviours = new ArrayList<>();
+        }
+        MainController.multiSelectableBehaviours.add(c);
+    }
+
     public static void reset() {
         for (SelectableBehaviour c: selectableBehaviours) {
             c.reset();
         }
     }
-
 }

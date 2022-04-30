@@ -21,5 +21,5 @@ public abstract class Selector {
         this.state = state;
     }
 
-    abstract void drawComponent(Graphics g);
+    public abstract void drawComponent(Graphics g);
 }

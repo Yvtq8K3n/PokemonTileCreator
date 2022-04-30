@@ -1,18 +1,13 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view;
+package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
 
-import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
+import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 
-public class BlockDisplay extends JPanel implements SelectableBehaviour, MouseListener, MouseMotionListener {
+public class BlockRepresentation extends Representation {
     private static final int[] DISPLAY_DIMENSIONS = {128, 128};
     private static final int BLOCK = 16;
     private BufferedImage image;
@@ -20,16 +15,14 @@ public class BlockDisplay extends JPanel implements SelectableBehaviour, MouseLi
     private Color filter;
     private boolean enableGrid;
 
-    public BlockDisplay() {
+    public BlockRepresentation() {
         enableGrid = false;
         filter = null;
-        setPreferredSize(HelperCreator.createDimension(DISPLAY_DIMENSIONS));
+        setPreferredSize(TileHelper.createDimension(DISPLAY_DIMENSIONS));
         setBorder(BorderFactory.createLineBorder(Color.RED));
 
         //Add event listeners
         addMouseListener(this);
-        addMouseMotionListener(this);
-        MainController.addSelectableBehaviour(this);
     }
 
     @Override
@@ -86,7 +79,6 @@ public class BlockDisplay extends JPanel implements SelectableBehaviour, MouseLi
         }
     }
 
-
     private BufferedImage generateScaledImage(BufferedImage image) {
         int w = image.getWidth();
         int h = image.getHeight();
@@ -108,70 +100,9 @@ public class BlockDisplay extends JPanel implements SelectableBehaviour, MouseLi
         repaint();
     }
 
-    private BufferedImage applyFilter() {
-        return null; //filteredImage
-    }
-
-
-    @Override
-    public void startSelector(int x, int y) {
-        enableGrid = !enableGrid;
-        repaint();
-    }
-
-    @Override
-    public void reset(){
-        enableGrid = false;
-        repaint();
-    }
-
-    @Override
-    public void moveSelector(int x, int y) {
-
-    }
-
-    @Override
-    public void releaseSelector(int x, int y) {
-
-    }
-
-    @Override
-    public void exitSelectedAction(int x, int y) {
-
-    }
-
     @Override
     public void mouseClicked(MouseEvent e) {
-        MainController.selectedOperator.mouseClicked(e);
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        MainController.selectedOperator.mousePressed(e);
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        MainController.selectedOperator.mouseReleased(e);
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        MainController.selectedOperator.mouseEntered(e);
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        MainController.selectedOperator.mouseExited(e);
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        MainController.selectedOperator.mouseDragged(e);
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        MainController.selectedOperator.mouseMoved(e);
+        enableGrid = !enableGrid;
+        repaint();
     }
 }

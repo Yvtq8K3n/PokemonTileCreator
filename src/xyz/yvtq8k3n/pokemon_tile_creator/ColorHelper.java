@@ -6,6 +6,7 @@ public class ColorHelper {
     protected static final int[] COLOR_RANGE = {0, 248};
     protected static final int COLOR_STEP = 8;
 
+
     /** Given a Color
      * @param color rounds its properties to the supported scaling factor of the ROM
      * @return the color int representation

@@ -5,8 +5,4 @@ public interface SelectableBehaviour extends CustomBehaviour {
     void startSelector(int x, int y);
 
     void moveSelector(int x, int y);
-
-    void releaseSelector(int x, int y);
-
-    void exitSelectedAction(int x, int y);
 }

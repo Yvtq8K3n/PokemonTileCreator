@@ -1,7 +1,7 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
+import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.PaletteRepresentation;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.TileRepresentation;
 
@@ -42,7 +42,7 @@ public class ImageDisplay extends JPanel{
         JPanel pnlButtons = new JPanel();
         btnGrid = new JButton();
         btnGrid.setIcon(new FlatSVGIcon("xyz/yvtq8k3n/pokemon_tile_creator/resources/grid.svg", 16, 16));
-        btnGrid.setPreferredSize(HelperCreator.createDimension(OPTIONS_DIMENSIONS));
+        btnGrid.setPreferredSize(TileHelper.createDimension(OPTIONS_DIMENSIONS));
         btnGrid.setToolTipText("Toggle for grid");
         pnlButtons.setLayout(new FlowLayout(FlowLayout.RIGHT));
         pnlButtons.add(btnGrid);
@@ -53,14 +53,14 @@ public class ImageDisplay extends JPanel{
 
         pnlTileRepresentation = new TileRepresentation();
         pnlTileRepresentation.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        pnlTileRepresentation.setPreferredSize(HelperCreator.createDimension(IMG_DIMENSIONS));
+        pnlTileRepresentation.setPreferredSize(TileHelper.createDimension(IMG_DIMENSIONS));
 
         pnlPaletteRepresentation = new PaletteRepresentation();
         pnlPaletteRepresentation.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        pnlPaletteRepresentation.setPreferredSize(HelperCreator.createDimension(PALETTE_BOX));
+        pnlPaletteRepresentation.setPreferredSize(TileHelper.createDimension(PALETTE_BOX));
 
         //Add Components
-        Dimension dimFiller = HelperCreator.createDimension(FILLER_DIMENSIONS);
+        Dimension dimFiller = TileHelper.createDimension(FILLER_DIMENSIONS);
         add(pnlMenu);
         add(new Box.Filler(dimFiller, dimFiller, dimFiller));
         add(pnlTileRepresentation);

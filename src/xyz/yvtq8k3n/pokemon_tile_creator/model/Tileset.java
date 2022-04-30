@@ -3,7 +3,7 @@ package xyz.yvtq8k3n.pokemon_tile_creator.model;
 import lombok.Data;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.FileWatcher;
-import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
+import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
 
 import javax.imageio.ImageIO;
@@ -29,7 +29,7 @@ public class Tileset {
 
     public Tileset(File imageFile) throws IOException {
         this.imageFile = imageFile;
-        this.image = HelperCreator.readImage(imageFile);
+        this.image = TileHelper.readImage(imageFile);
         this.colorModel = new ColorModel(image);
 
         if (fileWatcher != null) fileWatcher.stopThread();
@@ -55,7 +55,7 @@ public class Tileset {
     }
 
     public void generateImage(BufferedImage image, Color[] colors){
-        BufferedImage image_clone = HelperCreator.copyImage(image);
+        BufferedImage image_clone = TileHelper.copyImage(image);
 
         //Load both palettes
         Color[] palette = colorModel.getPalette();

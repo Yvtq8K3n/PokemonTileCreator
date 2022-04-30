@@ -1,17 +1,12 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view;
 
-import com.formdev.flatlaf.FlatDarculaLaf;
-import com.formdev.flatlaf.FlatIntelliJLaf;
-import lombok.experimental.Helper;
-import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
+import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.BlockRepresentation;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
-
-import static xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController.MAIN_CONTROLLER;
 
 public class ApplicationView extends JFrame{
     private static final int[] MENU_DIMENSION = {128, 186};
@@ -24,7 +19,7 @@ public class ApplicationView extends JFrame{
     public ImageDisplay imgDisplayConverted;
 
     //Left
-    public BlockDisplay blockDisplay;
+    public BlockRepresentation blockRepresentation;
     public JButton btnPalette;
     public JButton btnImage;
     public JButton btnExport;
@@ -60,15 +55,15 @@ public class ApplicationView extends JFrame{
         JPanel pnlRightMenu = new JPanel();
 
         JPanel pnlBlockDisplay = new JPanel();
-        blockDisplay = new BlockDisplay();
-        pnlBlockDisplay.add(blockDisplay);
+        blockRepresentation = new BlockRepresentation();
+        pnlBlockDisplay.add(blockRepresentation);
 
         JPanel pnlButtons = new JPanel();
         btnPalette = new JButton("PALETTE");
         btnImage = new JButton("IMAGE");
         btnExport = new JButton("EXPORT");
         pnlButtons.setLayout(new GridLayout(3, 1, 15, 15));
-        pnlButtons.setPreferredSize(HelperCreator.createDimension(MENU_DIMENSION));
+        pnlButtons.setPreferredSize(TileHelper.createDimension(MENU_DIMENSION));
         pnlButtons.add(btnPalette);
         pnlButtons.add(btnImage);
         pnlButtons.add(btnExport);

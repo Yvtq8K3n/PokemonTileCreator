@@ -1,6 +1,6 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.selection;
 
-import xyz.yvtq8k3n.pokemon_tile_creator.HelperCreator;
+import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import java.awt.*;
 
 public class AreaSelector extends SingleSelector{
@@ -18,11 +18,11 @@ public class AreaSelector extends SingleSelector{
     }
 
     public int[] getStartingPoint(){
-        return HelperCreator.minCoordinates(initialLocation, resizeLocation);
+        return TileHelper.minCoordinates(initialLocation, resizeLocation);
     }
 
     public int[] getEndingPoint(){
-        return HelperCreator.maxCoordinates(initialLocation, resizeLocation);
+        return TileHelper.maxCoordinates(initialLocation, resizeLocation);
     }
 
     @Override
