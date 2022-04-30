@@ -131,6 +131,7 @@ public class TileRepresentation extends Representation implements SelectableBeha
     @Override
     public void startMultiSelector(int x, int y) {
         hasMultiSelector = true;
+
         initialLocation = new int[]{
                 BLOCK * Math.floorDiv(x, BLOCK),
                 BLOCK * Math.floorDiv(y, BLOCK)
@@ -140,6 +141,14 @@ public class TileRepresentation extends Representation implements SelectableBeha
 
     @Override
     public void resizeMultiSelector(int x, int y) {
+        //Replace x(0, max) if it's out of viewport
+        x = Math.min(x, image.getWidth() - BLOCK);
+        x = Math.max(x, 0);
+
+        //Replace y(0, max) if it's out of viewport
+        y = Math.min(y, image.getHeight() - BLOCK);
+        y = Math.max(y, 0);
+
         int[] blockSize = new int[]{GRID_SIZE[0] * GRID_BASE, GRID_SIZE[0] * GRID_BASE};
         selectorLocation = new int[]{
                 blockSize[0] * Math.floorDiv(x, blockSize[0]),
