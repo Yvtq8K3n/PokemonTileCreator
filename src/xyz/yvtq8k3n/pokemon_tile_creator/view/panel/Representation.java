@@ -13,7 +13,6 @@ public abstract class Representation extends JPanel implements MouseMotionListen
         addMouseMotionListener(this);
     }
 
-
     @Override
     public void mouseClicked(MouseEvent e) {
 

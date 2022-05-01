@@ -22,7 +22,6 @@ public class TileRepresentation extends Representation implements SelectableBeha
     private SingleSelector singleSelector;
     private AreaSelector areaSelector;
     private MultiSelector multiSelector;
-    private Color filter;
 
     public TileRepresentation() {
         super();
@@ -43,65 +42,32 @@ public class TileRepresentation extends Representation implements SelectableBeha
         if (image != null) {
             g.drawImage(image, 0, 0, this);
 
-            if (GRID_SIZE[gridIndex] > 0) {
-                for (int i = 0; i < image.getWidth(); i += GRID_BASE * GRID_SIZE[gridIndex]) {
-                    for (int j = 0; j < image.getHeight(); j += GRID_BASE * GRID_SIZE[gridIndex]) {
-                        g.setColor(Color.RED);
-                        g.drawRect(i, j, GRID_BASE * GRID_SIZE[gridIndex],
-                                GRID_BASE * GRID_SIZE[gridIndex]);
-                    }
-                }
-            }
-
             if(singleSelector.isActive()){
                 singleSelector.drawComponent(g);
             }
 
             if(areaSelector.isActive()){
-                if (filter != null){
-                    int[] minCoordinates = areaSelector.getStartingPoint();
-                    int[] maxCoordinates = areaSelector.getEndingPoint();
-
-                    g.setColor(Color.BLACK);
-                    for (int i = minCoordinates[0]; i < maxCoordinates[0] + BLOCK; i++) {
-                        for (int j = minCoordinates[1]; j < maxCoordinates[1] + BLOCK; j++) {
-                            Color pixelColor = new Color(image.getRGB(i, j));
-                            if (!pixelColor.equals(filter)){
-                                g.fillRect(i, j, 1,1);
-                            }
-                        }
-                    }
-                }
-
-                if (GRID_SIZE[gridIndex] > 0) {
-                    for (int i = 0; i < image.getWidth(); i += GRID_BASE * GRID_SIZE[gridIndex]) {
-                        for (int j = 0; j < image.getHeight(); j += GRID_BASE * GRID_SIZE[gridIndex]) {
-                            g.setColor(Color.RED);
-                            g.drawRect(i, j, GRID_BASE * GRID_SIZE[gridIndex],
-                                    GRID_BASE * GRID_SIZE[gridIndex]);
-                        }
-                    }
-                }
                 areaSelector.drawComponent(g);
             }
 
             if (multiSelector.isActive()){
-
-
                 multiSelector.drawComponent(g);
-
             }
         }
     }
 
     public void setColorFilter(Color color) {
-        this.filter = color;
+        areaSelector.setFilter(color);
+        multiSelector.setFilter(color);
         repaint();
     }
 
     public void changeGridIndex() {
         this.gridIndex++;
         if(gridIndex>=GRID_SIZE.length) this.gridIndex = 0;
+        singleSelector.setGridSize(GRID_SIZE[gridIndex] * 8);
+        areaSelector.setGridSize(GRID_SIZE[gridIndex] * 8);
+        multiSelector.setGridSize(GRID_SIZE[gridIndex] * 8);
         this.repaint();
     }
 
@@ -113,6 +79,7 @@ public class TileRepresentation extends Representation implements SelectableBeha
     @Override
     public void moveSelector(int x, int y){
         if (image == null) return;
+
         //Set selector location
         singleSelector.setInitialLocation(x, y);
 
@@ -122,26 +89,21 @@ public class TileRepresentation extends Representation implements SelectableBeha
 
     @Override
     public void startAreaSelector(int x, int y) {
+        areaSelector.setImage(image);
         areaSelector.setInitialLocation(x, y);
         resizeAreaSelector(x, y);
     }
 
     @Override
     public void resizeAreaSelector(int x, int y) {
-        //Replace x(0, max) if it's out of viewport
-        x = Math.min(x, image.getWidth() - BLOCK);
-        x = Math.max(x, 0);
-
-        //Replace y(0, max) if it's out of viewport
-        y = Math.min(y, image.getHeight() - BLOCK);
-        y = Math.max(y, 0);
-
+        multiSelector.setImage(image);
         areaSelector.resizeSelector(x, y);
         repaint();
     }
 
     @Override
     public void addMultiSelectorPoint(int x, int y) {
+        multiSelector.setImage(image);
         multiSelector.addSelectionEntry(x, y);
         repaint();
     }

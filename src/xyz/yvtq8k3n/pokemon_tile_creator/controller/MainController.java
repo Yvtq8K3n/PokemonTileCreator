@@ -48,11 +48,9 @@ public enum MainController {
     }
 
     public static void setImageColorFilter(Color color) {
+        view.imgDisplayOriginal.pnlTileRepresentation.setColorFilter(color);
         if (selectedOperator == operators[0]){
             view.blockRepresentation.setColorFilter(color);
-        }
-        if (selectedOperator == operators[1]){
-            view.imgDisplayOriginal.pnlTileRepresentation.setColorFilter(color);
         }
     }
 

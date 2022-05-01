@@ -23,6 +23,11 @@ public class SingleSelector extends Selector{
 
     @Override
      public void drawComponent(Graphics g) {
+        //Draw grid
+        g.setColor(Color.RED);
+        drawGridComponent(g);
+
+        //Draw selector
         g.setColor(Color.BLUE);
         g.drawRect(initialLocation[0], initialLocation[1], BLOCK, BLOCK);
     }
