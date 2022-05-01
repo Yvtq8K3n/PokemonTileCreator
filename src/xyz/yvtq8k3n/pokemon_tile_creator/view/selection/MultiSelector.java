@@ -55,10 +55,10 @@ public class MultiSelector extends Selector{
             }
 
             //Draw grid
-            g.setColor(Color.RED);
+            g.setColor(GRID_COLOR);
             drawGridComponent(g);
 
-            g.setColor(Color.BLUE);
+            g.setColor(SELECTOR_COLOR);
             for (Point point:selectionPoints) {
                 g.drawRect((int)point.getX(), (int)point.getY(), BLOCK, BLOCK);
             }

@@ -7,6 +7,8 @@ public abstract class Selector {
     protected final static int BLOCK = 16;
     public static final int INACTIVE = 0;
     public static final int ACTIVE = 1;
+    protected static Color SELECTOR_COLOR = Color.BLUE;
+    protected static Color GRID_COLOR = Color.RED;
 
     protected int state;
 

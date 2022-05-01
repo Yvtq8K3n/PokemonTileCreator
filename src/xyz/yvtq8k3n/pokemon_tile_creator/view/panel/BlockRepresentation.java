@@ -20,9 +20,6 @@ public class BlockRepresentation extends Representation {
         filter = null;
         setPreferredSize(TileHelper.createDimension(DISPLAY_DIMENSIONS));
         setBorder(BorderFactory.createLineBorder(Color.RED));
-
-        //Add event listeners
-        addMouseListener(this);
     }
 
     @Override
@@ -101,7 +98,7 @@ public class BlockRepresentation extends Representation {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
         enableGrid = !enableGrid;
         repaint();
     }

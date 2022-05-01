@@ -44,11 +44,11 @@ public class AreaSelector extends SingleSelector{
                 }
             }
             //Draw grid
-            g.setColor(Color.RED);
+            g.setColor(GRID_COLOR);
             drawGridComponent(g);
 
             //Draw selector
-            g.setColor(Color.BLUE);
+            g.setColor(SELECTOR_COLOR);
             g.drawRect(minCoordinates[0], minCoordinates[1],
             maxCoordinates[0] - minCoordinates[0] + BLOCK,
             maxCoordinates[1] - minCoordinates[1] + BLOCK);
