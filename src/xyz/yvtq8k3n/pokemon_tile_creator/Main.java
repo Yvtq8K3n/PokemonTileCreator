@@ -1,13 +1,11 @@
 package xyz.yvtq8k3n.pokemon_tile_creator;
 
-import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.ApplicationView;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Main {
 
