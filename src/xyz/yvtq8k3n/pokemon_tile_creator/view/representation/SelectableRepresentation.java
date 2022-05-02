@@ -12,13 +12,16 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public abstract class SelectableRepresentation extends Representation implements SelectableBehaviour, AreaSelectableBehaviour, MultiSelectableBehaviour {
-    private static final int[] GRID_SIZE = {2,1,0};
-    int gridIndex;
+    protected static Color FILTER_BACKGROUND = Color.BLACK;
+    protected static Color GRID_COLOR = Color.RED;
+    private static final int[] GRID_SIZE = {16,8,0};
 
     protected SingleSelector singleSelector;
     protected AreaSelector areaSelector;
     protected MultiSelector multiSelector;
     protected Color colorFilter;
+    protected int gridIndex;
+    protected int gridSize;
 
     public SelectableRepresentation() {
         super();
@@ -36,26 +39,42 @@ public abstract class SelectableRepresentation extends Representation implements
     abstract boolean hasRepresentation();
 
     protected void paintSelectors(Graphics g) {
+        drawGridComponent(g);
         if (hasRepresentation()){
             if(singleSelector.isActive()){
-                singleSelector.drawComponent(g);
                 drawPaintFilter(g, singleSelector);
+                drawGridComponent(g);
+                singleSelector.drawComponent(g);
             }
 
             if(areaSelector.isActive()){
-                areaSelector.drawComponent(g);
                 drawPaintFilter(g, areaSelector);
+                drawGridComponent(g);
+                areaSelector.drawComponent(g);
             }
 
             if (multiSelector.isActive()){
-                multiSelector.drawComponent(g);
                 drawPaintFilter(g, multiSelector);
+                drawGridComponent(g);
+                multiSelector.drawComponent(g);
             }
         }
     }
 
-    protected abstract void drawPaintFilter(Graphics g, Selector selector);
 
+    protected void drawGridComponent(Graphics g){
+        if (hasGridSize()) {
+            g.setColor(GRID_COLOR);
+            for (int i = 0; i < getWidth(); i += this.gridSize) {
+                for (int j = 0; j < getHeight(); j += this.gridSize) {
+                    g.drawRect(i, j, this.gridSize, this.gridSize);
+                }
+            }
+
+        }
+    }
+
+    protected abstract void drawPaintFilter(Graphics g, Selector selector);
 
     public boolean hasColorFilter() {return colorFilter!=null;}
 
@@ -75,6 +94,16 @@ public abstract class SelectableRepresentation extends Representation implements
         return new Point(x, y);
     }
 
+    public boolean hasGridSize(){
+        return this.gridSize > 0;
+    }
+
+    public void changeGridIndex() {
+        this.gridIndex++;
+        if(gridIndex>=GRID_SIZE.length) this.gridIndex = 0;
+        gridSize = GRID_SIZE[gridIndex];
+        repaint();
+    }
 
     @Override
     public void startSelector(int x, int y){

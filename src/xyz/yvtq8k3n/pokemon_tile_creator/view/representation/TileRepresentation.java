@@ -5,16 +5,12 @@ import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.Selector;
 
 import java.awt.*;
 import java.awt.geom.Area;
-import java.awt.geom.PathIterator;
 import java.awt.image.BufferedImage;
 
 public class TileRepresentation extends SelectableRepresentation {
     private static final int[] IMG_DIMENSIONS = {128, 320};
-    protected static Color GRID_COLOR = Color.RED;
-    private static final int[] GRID_SIZE = {16,8,0};
 
-    public BufferedImage image;
-    protected int gridSize;
+    protected BufferedImage image;
 
     public TileRepresentation() {
         super();
@@ -27,22 +23,8 @@ public class TileRepresentation extends SelectableRepresentation {
         if (hasRepresentation()) {
             g.drawImage(image, 0, 0, this);
 
-            //Draw Grid
-            drawGridComponent(g);
-
             //Draw Selectors
             paintSelectors(g);
-        }
-    }
-
-    protected void drawGridComponent(Graphics g){
-        if (hasGridSize()) {
-            g.setColor(GRID_COLOR);
-            for (int i = 0; i < image.getWidth(); i += this.gridSize) {
-                for (int j = 0; j < image.getHeight(); j += this.gridSize) {
-                    g.drawRect(i, j, this.gridSize, this.gridSize);
-                }
-            }
         }
     }
 
@@ -50,11 +32,11 @@ public class TileRepresentation extends SelectableRepresentation {
     protected void drawPaintFilter(Graphics g, Selector selector) {
         if (hasColorFilter()){
             Area area = selector.getSelectorArea();
-            g.setColor(Color.BLACK);
+            g.setColor(FILTER_BACKGROUND);
             for (int i = 0; i < image.getWidth(); i++) {
                 for (int j = 0; j < image.getHeight(); j++) {
                     Color pixelColor = new Color(image.getRGB(i, j));
-                    if (area.contains(i, j ) && 
+                    if (area.contains(i, j ) &&
                             !pixelColor.equals(colorFilter)){
                         g.fillRect(i, j, 1,1);
                     }
@@ -75,16 +57,5 @@ public class TileRepresentation extends SelectableRepresentation {
 
     public void setImage(BufferedImage image) {
         this.image = image;
-    }
-
-    public boolean hasGridSize(){
-        return this.gridSize > 0;
-    }
-
-    public void changeGridIndex() {
-        this.gridIndex++;
-        if(gridIndex>=GRID_SIZE.length) this.gridIndex = 0;
-        gridSize = GRID_SIZE[gridIndex];
-        repaint();
     }
 }
