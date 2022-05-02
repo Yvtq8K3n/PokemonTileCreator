@@ -2,7 +2,7 @@ package xyz.yvtq8k3n.pokemon_tile_creator;
 
 import java.awt.*;
 
-public class ColorHelper {
+public abstract class ColorHelper {
     protected static final int[] COLOR_RANGE = {0, 248};
     protected static final int COLOR_STEP = 8;
 

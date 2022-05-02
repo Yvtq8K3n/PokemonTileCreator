@@ -1,5 +1,6 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
+package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
 
+import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.Selector;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.SingleSelector;
@@ -8,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class PaletteRepresentation extends Representation {
+    private static final int[] PALETTE_BOX = {128, 32};
     Color[] palette;
     private SingleSelector selector;
 
@@ -15,6 +17,7 @@ public class PaletteRepresentation extends Representation {
         super();
         palette = new Color[0];
         this.selector = new SingleSelector();
+        setPreferredSize(TileHelper.createDimension(PALETTE_BOX));
     }
 
     @Override

@@ -11,10 +11,9 @@ public class AreaSelector extends SingleSelector{
     }
 
     public void resizeSelector(int x, int y){
-        Point point = applyBoundsConstraint(x, y);
         resizeLocation = new int[]{
-                BLOCK * Math.floorDiv((int) point.getX(), BLOCK),
-                BLOCK * Math.floorDiv((int) point.getY(), BLOCK)
+                BLOCK * Math.floorDiv(x, BLOCK),
+                BLOCK * Math.floorDiv(y, BLOCK)
         };
     }
 
@@ -31,7 +30,7 @@ public class AreaSelector extends SingleSelector{
         int[] minCoordinates = getStartingPoint();
         int[] maxCoordinates = getEndingPoint();
 
-        if (hasImage()){
+        /*if (hasImage()){
             if (hasFilter()){
                 g.setColor(Color.BLACK);
                 for (int i = minCoordinates[0]; i < maxCoordinates[0] + BLOCK; i++) {
@@ -42,16 +41,13 @@ public class AreaSelector extends SingleSelector{
                         }
                     }
                 }
-            }
-            //Draw grid
-            g.setColor(GRID_COLOR);
-            drawGridComponent(g);
+            }*/
 
-            //Draw selector
-            g.setColor(SELECTOR_COLOR);
-            g.drawRect(minCoordinates[0], minCoordinates[1],
-            maxCoordinates[0] - minCoordinates[0] + BLOCK,
-            maxCoordinates[1] - minCoordinates[1] + BLOCK);
-        }
+        //Draw selector
+        g.setColor(SELECTOR_COLOR);
+        g.drawRect(minCoordinates[0], minCoordinates[1],
+        maxCoordinates[0] - minCoordinates[0] + BLOCK,
+        maxCoordinates[1] - minCoordinates[1] + BLOCK);
+
     }
 }

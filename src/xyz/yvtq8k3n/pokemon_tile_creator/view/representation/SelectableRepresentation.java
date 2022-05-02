@@ -1,4 +1,4 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
+package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.AreaSelectableBehaviour;
@@ -8,22 +8,19 @@ import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.AreaSelector;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.MultiSelector;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.Selector;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.SingleSelector;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
-public class TileRepresentation extends Representation implements SelectableBehaviour, AreaSelectableBehaviour, MultiSelectableBehaviour {
-    private static final int GRID_BASE = 8;
+public abstract class SelectableRepresentation extends Representation implements SelectableBehaviour, AreaSelectableBehaviour, MultiSelectableBehaviour {
     private static final int[] GRID_SIZE = {2,1,0};
     int gridIndex;
 
-    public BufferedImage image;
-    private SingleSelector singleSelector;
-    private AreaSelector areaSelector;
-    private MultiSelector multiSelector;
+    protected SingleSelector singleSelector;
+    protected AreaSelector areaSelector;
+    protected MultiSelector multiSelector;
+    protected Color colorFilter;
 
-    public TileRepresentation() {
+    public SelectableRepresentation() {
         super();
         this.gridIndex = GRID_SIZE.length-1;
         this.singleSelector = new SingleSelector();
@@ -36,12 +33,10 @@ public class TileRepresentation extends Representation implements SelectableBeha
         MainController.addMultiSelectableBehaviour(this);
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (image != null) {
-            g.drawImage(image, 0, 0, this);
+    abstract boolean hasRepresentation();
 
+    protected void paintSelectors(Graphics g) {
+        if (hasRepresentation()){
             if(singleSelector.isActive()){
                 singleSelector.drawComponent(g);
             }
@@ -56,20 +51,24 @@ public class TileRepresentation extends Representation implements SelectableBeha
         }
     }
 
+    public boolean hasColorFilter() {return colorFilter!=null;}
+
     public void setColorFilter(Color color) {
-        areaSelector.setFilter(color);
-        multiSelector.setFilter(color);
+        this.colorFilter = color;
         repaint();
     }
 
-    public void changeGridIndex() {
-        this.gridIndex++;
-        if(gridIndex>=GRID_SIZE.length) this.gridIndex = 0;
-        singleSelector.setGridSize(GRID_SIZE[gridIndex] * 8);
-        areaSelector.setGridSize(GRID_SIZE[gridIndex] * 8);
-        multiSelector.setGridSize(GRID_SIZE[gridIndex] * 8);
-        this.repaint();
+    protected Point applyBoundsConstraint(int x, int y){
+        //Replace x(0, max) if it's out of viewport
+        x = Math.min(x, getWidth() - BLOCK);
+        x = Math.max(x, 0);
+
+        //Replace y(0, max) if it's out of viewport
+        y = Math.min(y, getHeight() - BLOCK);
+        y = Math.max(y, 0);
+        return new Point(x, y);
     }
+
 
     @Override
     public void startSelector(int x, int y){
@@ -78,42 +77,42 @@ public class TileRepresentation extends Representation implements SelectableBeha
 
     @Override
     public void moveSelector(int x, int y){
-        if (image == null) return;
-
+        if (!hasRepresentation()) return;
         //Set selector location
-        singleSelector.setInitialLocation(x, y);
-
-        MainController.setDisplayBlock(image, singleSelector.getInitialLocation());
+        Point bound = applyBoundsConstraint(x, y);
+        singleSelector.setInitialLocation((int)bound.getX(), (int)bound.getY());
         repaint();
     }
 
     @Override
     public void startAreaSelector(int x, int y) {
-        areaSelector.setImage(image);
-        areaSelector.setInitialLocation(x, y);
+        Point bound = applyBoundsConstraint(x, y);
+        areaSelector.setInitialLocation((int)bound.getX(), (int)bound.getY());
         resizeAreaSelector(x, y);
     }
 
     @Override
     public void resizeAreaSelector(int x, int y) {
-        multiSelector.setImage(image);
-        areaSelector.resizeSelector(x, y);
+        if (!hasRepresentation()) return;
+        Point bound = applyBoundsConstraint(x, y);
+        areaSelector.resizeSelector((int)bound.getX(), (int)bound.getY());
         repaint();
     }
 
     @Override
     public void addMultiSelectorPoint(int x, int y) {
-        multiSelector.setImage(image);
-        multiSelector.addSelectionEntry(x, y);
+        if (!hasRepresentation()) return;
+        Point bound = applyBoundsConstraint(x, y);
+        multiSelector.addSelectionEntry((int)bound.getX(), (int)bound.getY());
         repaint();
     }
 
     @Override
     public void removeMultiSelectorPoint(int x, int y) {
-        multiSelector.removeSelectionEntry(x, y);
+        Point bound = applyBoundsConstraint(x, y);
+        multiSelector.removeSelectionEntry((int)bound.getX(), (int)bound.getY());
         repaint();
     }
-
 
     @Override
     public void reset(){
@@ -121,10 +120,6 @@ public class TileRepresentation extends Representation implements SelectableBeha
         areaSelector.setState(Selector.INACTIVE);
         multiSelector.setState(Selector.INACTIVE);
         repaint();
-    }
-
-    public void setImage(BufferedImage image) {
-        this.image = image;
     }
 
     @Override

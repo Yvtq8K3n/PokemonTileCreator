@@ -1,4 +1,4 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
+package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;

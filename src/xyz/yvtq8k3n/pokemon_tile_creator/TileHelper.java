@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class TileHelper {
+public abstract class TileHelper {
     protected final static int BLOCK = 16;
 
     public static Dimension createDimension(int[] dimension){
