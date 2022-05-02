@@ -3,6 +3,7 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view.selection;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.util.ArrayList;
 
 public class MultiSelector extends Selector{
@@ -56,5 +57,15 @@ public class MultiSelector extends Selector{
         for (Point point:selectionPoints) {
             g.drawRect((int)point.getX(), (int)point.getY(), BLOCK, BLOCK);
         }
+    }
+
+    @Override
+    public Area getSelectorArea() {
+        Area area = new Area();
+        for (Point point:selectionPoints) {
+            Rectangle r = new Rectangle((int)point.getX(), (int)point.getY(), BLOCK, BLOCK);
+            area.add(new Area(r));
+        }
+        return area;
     }
 }

@@ -60,8 +60,6 @@ public class ColorsRepresentation extends Representation implements SelectableBe
     }
 
     public void setColorFilter(Color color) {
-        //areaSelector.setFilter(color);
-        /multiSelector.setFilter(color);
         repaint();
     }
 

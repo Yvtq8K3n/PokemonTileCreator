@@ -70,7 +70,7 @@ public class PaletteRepresentation extends Representation {
         repaint();
     }
 
-    public void setPalette( Color[] palette) {
+    public void setPalette(Color[] palette) {
         this.palette = palette;
     }
 

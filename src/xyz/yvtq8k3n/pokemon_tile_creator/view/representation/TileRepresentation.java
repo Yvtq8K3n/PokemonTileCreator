@@ -1,8 +1,11 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.Selector;
 
 import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.PathIterator;
 import java.awt.image.BufferedImage;
 
 public class TileRepresentation extends SelectableRepresentation {
@@ -38,6 +41,23 @@ public class TileRepresentation extends SelectableRepresentation {
             for (int i = 0; i < image.getWidth(); i += this.gridSize) {
                 for (int j = 0; j < image.getHeight(); j += this.gridSize) {
                     g.drawRect(i, j, this.gridSize, this.gridSize);
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void drawPaintFilter(Graphics g, Selector selector) {
+        if (hasColorFilter()){
+            Area area = selector.getSelectorArea();
+            g.setColor(Color.BLACK);
+            for (int i = 0; i < image.getWidth(); i++) {
+                for (int j = 0; j < image.getHeight(); j++) {
+                    Color pixelColor = new Color(image.getRGB(i, j));
+                    if (area.contains(i, j ) && 
+                            !pixelColor.equals(colorFilter)){
+                        g.fillRect(i, j, 1,1);
+                    }
                 }
             }
         }

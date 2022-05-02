@@ -39,17 +39,23 @@ public abstract class SelectableRepresentation extends Representation implements
         if (hasRepresentation()){
             if(singleSelector.isActive()){
                 singleSelector.drawComponent(g);
+                drawPaintFilter(g, singleSelector);
             }
 
             if(areaSelector.isActive()){
                 areaSelector.drawComponent(g);
+                drawPaintFilter(g, areaSelector);
             }
 
             if (multiSelector.isActive()){
                 multiSelector.drawComponent(g);
+                drawPaintFilter(g, multiSelector);
             }
         }
     }
+
+    protected abstract void drawPaintFilter(Graphics g, Selector selector);
+
 
     public boolean hasColorFilter() {return colorFilter!=null;}
 

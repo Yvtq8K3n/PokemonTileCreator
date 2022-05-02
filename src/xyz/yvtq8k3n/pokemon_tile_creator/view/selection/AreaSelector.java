@@ -2,6 +2,7 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view.selection;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import java.awt.*;
+import java.awt.geom.Area;
 
 public class AreaSelector extends SingleSelector{
     private int[] resizeLocation;
@@ -49,5 +50,18 @@ public class AreaSelector extends SingleSelector{
         maxCoordinates[0] - minCoordinates[0] + BLOCK,
         maxCoordinates[1] - minCoordinates[1] + BLOCK);
 
+    }
+
+    @Override
+    public Area getSelectorArea() {
+        int[] minCoordinates = getStartingPoint();
+        int[] maxCoordinates = getEndingPoint();
+
+        Area area = new Area();
+        Rectangle r = new Rectangle(minCoordinates[0], minCoordinates[1],
+                maxCoordinates[0] - minCoordinates[0] + BLOCK,
+                maxCoordinates[1] - minCoordinates[1] + BLOCK);
+        area.add(new Area(r));
+        return area;
     }
 }
