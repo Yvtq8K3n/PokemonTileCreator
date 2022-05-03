@@ -1,6 +1,7 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.model;
 
 import lombok.Data;
+import xyz.yvtq8k3n.pokemon_tile_creator.model.sorting.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,13 +11,22 @@ import java.util.Arrays;
 
 @Data
 public class ColorModel {
+    public static final ColorComparator[] SORTING_METHODS = {
+            CompareColorsNone.CRITERIA,
+            CompareColorsByStepInvertSorting.CRITERIA,
+            CompareColorsByLuminosity.CRITERIA
+    };
+
     protected static final int PALETTE_LIMIT = 16;
     private BufferedImage image;
     private Color[] palette;
     private Color[] colors;
+    private Color[] sortedColors;
+    public int sortingIndex;
 
     public ColorModel() {
-        palette = new Color[0];
+        this.palette = new Color[0];
+        this.sortingIndex = 0;
     }
 
     public ColorModel(BufferedImage image) {
@@ -28,6 +38,14 @@ public class ColorModel {
         System.out.println("Palette:"+palette.length);
     }
 
+    public void changeSortingIndex() {
+        this.sortingIndex++;
+        if(sortingIndex>=SORTING_METHODS.length) this.sortingIndex = 0;
+        Color[] tempSort = Arrays.copyOf(colors, colors.length);
+        Arrays.sort(tempSort, SORTING_METHODS[sortingIndex]);
+        sortedColors = tempSort;
+    }
+
     private void retrieveColors() {
         ArrayList<Color> colors = new ArrayList<>();
         for (int x = 0; x < image.getWidth(); x++) {
@@ -37,6 +55,7 @@ public class ColorModel {
             }
         }
         this.colors = colors.toArray(new Color[colors.size()]);
+        this.sortedColors = this.colors;
     }
 
     private void calculatePalette() {

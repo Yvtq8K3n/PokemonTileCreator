@@ -26,8 +26,8 @@ public class PaletteRepresentation extends Representation {
         int count = 0;
 
         if(palette.length > 0){
-            for(int j = 0; j < BLOCK +2; j += BLOCK){
-                 for(int i = 0; i < BLOCK *8; i += BLOCK){
+            for(int j = 0; j <= BLOCK; j += BLOCK){
+                 for(int i = 0; i < BLOCK * 8; i += BLOCK){
                     g.setColor(palette[count]);
                     g.fillRect(i, j, BLOCK, BLOCK);
                     count++;

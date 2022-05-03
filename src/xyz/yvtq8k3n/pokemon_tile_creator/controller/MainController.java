@@ -81,8 +81,20 @@ public enum MainController {
             view.imgDisplayConverted.pnlTileRepresentation.setImage(model.getTilesetConverted().getImage());
         }
         view.blockRepresentation.setImage(model.getTilesetOriginal().getImage());
+        view.colorsPanelOriginal.pnlColorsRepresentation.setSortedColors(model.getTilesetOriginal().getColorModel().getSortedColors());
         updateView();
     }
+
+
+
+    public static void changeColorSortingOrder() {
+        if (model.getTilesetOriginal().hasPalette()){
+            model.getTilesetOriginal().getColorModel().changeSortingIndex();
+            view.colorsPanelOriginal.pnlColorsRepresentation.setSortedColors(model.getTilesetOriginal().getColorModel().getSortedColors());
+        }
+        updateView();
+    }
+
 
     public static void updateView() {
         view.repaint();

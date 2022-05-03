@@ -147,7 +147,6 @@ public class ApplicationView extends JFrame{
         //CENTER
         pnlDisplayBodyContext = new JPanel();
         imgDisplayOriginal = new ImagePanel();
-        imgDisplayOriginal.lblTitle.setText("Old:");
 
 
         actionPanel = new JPanel();
@@ -155,7 +154,6 @@ public class ApplicationView extends JFrame{
 
         //ActionPanels
         imgDisplayConverted = new ImagePanel();
-        imgDisplayConverted.lblTitle.setText("New:");
         colorsPanelOriginal = new ColorsPanel();
 
         actionPanel.setLayout(actionCardLayout);

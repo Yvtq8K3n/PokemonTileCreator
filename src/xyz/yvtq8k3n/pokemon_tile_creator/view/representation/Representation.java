@@ -1,6 +1,7 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -9,6 +10,7 @@ public abstract class Representation extends JPanel implements MouseMotionListen
     protected final static int BLOCK = 16;
 
     public Representation() {
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
         addMouseListener(this);
         addMouseMotionListener(this);
     }

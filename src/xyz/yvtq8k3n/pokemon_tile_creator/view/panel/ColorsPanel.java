@@ -2,8 +2,9 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.ColorsRepresentation;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.PaletteRepresentation;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.TileRepresentation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,11 +13,9 @@ public class ColorsPanel extends ActionPanel{
     private static final int[] FILLER_DIMENSIONS = {1, 5};
     private static final int[] OPTIONS_DIMENSIONS = {28, 28};
 
-    public JButton btnA;
-    public JButton btnB;
-    public JButton btnC;
-    public JButton btnD;
-    public TileRepresentation pnlTileRepresentation;
+    public JButton btnColorGrid;
+    public JButton btnColorSorter;
+    public ColorsRepresentation pnlColorsRepresentation;
     public PaletteRepresentation pnlPaletteRepresentation;
 
     public ColorsPanel() {
@@ -26,54 +25,42 @@ public class ColorsPanel extends ActionPanel{
     }
 
     private void addEventListeners() {
-        //btnA.addActionListener(e -> pnlTileRepresentation.changeGridIndex());
-        //btnB.addActionListener(e -> pnlTileRepresentation.changeGridIndex());
-        //btnC.addActionListener(e -> pnlTileRepresentation.changeGridIndex());
-        //btnD.addActionListener(e -> pnlTileRepresentation.changeGridIndex());
+        btnColorGrid.addActionListener(e -> pnlColorsRepresentation.changeGridIndex());
+        btnColorSorter.addActionListener(e -> MainController.changeColorSortingOrder());
     }
 
     private void initComponents() {
         //Replace for icon later
-        JPanel pnlButtons = new JPanel();
+        JPanel pnlMenu = new JPanel();
 
-        btnA = new JButton();
-        btnA.setIcon(new FlatSVGIcon("xyz/yvtq8k3n/pokemon_tile_creator/resources/grid.svg", 16, 16));
-        btnA.setPreferredSize(TileHelper.createDimension(OPTIONS_DIMENSIONS));
-        btnA.setToolTipText("Toggle for grid");
+        JPanel pnlGrid = new JPanel();
+        btnColorGrid = new JButton();
+        btnColorGrid.setIcon(new FlatSVGIcon("xyz/yvtq8k3n/pokemon_tile_creator/resources/grid.svg", 16, 16));
+        btnColorGrid.setPreferredSize(TileHelper.createDimension(OPTIONS_DIMENSIONS));
+        btnColorGrid.setToolTipText("Toggle for color sorting");
+        pnlGrid.setLayout(new CustomFlow(FlowLayout.LEFT));
+        pnlGrid.add(btnColorGrid);
 
-        btnB = new JButton();
-        btnB.setIcon(new FlatSVGIcon("xyz/yvtq8k3n/pokemon_tile_creator/resources/grid.svg", 16, 16));
-        btnB.setPreferredSize(TileHelper.createDimension(OPTIONS_DIMENSIONS));
-        btnB.setToolTipText("Toggle for grid");
+        JPanel pnlColorSorter = new JPanel();
+        btnColorSorter = new JButton();
+        btnColorSorter.setIcon(new FlatSVGIcon("xyz/yvtq8k3n/pokemon_tile_creator/resources/color_sorting.svg", 16, 16));
+        btnColorSorter.setPreferredSize(TileHelper.createDimension(OPTIONS_DIMENSIONS));
+        btnColorSorter.setToolTipText("Toggle for grid");
+        pnlColorSorter.setLayout(new CustomFlow(FlowLayout.RIGHT));
+        pnlColorSorter.add(btnColorSorter);
 
-        btnC = new JButton();
-        btnC.setIcon(new FlatSVGIcon("xyz/yvtq8k3n/pokemon_tile_creator/resources/grid.svg", 16, 16));
-        btnC.setPreferredSize(TileHelper.createDimension(OPTIONS_DIMENSIONS));
-        btnC.setToolTipText("Toggle for grid");
+        pnlMenu.setLayout(new GridLayout(1,2));
+        pnlMenu.add(pnlGrid);
+        pnlMenu.add(pnlColorSorter);
 
-        btnD = new JButton();
-        btnD.setIcon(new FlatSVGIcon("xyz/yvtq8k3n/pokemon_tile_creator/resources/grid.svg", 16, 16));
-        btnD.setPreferredSize(TileHelper.createDimension(OPTIONS_DIMENSIONS));
-        btnD.setToolTipText("Toggle for grid");
-
-        pnlButtons.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        pnlButtons.add(btnA);
-        pnlButtons.add(btnB);
-        pnlButtons.add(btnC);
-        pnlButtons.add(btnD);
-
-
-        pnlTileRepresentation = new TileRepresentation();
-        pnlTileRepresentation.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
+        pnlColorsRepresentation = new ColorsRepresentation();
         pnlPaletteRepresentation = new PaletteRepresentation();
-        pnlPaletteRepresentation.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         //Add Components
         Dimension dimFiller = TileHelper.createDimension(FILLER_DIMENSIONS);
-        add(pnlButtons);
+        add(pnlMenu);
         add(new Box.Filler(dimFiller, dimFiller, dimFiller));
-        add(pnlTileRepresentation);
+        add(pnlColorsRepresentation);
         add(new Box.Filler(dimFiller, dimFiller, dimFiller));
         add(pnlPaletteRepresentation);
     }
