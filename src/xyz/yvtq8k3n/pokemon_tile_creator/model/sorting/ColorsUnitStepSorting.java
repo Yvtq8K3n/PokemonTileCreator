@@ -1,17 +1,19 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.model.sorting;
 
+import xyz.yvtq8k3n.pokemon_tile_creator.model.ColorUnit;
+
 import java.awt.*;
 
 import static xyz.yvtq8k3n.pokemon_tile_creator.ColorHelper.calculateLuminosity;
 import static xyz.yvtq8k3n.pokemon_tile_creator.ColorHelper.convertRGBToHSV;
 
-public enum CompareColorsByStepInvertSorting implements ColorComparator {
+public enum ColorsUnitStepSorting implements ColorUnitComparator {
     CRITERIA;
 
     private static final int REPETITIONS = 8;
 
     @Override
-    public int compare(Color o1, Color o2) {
+    public int compare(ColorUnit o1, ColorUnit o2) {
         //Convert obj1 to HSV format
 
         //To dampen the impact that sorting on the first component has, we can reduce the colour space from a float value between 0 to 1, to an integer from 0 to 7.
@@ -47,5 +49,10 @@ public enum CompareColorsByStepInvertSorting implements ColorComparator {
 
         //Check which color has higher color value
         return Integer.compare(obj2Value, obj1Value);
+    }
+
+    @Override
+    public String toString() {
+        return "Step";
     }
 }

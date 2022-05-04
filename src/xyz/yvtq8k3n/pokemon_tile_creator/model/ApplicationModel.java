@@ -19,13 +19,13 @@ public class ApplicationModel {
             this.tilesetOriginal = new Tileset(imageFile);
             applyPaletteToImage();
         } catch (Exception e) {
-            throw new IllegalArgumentException("Expecting an image got invalid object");
+            throw new IllegalArgumentException("Unable to create tileset:"+e.getMessage());
         }
     }
 
     public void addNewPalette(byte[] palette) {
         if (palette.length == 0) throw new IllegalArgumentException("Invalid Palette");
-        this.tilesetConverted.getColorModel().addPalette(palette);
+        this.tilesetConverted.addPalette(palette);
         applyPaletteToImage();
     }
 
@@ -33,13 +33,12 @@ public class ApplicationModel {
         if (tilesetOriginal.hasImage()
                 && tilesetConverted.hasPalette()){
             //Rearrange palette if it matches previous loaded palette
-            if (tilesetOriginal.isSamePalette(tilesetConverted.getColorModel().getPalette())){
-                tilesetOriginal.getColorModel().setPalette(tilesetConverted.getColorModel().getPalette());
+            if (tilesetOriginal.isSamePalette(tilesetConverted.getPalette())){
+                tilesetOriginal.setPalette(tilesetConverted.getPalette());
             }
 
             //Automatically generates Image when both Palette and Image are loaded
-            tilesetConverted.generateImage(tilesetOriginal.getImage(),
-            tilesetOriginal.getColorModel().getPalette());
+            tilesetConverted.generateImage(tilesetOriginal.getImage(), tilesetOriginal.getPalette());
         }
     }
 

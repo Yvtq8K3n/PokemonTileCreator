@@ -1,14 +1,16 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.model.sorting;
 
+import xyz.yvtq8k3n.pokemon_tile_creator.model.ColorUnit;
+
 import java.awt.*;
 
 import static xyz.yvtq8k3n.pokemon_tile_creator.ColorHelper.convertRGBToHSV;
 
-public enum CompareColorsByHue implements ColorComparator {
+public enum ColorUnitHueSorting implements ColorUnitComparator {
     CRITERIA;
 
     @Override
-    public int compare(Color o1, Color o2) {
+    public int compare(ColorUnit o1, ColorUnit o2) {
         //Convert obj1 to HSV format
         double[] HSVobj1 = convertRGBToHSV(o1);
         double obj1Hue = HSVobj1[0];
@@ -32,5 +34,10 @@ public enum CompareColorsByHue implements ColorComparator {
 
         //Check which color has higher color value
         return Double.compare(obj2value, obj1Value);
+    }
+
+    @Override
+    public String toString() {
+        return "Hue";
     }
 }

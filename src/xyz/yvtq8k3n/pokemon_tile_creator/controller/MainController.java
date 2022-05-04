@@ -60,7 +60,7 @@ public enum MainController {
         model.addNewPalette(palette);
 
         //Call Model and Update
-        view.imgDisplayConverted.pnlPaletteRepresentation.setPalette(model.getTilesetConverted().getColorModel().getPalette());
+        view.imgDisplayConverted.pnlPaletteRepresentation.setPalette(model.getTilesetConverted().getPalette());
         if (model.getTilesetOriginal().hasImage()){
             view.imgDisplayConverted.pnlTileRepresentation.setImage(model.getTilesetConverted().getImage());
         }
@@ -76,21 +76,31 @@ public enum MainController {
     public static void loadImage(File imageFile){
         model.createTileset(imageFile);
         view.imgDisplayOriginal.pnlTileRepresentation.setImage(model.getTilesetOriginal().getImage());
-        view.imgDisplayOriginal.pnlPaletteRepresentation.setPalette(model.getTilesetOriginal().getColorModel().getPalette());
+        view.imgDisplayOriginal.pnlPaletteRepresentation.setPalette(model.getTilesetOriginal().getPalette());
         if (model.getTilesetConverted().hasPalette()){
             view.imgDisplayConverted.pnlTileRepresentation.setImage(model.getTilesetConverted().getImage());
         }
         view.blockRepresentation.setImage(model.getTilesetOriginal().getImage());
-        view.colorsPanelOriginal.pnlColorsRepresentation.setSortedColors(model.getTilesetOriginal().getColorModel().getSortedColors());
+
+        if (model.getTilesetOriginal().hasPalette()){
+            //A bit black magic i should maybe change this
+            view.colorsPanelOriginal.pnlColorsRepresentation.setSortedColors(
+                    model.getTilesetOriginal().getColorModel().getSortedColors());
+            view.colorsPanelOriginal.lblCriteria.setText(
+                    model.getTilesetOriginal().getColorModel().getSortingMethod());
+        }
         updateView();
     }
 
-
-
     public static void changeColorSortingOrder() {
         if (model.getTilesetOriginal().hasPalette()){
-            model.getTilesetOriginal().getColorModel().changeSortingIndex();
-            view.colorsPanelOriginal.pnlColorsRepresentation.setSortedColors(model.getTilesetOriginal().getColorModel().getSortedColors());
+            //A bit black magic i should maybe change this
+            model.getTilesetOriginal().getColorModel().changeSortingMethod();
+
+            view.colorsPanelOriginal.pnlColorsRepresentation.setSortedColors(
+                    model.getTilesetOriginal().getColorModel().getSortedColors());
+            view.colorsPanelOriginal.lblCriteria.setText(
+                    model.getTilesetOriginal().getColorModel().getSortingMethod());
         }
         updateView();
     }

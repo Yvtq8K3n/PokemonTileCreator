@@ -5,99 +5,112 @@ import xyz.yvtq8k3n.pokemon_tile_creator.model.sorting.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Data
 public class ColorModel {
-    public static final ColorComparator[] SORTING_METHODS = {
-            CompareColorsNone.CRITERIA,
-            CompareColorsByStepInvertSorting.CRITERIA,
-            CompareColorsByLuminosity.CRITERIA
+    public static final ColorUnitComparator[] SORTING_METHODS = {
+            ColorsUnitNone.CRITERIA,
+            ColorsUnitStepSorting.CRITERIA,
+            ColorUnitLuminositySorting.CRITERIA,
+            ColorUnitFrequencySorting.CRITERIA
     };
 
-    protected static final int PALETTE_LIMIT = 16;
-    private BufferedImage image;
-    private Color[] palette;
-    private Color[] colors;
-    private Color[] sortedColors;
+    private Tileset tileset;
+    private List<Color> allColors;
+    private Color[][] colorsMap;
+    private Map<Color, Long> colorsGroup;
+    private Color[] allDistinctColors;
+    private ColorUnit[] sortedColors;
     public int sortingIndex;
 
-    public ColorModel() {
-        this.palette = new Color[0];
+    protected ColorModel() {
         this.sortingIndex = 0;
     }
 
-    public ColorModel(BufferedImage image) {
-        super();
-        this.image = image;
-        retrieveColors();
-        calculatePalette();
-        System.out.println("Colors:"+colors.length);
-        System.out.println("Palette:"+palette.length);
+    public ColorModel(Tileset tileset) {
+        this();
+        this.tileset = tileset;
+        this.allColors = retrieveAllColors();  //Contains all colors
+        this.colorsMap = calculateColorsMap(); //Used to map colors directly on the tileset
+        this.colorsGroup = retrieveColorsByGroup(); //Group colors to count occurrences
+        this.allDistinctColors = retrieveAllDistinctColors();  //Contains only first occurrence of each color
+        this.sortedColors = generateColorUnits();
     }
 
-    public void changeSortingIndex() {
-        this.sortingIndex++;
-        if(sortingIndex>=SORTING_METHODS.length) this.sortingIndex = 0;
-        Color[] tempSort = Arrays.copyOf(colors, colors.length);
-        Arrays.sort(tempSort, SORTING_METHODS[sortingIndex]);
-        sortedColors = tempSort;
-    }
+    //Loads all colors present in buffered into a 1D-Array
+    private List<Color> retrieveAllColors() {
+        BufferedImage image = tileset.getImage();
+        List<Color> colors = new ArrayList<>();
 
-    private void retrieveColors() {
-        ArrayList<Color> colors = new ArrayList<>();
-        for (int x = 0; x < image.getWidth(); x++) {
-            for (int y = 0; y < image.getHeight(); y++) {
-                Color pixelColor = new Color(image.getRGB(x, y));
-                if (!colors.contains(pixelColor)) colors.add(pixelColor);
+        for (int i = 0; i < image.getWidth(); i++) {
+            for (int j = 0; j < image.getHeight(); j++) {
+                colors.add(new Color(image.getRGB(i, j)));
             }
         }
-        this.colors = colors.toArray(new Color[colors.size()]);
-        this.sortedColors = this.colors;
+        System.out.println("TotalColors: "+colors.size());
+        return colors;
     }
 
-    private void calculatePalette() {
-        int limit = Math.min(PALETTE_LIMIT, colors.length);
-        this.palette = Arrays.copyOfRange(colors, 0, limit);
-    }
+    //Loads all colors into a 2-D array respecting their location on the image
+    private Color[][] calculateColorsMap() {
+        BufferedImage image = tileset.getImage();
+        Iterator<Color> itColors = allColors.listIterator();
 
-    public void addPalette(byte[] palette) {
-        Color[] colors = new Color[PALETTE_LIMIT];
-
-        int counter = 0;
-        for (int i=0;i<palette.length;i+=4) {
-            byte blue = palette[i];
-            byte green = palette[i+1];
-            byte red = palette[i+2];
-            colors [counter] = new Color(red & 0xFF, green & 0xFF, blue & 0xFF);
-            counter++;
+        Color[][] colorsMap = new Color[image.getWidth()][image.getHeight()];
+        for (int i = 0; i < image.getWidth(); i++) {
+            for (int j = 0; j < image.getHeight(); j++) {
+                colorsMap[i][j] = itColors.next();
+                if (!itColors.hasNext()) break;
+            }
         }
-        this.palette = colors;
+        System.out.println("Colors Map: "+colorsMap.length);
+        return colorsMap;
     }
 
-    public boolean hasPalette(){
-        return palette.length > 0;
+    //Group all colors by their respective color
+    private Map<Color, Long> retrieveColorsByGroup() {
+       return allColors.stream().collect(
+               Collectors.groupingBy(Function.identity(), Collectors.counting()));
     }
 
-    public boolean isSamePalette(Color[] convertPalette) {
-        ArrayList<Color> originalPalette = new ArrayList<>(Arrays.asList(palette));
-        for (Color colorSlot:convertPalette){
-            if (!originalPalette.contains(colorSlot)) return false;
+    private Color[] retrieveAllDistinctColors() {
+        List<Color> colorsFilter = new ArrayList<>();
+
+        for (Color pixelColor : allColors) {
+            if (!colorsFilter.contains(pixelColor)) colorsFilter.add(pixelColor);
         }
-        return true;
+
+        return colorsFilter.toArray(new Color[colorsFilter.size()]);
     }
 
-    //Converts the palette to a writable byte[]
-    public byte[] getWritablePalette() {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        for (Color color: palette) {
-            outputStream.write(color.getBlue());
-            outputStream.write(color.getGreen());
-            outputStream.write(color.getRed());
-            outputStream.write(color.getAlpha());
+    private ColorUnit[] generateColorUnits() {
+        List<ColorUnit> colorsUnits = new ArrayList<>();
+
+        for (Color distinctColor : allDistinctColors) {
+            long occurrences = colorsGroup.get(distinctColor);
+            colorsUnits.add(new ColorUnit(distinctColor, occurrences));
         }
-        return outputStream.toByteArray();
+
+        return colorsUnits.toArray(new ColorUnit[colorsUnits.size()]);
     }
+
+    public void changeSortingMethod() {
+        this.sortingIndex++;
+        if(sortingIndex>=SORTING_METHODS.length) this.sortingIndex = 0;
+    }
+
+    public Color[] getSortedColors() {
+        ColorUnit[] colorsUnits = Arrays.copyOf(this.sortedColors, sortedColors.length);
+        Arrays.sort(colorsUnits, SORTING_METHODS[sortingIndex]);
+        return colorsUnits;
+    }
+
+    public String getSortingMethod(){
+        return SORTING_METHODS[sortingIndex].toString();
+    }
+
 }

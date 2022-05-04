@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class ActionPanel extends JPanel {
+    protected static final int[] FILLER_DIMENSIONS = {1, 5};
 
     class CustomFlow extends FlowLayout{
         public CustomFlow(int align) {

@@ -7,12 +7,14 @@ import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.ColorsRepresentatio
 import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.PaletteRepresentation;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class ColorsPanel extends ActionPanel{
-    private static final int[] FILLER_DIMENSIONS = {1, 5};
+    private static final int[] SORT_DISPLAY_FILLER = {1, 3};
     private static final int[] OPTIONS_DIMENSIONS = {28, 28};
 
+    public JLabel lblCriteria;
     public JButton btnColorGrid;
     public JButton btnColorSorter;
     public ColorsRepresentation pnlColorsRepresentation;
@@ -41,6 +43,17 @@ public class ColorsPanel extends ActionPanel{
         pnlGrid.setLayout(new CustomFlow(FlowLayout.LEFT));
         pnlGrid.add(btnColorGrid);
 
+        //SorterDisplay
+        JPanel pnlSorterDisplay = new JPanel();
+
+        JPanel pnlCriteria = new JPanel();
+        lblCriteria = new JLabel();
+        lblCriteria.setText("None");
+        lblCriteria.setHorizontalAlignment(JLabel.CENTER);
+        lblCriteria.setFont(new Font("SansSerif", Font.BOLD, 12));
+        pnlCriteria.setLayout(new BorderLayout());
+        pnlCriteria.add(lblCriteria, BorderLayout.CENTER);
+
         JPanel pnlColorSorter = new JPanel();
         btnColorSorter = new JButton();
         btnColorSorter.setIcon(new FlatSVGIcon("xyz/yvtq8k3n/pokemon_tile_creator/resources/color_sorting.svg", 16, 16));
@@ -49,17 +62,23 @@ public class ColorsPanel extends ActionPanel{
         pnlColorSorter.setLayout(new CustomFlow(FlowLayout.RIGHT));
         pnlColorSorter.add(btnColorSorter);
 
-        pnlMenu.setLayout(new GridLayout(1,2));
-        pnlMenu.add(pnlGrid);
-        pnlMenu.add(pnlColorSorter);
+        pnlSorterDisplay.setLayout(new BorderLayout());
+        pnlSorterDisplay.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        pnlSorterDisplay.add(pnlCriteria, BorderLayout.CENTER);
+        pnlSorterDisplay.add(pnlColorSorter, BorderLayout.LINE_END);
+
+        pnlMenu.setLayout(new BorderLayout());
+        pnlMenu.add(pnlGrid, BorderLayout.LINE_START);
+        pnlMenu.add(pnlSorterDisplay, BorderLayout.CENTER);
 
         pnlColorsRepresentation = new ColorsRepresentation();
         pnlPaletteRepresentation = new PaletteRepresentation();
 
         //Add Components
+        Dimension sortDisplayFiller = TileHelper.createDimension(SORT_DISPLAY_FILLER);
         Dimension dimFiller = TileHelper.createDimension(FILLER_DIMENSIONS);
         add(pnlMenu);
-        add(new Box.Filler(dimFiller, dimFiller, dimFiller));
+        add(new Box.Filler(sortDisplayFiller, sortDisplayFiller, sortDisplayFiller));
         add(pnlColorsRepresentation);
         add(new Box.Filler(dimFiller, dimFiller, dimFiller));
         add(pnlPaletteRepresentation);

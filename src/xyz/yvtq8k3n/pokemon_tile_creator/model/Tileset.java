@@ -6,59 +6,48 @@ import xyz.yvtq8k3n.pokemon_tile_creator.FileWatcher;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import static xyz.yvtq8k3n.pokemon_tile_creator.model.ColorModel.PALETTE_LIMIT;
-
+import java.util.List;
 
 @Data
 public class Tileset {
+    protected static final int PALETTE_LIMIT = 16;
+
     private MyFileWatcher fileWatcher;
     private File imageFile;
     private BufferedImage image;
+    private Color[] palette;
+
     private ColorModel colorModel;
 
-    public Tileset() {
-        colorModel = new ColorModel();
+    protected Tileset() {
+        this.palette = new Color[0];
     }
 
     public Tileset(File imageFile) throws IOException {
+        super();
         this.imageFile = imageFile;
         this.image = TileHelper.readImage(imageFile);
-        this.colorModel = new ColorModel(image);
+        this.colorModel = new ColorModel(this);
+        this.palette = calculatePalette();
 
         if (fileWatcher != null) fileWatcher.stopThread();
         fileWatcher = new MyFileWatcher(imageFile);
         fileWatcher.start();
     }
 
-    public void reloadImage() throws IOException {
-        this.image = ImageIO.read(this.imageFile);
-    }
-
     public boolean hasImage(){
         return image != null;
-    }
-
-    public boolean hasPalette(){
-        return colorModel != null && colorModel.hasPalette();
-    }
-
-    //Converts the palette to a writable byte[]
-    public byte[] getWritablePalette() {
-       return colorModel.getWritablePalette();
     }
 
     public void generateImage(BufferedImage image, Color[] colors){
         BufferedImage image_clone = TileHelper.copyImage(image);
 
         //Load both palettes
-        Color[] palette = colorModel.getPalette();
         ArrayList<Color> colorsArray = new ArrayList<>(Arrays.asList(colors));
 
         //Match Converted Palette with Original Palette by index
@@ -73,8 +62,48 @@ public class Tileset {
         this.image = image_clone;
     }
 
-    public boolean isSamePalette(Color[] palette) {
-        return getColorModel().isSamePalette(palette);
+    public void addPalette(byte[] palette) {
+        Color[] colors = new Color[PALETTE_LIMIT];
+
+        int counter = 0;
+        for (int i=0;i<palette.length;i+=4) {
+            byte blue = palette[i];
+            byte green = palette[i+1];
+            byte red = palette[i+2];
+            colors [counter] = new Color(red & 0xFF, green & 0xFF, blue & 0xFF);
+            counter++;
+        }
+        this.palette = colors;
+    }
+
+    public Color[] calculatePalette() {
+        Color[] distinctColors = colorModel.getAllDistinctColors();
+        int limit = Math.min(PALETTE_LIMIT, distinctColors.length);
+        return Arrays.copyOfRange(distinctColors, 0, limit);
+    }
+
+    public boolean hasPalette(){
+        return palette.length > 0;
+    }
+
+    public boolean isSamePalette(Color[] convertPalette) {
+        ArrayList<Color> originalPalette = new ArrayList<>(Arrays.asList(palette));
+        for (Color colorSlot:convertPalette){
+            if (!originalPalette.contains(colorSlot)) return false;
+        }
+        return true;
+    }
+
+    //Converts the palette to a writable byte[]
+    public byte[] getWritablePalette() {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        for (Color color: palette) {
+            outputStream.write(color.getBlue());
+            outputStream.write(color.getGreen());
+            outputStream.write(color.getRed());
+            outputStream.write(color.getAlpha());
+        }
+        return outputStream.toByteArray();
     }
 
     class MyFileWatcher extends FileWatcher {
