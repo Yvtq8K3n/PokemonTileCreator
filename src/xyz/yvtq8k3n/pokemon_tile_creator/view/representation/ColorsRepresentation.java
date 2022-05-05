@@ -1,16 +1,20 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
+import xyz.yvtq8k3n.pokemon_tile_creator.ColorHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.Selector;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.*;
-import java.awt.geom.Area;
 
 public class ColorsRepresentation extends SelectableRepresentation {
     private static final int[] IMG_DIMENSIONS = {128, 320};
+    protected List<Color> selectedColors;
     protected Color[] sortedColors;
 
     public ColorsRepresentation() {
         super();
+        this.selectedColors = new ArrayList<>();
         setPreferredSize(TileHelper.createDimension(IMG_DIMENSIONS));
     }
 
@@ -31,26 +35,56 @@ public class ColorsRepresentation extends SelectableRepresentation {
     }
 
     @Override
-    protected void drawPaintFilter(Graphics g, Selector selector) {
-        if (hasColorFilter()){
-            Area area = selector.getSelectorArea();
-            g.setColor(FILTER_BACKGROUND);
-            /*for (int i = 0; i < image.getWidth(); i++) {
-                for (int j = 0; j < image.getHeight(); j++) {
-                    Color pixelColor = new Color(image.getRGB(i, j));
-                    if (area.contains(i, j ) &&
-                            !pixelColor.equals(colorFilter)){
-                        g.fillRect(i, j, 1,1);
-                    }
-                }
-            }*/
+    public void reset(){
+        super.reset();
+
+        //Removes selectedColors from Selector
+        selectedColors.clear();
+    }
+
+
+    public void sortMethodChanged() {
+        multiSelector.resetSelectionEntries();
+        for (int i = 0; i < sortedColors.length; i++) {
+            if (selectedColors.contains(sortedColors[i])){
+                System.out.println(i);
+                Point point = TileHelper.calculateXYCoordinates(i);
+                multiSelector.addSelectionEntry(point.x, point.y);
+                System.out.println(point.x+":"+point.y);
+            }
         }
     }
 
     @Override
-    public void moveSelector(int x, int y){
-        super.moveSelector(x, y);
-        //MainController.setDisplayBlock(image, singleSelector.getInitialLocation());
+    protected void drawPaintFilter(Graphics g, Selector selector) {}
+
+    @Override
+    public void addMultiSelectorPoint(int x, int y) {
+        super.addMultiSelectorPoint(x, y);
+        addSelectedColor(x, y);
+    }
+
+    @Override
+    public void removeMultiSelectorPoint(int x, int y) {
+        super.removeMultiSelectorPoint(x, y);
+        removeSelectedColor(x, y);
+    }
+
+    private void addSelectedColor(int x, int y) {
+        int index = TileHelper.calculateColorsIndex(x, y);
+        if (index >= 0 && index<sortedColors.length){
+            Color color = sortedColors[index];
+            if (!selectedColors.contains(color)){
+                this.selectedColors.add(color);
+            }
+        }
+    }
+
+    private void removeSelectedColor(int x, int y) {
+        int index = TileHelper.calculateColorsIndex(x, y);
+        if (index > 0 && index<sortedColors.length){
+            this.selectedColors.remove(sortedColors[index]);
+        }
     }
 
     public boolean hasRepresentation(){

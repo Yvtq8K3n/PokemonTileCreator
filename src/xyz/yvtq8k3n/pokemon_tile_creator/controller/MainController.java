@@ -83,24 +83,23 @@ public enum MainController {
         view.blockRepresentation.setImage(model.getTilesetOriginal().getImage());
 
         if (model.getTilesetOriginal().hasPalette()){
-            //A bit black magic i should maybe change this
             view.colorsPanelOriginal.pnlColorsRepresentation.setSortedColors(
-                    model.getTilesetOriginal().getColorModel().getSortedColors());
+                    model.getOriginalColorModel().getSortedColors());
             view.colorsPanelOriginal.lblCriteria.setText(
-                    model.getTilesetOriginal().getColorModel().getSortingMethod());
+                    model.getOriginalColorModel().getSortingMethod());
         }
         updateView();
     }
 
     public static void changeColorSortingOrder() {
         if (model.getTilesetOriginal().hasPalette()){
-            //A bit black magic i should maybe change this
-            model.getTilesetOriginal().getColorModel().changeSortingMethod();
+            model.getOriginalColorModel().changeSortingMethod();
 
             view.colorsPanelOriginal.pnlColorsRepresentation.setSortedColors(
-                    model.getTilesetOriginal().getColorModel().getSortedColors());
+                    model.getOriginalColorModel().getSortedColors());
             view.colorsPanelOriginal.lblCriteria.setText(
-                    model.getTilesetOriginal().getColorModel().getSortingMethod());
+                    model.getOriginalColorModel().getSortingMethod());
+            view.colorsPanelOriginal.pnlColorsRepresentation.sortMethodChanged();
         }
         updateView();
     }

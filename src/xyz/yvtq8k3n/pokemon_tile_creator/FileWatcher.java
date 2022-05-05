@@ -1,6 +1,8 @@
 package xyz.yvtq8k3n.pokemon_tile_creator;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.nio.channels.FileLock;
 import java.nio.file.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -47,6 +49,12 @@ public abstract class FileWatcher extends Thread {
                     } else if (kind == java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY
                             && filename.toString().equals(file.getName())) {
                         System.out.println(file.getName() + ": " + kind.name());
+
+                        //Wait for file to be readable
+                        while(!file.renameTo(file)) {
+                            // Cannot read from file, windows still working on it.
+                            Thread.sleep(1);
+                        }
                         doOnChange();
                     }
                     boolean valid = key.reset();

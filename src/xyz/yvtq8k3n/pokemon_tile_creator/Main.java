@@ -16,7 +16,6 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         ApplicationModel model = new ApplicationModel();
         ApplicationView view = new ApplicationView();
 

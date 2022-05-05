@@ -28,6 +28,10 @@ public class MultiSelector extends Selector{
         selectionPoints.remove(selectionEntry);
     }
 
+    public void resetSelectionEntries(){
+        selectionPoints.clear();
+    }
+
     @Override
     public void setState(int state) {
         super.setState(state);
@@ -55,7 +59,7 @@ public class MultiSelector extends Selector{
 
         g.setColor(SELECTOR_COLOR);
         for (Point point:selectionPoints) {
-            g.drawRect((int)point.getX(), (int)point.getY(), BLOCK, BLOCK);
+            g.drawRect(point.x, point.y, BLOCK, BLOCK);
         }
     }
 

@@ -2,11 +2,11 @@ package xyz.yvtq8k3n.pokemon_tile_creator;
 
 import java.awt.*;
 
+import static xyz.yvtq8k3n.pokemon_tile_creator.TileHelper.BLOCK;
+
 public abstract class ColorHelper {
     protected static final int[] COLOR_RANGE = {0, 248};
-    protected static final int COLOR_STEP = 8;
-
-
+    public static final int COLOR_STEP = 8;
 
     public static double calculateLuminosity(Color color){
         double red = (float) (color.getRed() / 255.0);

@@ -42,6 +42,14 @@ public class ApplicationModel {
         }
     }
 
+    public ColorModel getOriginalColorModel(){
+        return tilesetOriginal.getColorModel();
+    }
+
+    public ColorModel getConvertedColorModel(){
+        return tilesetOriginal.getColorModel();
+    }
+
     public boolean hasConvertedImage(){
         return tilesetConverted.hasImage();
     }

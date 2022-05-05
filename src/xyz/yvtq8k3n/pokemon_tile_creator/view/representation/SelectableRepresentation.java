@@ -115,14 +115,14 @@ public abstract class SelectableRepresentation extends Representation implements
         if (!hasRepresentation()) return;
         //Set selector location
         Point bound = applyBoundsConstraint(x, y);
-        singleSelector.setInitialLocation((int)bound.getX(), (int)bound.getY());
+        singleSelector.setInitialLocation(bound.x, bound.y);
         repaint();
     }
 
     @Override
     public void startAreaSelector(int x, int y) {
         Point bound = applyBoundsConstraint(x, y);
-        areaSelector.setInitialLocation((int)bound.getX(), (int)bound.getY());
+        areaSelector.setInitialLocation(bound.x, bound.y);
         resizeAreaSelector(x, y);
     }
 
@@ -130,7 +130,7 @@ public abstract class SelectableRepresentation extends Representation implements
     public void resizeAreaSelector(int x, int y) {
         if (!hasRepresentation()) return;
         Point bound = applyBoundsConstraint(x, y);
-        areaSelector.resizeSelector((int)bound.getX(), (int)bound.getY());
+        areaSelector.resizeSelector(bound.x, bound.y);
         repaint();
     }
 
@@ -138,14 +138,14 @@ public abstract class SelectableRepresentation extends Representation implements
     public void addMultiSelectorPoint(int x, int y) {
         if (!hasRepresentation()) return;
         Point bound = applyBoundsConstraint(x, y);
-        multiSelector.addSelectionEntry((int)bound.getX(), (int)bound.getY());
+        multiSelector.addSelectionEntry(bound.x, bound.y);
         repaint();
     }
 
     @Override
     public void removeMultiSelectorPoint(int x, int y) {
         Point bound = applyBoundsConstraint(x, y);
-        multiSelector.removeSelectionEntry((int)bound.getX(), (int)bound.getY());
+        multiSelector.removeSelectionEntry(bound.x, bound.y);
         repaint();
     }
 

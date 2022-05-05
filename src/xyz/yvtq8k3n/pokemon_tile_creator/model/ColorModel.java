@@ -67,7 +67,6 @@ public class ColorModel {
                 if (!itColors.hasNext()) break;
             }
         }
-        System.out.println("Colors Map: "+colorsMap.length);
         return colorsMap;
     }
 

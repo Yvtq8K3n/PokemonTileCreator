@@ -7,7 +7,7 @@ public enum ColorUnitFrequencySorting implements ColorUnitComparator {
 
     @Override
     public int compare(ColorUnit o1, ColorUnit o2) {
-        return Long.compare(o1.getOccurrences(), o2.getOccurrences());
+        return Long.compare(o2.getOccurrences(), o1.getOccurrences());
     }
 
     @Override
