@@ -5,7 +5,8 @@ import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.ImagePanel;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.ColorsPanel;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.BlockRepresentation;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.LoadPanel;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.MenuColorsPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,10 +14,9 @@ import java.awt.*;
 
 public class ApplicationView extends JFrame{
     private static final int[] OPTIONS_DIMENSIONS = {32, 32};
-    private static final int[] MENU_DIMENSION = {128, 186};
 
-    final static String BUTTONPANEL = "Card with JButtons";
-    final static String TEXTPANEL = "Card with JTextField";
+    final static String CONVERT_PANEL = "Card for ActionConvert";
+    final static String COLORS_PANEL = "Card for ActionColors";
 
     //Top
     public JToolBar operationsMenu;
@@ -41,10 +41,9 @@ public class ApplicationView extends JFrame{
 
     //Right
     public JPanel pnlRightMenu;
-    public BlockRepresentation blockRepresentation;
-    public JButton btnPalette;
-    public JButton btnImage;
-    public JButton btnExport;
+    public CardLayout menuCardLayout;
+    public LoadPanel loadPanel;
+    public MenuColorsPanel menuColorsPanel;
 
     public ApplicationView() {
         initComponents();
@@ -148,19 +147,16 @@ public class ApplicationView extends JFrame{
         pnlDisplayBodyContext = new JPanel();
         imgDisplayOriginal = new ImagePanel();
 
-
+        //ActionPanel
         actionPanel = new JPanel();
         actionCardLayout = new CardLayout();
-
-        //ActionPanels
         imgDisplayConverted = new ImagePanel();
         colorsPanelOriginal = new ColorsPanel();
 
         actionPanel.setLayout(actionCardLayout);
-        actionPanel.add(imgDisplayConverted, BUTTONPANEL);
-        actionPanel.add(colorsPanelOriginal, TEXTPANEL);
-        actionCardLayout.show(actionPanel, BUTTONPANEL);
-
+        actionPanel.add(imgDisplayConverted, CONVERT_PANEL);
+        actionPanel.add(colorsPanelOriginal, COLORS_PANEL);
+        actionCardLayout.show(actionPanel, CONVERT_PANEL);
 
         pnlDisplayBodyContext.setLayout(new FlowLayout());
         pnlDisplayBodyContext.add(imgDisplayOriginal);
@@ -169,24 +165,16 @@ public class ApplicationView extends JFrame{
 
     public void initRightComponents(){
         pnlRightMenu = new JPanel();
+        menuCardLayout = new CardLayout();
 
-        JPanel pnlBlockDisplay = new JPanel();
-        blockRepresentation = new BlockRepresentation();
-        pnlBlockDisplay.add(blockRepresentation);
+        //Create Right Menu Panels
+        loadPanel = new LoadPanel();
+        menuColorsPanel = new MenuColorsPanel();
 
-        JPanel pnlButtons = new JPanel();
-        btnPalette = new JButton("PALETTE");
-        btnImage = new JButton("IMAGE");
-        btnExport = new JButton("EXPORT");
-        pnlButtons.setLayout(new GridLayout(3, 1, 15, 15));
-        pnlButtons.setPreferredSize(TileHelper.createDimension(MENU_DIMENSION));
-        pnlButtons.add(btnPalette);
-        pnlButtons.add(btnImage);
-        pnlButtons.add(btnExport);
-
-        pnlRightMenu.setLayout(new BorderLayout());
-        pnlRightMenu.add(pnlBlockDisplay,BorderLayout.PAGE_START);
-        pnlRightMenu.add(pnlButtons,BorderLayout.CENTER);
+        pnlRightMenu.setLayout(menuCardLayout);
+        pnlRightMenu.add(loadPanel, CONVERT_PANEL);
+        pnlRightMenu.add(menuColorsPanel, COLORS_PANEL);
+        menuCardLayout.show(pnlRightMenu, CONVERT_PANEL);
     }
 
 
@@ -195,12 +183,13 @@ public class ApplicationView extends JFrame{
         btnSelectOperator.addActionListener(e -> MainController.setOperatorSelection());
         btnAreaSelectOperator.addActionListener(e -> MainController.setOperatorAreaSelection());
         btnMultiSelectOperator.addActionListener(e -> MainController.setOperatorMultiSelection());
-        btnActionConvert.addActionListener(e -> actionCardLayout.show(actionPanel, BUTTONPANEL));
-        btnActionPalette.addActionListener(e -> actionCardLayout.show(actionPanel, TEXTPANEL));
-
-        //Right Menu
-        btnPalette.addActionListener(e -> MainController.loadPalette());
-        btnImage.addActionListener(e -> MainController.loadImage());
-        btnExport.addActionListener(e -> MainController.exportTileset());
+        btnActionConvert.addActionListener(e -> {
+            actionCardLayout.show(actionPanel, CONVERT_PANEL);
+            menuCardLayout.show(pnlRightMenu, CONVERT_PANEL);
+        });
+        btnActionPalette.addActionListener(e -> {
+            actionCardLayout.show(actionPanel, COLORS_PANEL);
+            menuCardLayout.show(pnlRightMenu, COLORS_PANEL);
+        });
     }
 }

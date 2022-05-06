@@ -44,13 +44,13 @@ public enum MainController {
     }
 
     public static void setDisplayBlock(BufferedImage image, int[] initialLocation) {
-         view.blockRepresentation.setImage(image, initialLocation[0], initialLocation[1]);
+         view.loadPanel.blockRepresentation.setImage(image, initialLocation[0], initialLocation[1]);
     }
 
     public static void setImageColorFilter(Color color) {
         view.imgDisplayOriginal.pnlTileRepresentation.setColorFilter(color);
         if (selectedOperator == operators[0]){
-            view.blockRepresentation.setColorFilter(color);
+            view.loadPanel.blockRepresentation.setColorFilter(color);
         }
     }
 
@@ -80,7 +80,7 @@ public enum MainController {
         if (model.getTilesetConverted().hasPalette()){
             view.imgDisplayConverted.pnlTileRepresentation.setImage(model.getTilesetConverted().getImage());
         }
-        view.blockRepresentation.setImage(model.getTilesetOriginal().getImage());
+        view.loadPanel.blockRepresentation.setImage(model.getTilesetOriginal().getImage());
 
         if (model.getTilesetOriginal().hasPalette()){
             view.colorsPanelOriginal.pnlColorsRepresentation.setSortedColors(
