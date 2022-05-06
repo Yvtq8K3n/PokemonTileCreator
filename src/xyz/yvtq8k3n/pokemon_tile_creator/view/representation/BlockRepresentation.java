@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+//Maybe I should change this to BlockDisplay and Display abstract class
 public class BlockRepresentation extends Representation {
     private static final int[] DISPLAY_DIMENSIONS = {128, 128};
     private static final int BLOCK = 16;
