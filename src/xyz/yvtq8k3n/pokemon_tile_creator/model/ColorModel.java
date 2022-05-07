@@ -83,6 +83,7 @@ public class ColorModel {
             if (!colorsFilter.contains(pixelColor)) colorsFilter.add(pixelColor);
         }
 
+        System.out.println("AllDifferentColors:"+ colorsFilter.size());
         return colorsFilter.toArray(new Color[colorsFilter.size()]);
     }
 
