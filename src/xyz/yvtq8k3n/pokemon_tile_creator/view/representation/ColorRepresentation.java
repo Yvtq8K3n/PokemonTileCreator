@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ColorRepresentation extends Representation{
-    private static final int[] DISPLAY_DIMENSIONS = {72, 72};
+    public static final int[] DISPLAY_DIMENSIONS = {72, 72};
     protected Color selectedColor;
 
     public ColorRepresentation() {

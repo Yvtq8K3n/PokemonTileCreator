@@ -9,7 +9,7 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 
 public class ColorScrollbar extends JPanel {
-    private static final int[] PARENT = {112, 96};
+    private static final int[] PARENT = {112, 80};
     ScrollComponent scrollRed;
     ScrollComponent scrollGreen;
     ScrollComponent scrollBlue;
