@@ -1,12 +1,14 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.component;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.awt.event.KeyEvent;
 
 public class ColorScrollbar extends JPanel {
     private static final int[] PARENT = {112, 80};
@@ -34,6 +36,18 @@ public class ColorScrollbar extends JPanel {
         setPreferredSize(TileHelper.createDimension(PARENT));
         add(pnlGrid);
 
+    }
+
+    public void setSelectedColor(Color color) {
+        scrollRed.setValue(color.getRed());
+        scrollGreen.setValue(color.getGreen());
+        scrollBlue.setValue(color.getBlue());
+    }
+
+    public void setChangingColor(Color color) {
+        scrollRed.setValue(color.getRed());
+        scrollGreen.setValue(color.getGreen());
+        scrollBlue.setValue(color.getBlue());
     }
 
     public class ScrollComponent extends JComponent implements AdjustmentListener {
@@ -69,15 +83,24 @@ public class ColorScrollbar extends JPanel {
             add(pnlScroll, BorderLayout.CENTER);
         }
 
-        @Override
-        public void adjustmentValueChanged(AdjustmentEvent e) {
-            int value = e.getValue() / 8 * 8;
-            //textField.setText(String.valueOf(value));
+        public void setValue(int value) {
+            value = value / 8 * 8;
+            jScrollBar.setValue(value);
         }
 
-        public void setValue(int value) {
-            //jScrollBar.setValue(value);
-            //textField.setText(String.valueOf(value));
+        public int getValue() {
+            return jScrollBar.getValue();
+        }
+
+        @Override
+        public void adjustmentValueChanged(AdjustmentEvent e) {
+            if (e.getValueIsAdjusting()){
+                MainController.setDisplayChangingColor(new Color(
+                        scrollRed.getValue(),
+                        scrollGreen.getValue(),
+                        scrollBlue.getValue()
+                ));
+            }
         }
     }
 }

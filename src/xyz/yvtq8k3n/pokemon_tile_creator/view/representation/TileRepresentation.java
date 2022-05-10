@@ -46,8 +46,16 @@ public class TileRepresentation extends SelectableRepresentation {
     }
 
     @Override
-    public void moveSelector(int x, int y){
-        super.moveSelector(x, y);
+    public void moveSingleSelector(int x, int y){
+        //Replace x(0, max) if it's out of viewport
+        x = Math.min(x, image.getWidth() - BLOCK);
+        x = Math.max(x, 0);
+
+        //Replace y(0, max) if it's out of viewport
+        y = Math.min(y, image.getHeight() - BLOCK);
+        y = Math.max(y, 0);
+
+        super.moveSingleSelector(x, y);
         MainController.setDisplayBlock(image, singleSelector.getInitialLocation());
     }
 

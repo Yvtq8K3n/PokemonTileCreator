@@ -15,13 +15,11 @@ import java.util.Arrays;
 @Data
 public class Tileset {
     protected static final int PALETTE_LIMIT = 16;
-
-    private MyFileWatcher fileWatcher;
     private File imageFile;
     private BufferedImage image;
     private Color[] palette;
-
     private ColorModel colorModel;
+    private MyFileWatcher fileWatcher;
 
     protected Tileset() {
         this.palette = new Color[0];

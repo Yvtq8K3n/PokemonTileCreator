@@ -10,12 +10,12 @@ public class SingleSelectorOperator extends Operator {
     @Override
     public void mousePressed(MouseEvent e) {
         SelectableBehaviour s = (SelectableBehaviour)e.getSource();
-        if (SwingUtilities.isLeftMouseButton(e)) s.startSelector(e.getX(), e.getY());
+        if (SwingUtilities.isLeftMouseButton(e)) s.startSingleSelector(e.getX(), e.getY());
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         SelectableBehaviour s = (SelectableBehaviour)e.getSource();
-        if (SwingUtilities.isLeftMouseButton(e)) s.moveSelector(e.getX(), e.getY());
+        if (SwingUtilities.isLeftMouseButton(e)) s.moveSingleSelector(e.getX(), e.getY());
     }
 }

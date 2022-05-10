@@ -21,9 +21,8 @@ public class ColorModel {
 
     private Tileset tileset;
     private List<Color> allColors;
-    private Color[][] colorsMap;
-    private Map<Color, Long> colorsGroup;
     private Color[] allDistinctColors;
+    private Map<Color, List<Point>> colorsMap;
     private ColorUnit[] sortedColors;
     public int sortingIndex;
 
@@ -35,9 +34,8 @@ public class ColorModel {
         this();
         this.tileset = tileset;
         this.allColors = retrieveAllColors();  //Contains all colors
-        this.colorsMap = calculateColorsMap(); //Used to map colors directly on the tileset
-        this.colorsGroup = retrieveColorsByGroup(); //Group colors to count occurrences
         this.allDistinctColors = retrieveAllDistinctColors();  //Contains only first occurrence of each color
+        this.colorsMap = calculateColorsMap(); //Group colors to count occurrences
         this.sortedColors = generateColorUnits();
     }
 
@@ -55,32 +53,32 @@ public class ColorModel {
         return colors;
     }
 
-    //Loads all colors into a 2-D array respecting their location on the image
-    private Color[][] calculateColorsMap() {
-        BufferedImage image = tileset.getImage();
+    //Group all colors by their respective color
+    private Map<Color, List<Point>> calculateColorsMap() {
+        Map<Color, List<Point>> colorsGroup = new HashMap();
         Iterator<Color> itColors = allColors.listIterator();
 
-        Color[][] colorsMap = new Color[image.getWidth()][image.getHeight()];
+        BufferedImage image = tileset.getImage();
         for (int i = 0; i < image.getWidth(); i++) {
             for (int j = 0; j < image.getHeight(); j++) {
-                colorsMap[i][j] = itColors.next();
-                if (!itColors.hasNext()) break;
+                Color color = itColors.next();
+                if(!colorsGroup.containsKey(color)){
+                    colorsGroup.put(color,new ArrayList<>());
+                }
+                List<Point> list = colorsGroup.get(color);
+                list.add(new Point(i, j));
             }
         }
-        return colorsMap;
-    }
-
-    //Group all colors by their respective color
-    private Map<Color, Long> retrieveColorsByGroup() {
-       return allColors.stream().collect(
-               Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        return colorsGroup;
     }
 
     private Color[] retrieveAllDistinctColors() {
         List<Color> colorsFilter = new ArrayList<>();
 
         for (Color pixelColor : allColors) {
-            if (!colorsFilter.contains(pixelColor)) colorsFilter.add(pixelColor);
+            if (!colorsFilter.contains(pixelColor)){
+                colorsFilter.add(pixelColor);
+            }
         }
 
         System.out.println("AllDifferentColors:"+ colorsFilter.size());
@@ -91,7 +89,8 @@ public class ColorModel {
         List<ColorUnit> colorsUnits = new ArrayList<>();
 
         for (Color distinctColor : allDistinctColors) {
-            long occurrences = colorsGroup.get(distinctColor);
+            List<Point> colorPoints = colorsMap.get(distinctColor);
+            long occurrences = colorPoints.size();
             colorsUnits.add(new ColorUnit(distinctColor, occurrences));
         }
 

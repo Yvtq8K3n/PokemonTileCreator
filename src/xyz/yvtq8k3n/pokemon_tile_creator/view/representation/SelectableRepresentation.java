@@ -106,12 +106,12 @@ public abstract class SelectableRepresentation extends Representation implements
     }
 
     @Override
-    public void startSelector(int x, int y){
-        moveSelector(x, y);
+    public void startSingleSelector(int x, int y){
+        moveSingleSelector(x, y);
     }
 
     @Override
-    public void moveSelector(int x, int y){
+    public void moveSingleSelector(int x, int y){
         if (!hasRepresentation()) return;
         //Set selector location
         Point bound = applyBoundsConstraint(x, y);

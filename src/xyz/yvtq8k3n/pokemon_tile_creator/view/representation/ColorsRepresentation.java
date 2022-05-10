@@ -1,6 +1,6 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
-import xyz.yvtq8k3n.pokemon_tile_creator.ColorHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.Selector;
 
 import java.util.ArrayList;
@@ -57,6 +57,18 @@ public class ColorsRepresentation extends SelectableRepresentation {
 
     @Override
     protected void drawPaintFilter(Graphics g, Selector selector) {}
+
+    @Override
+    public void moveSingleSelector(int x, int y){
+        super.moveSingleSelector(x, y);
+
+        //Calculate the index of the wanted color by converting the x and y coordinates
+        int index = TileHelper.calculateColorsIndex(x, y);
+        if (index>= 0 && index<sortedColors.length) {
+            Color selectedColor = sortedColors[index];
+            MainController.setDisplayColor(selectedColor);
+        }
+    }
 
     @Override
     public void addMultiSelectorPoint(int x, int y) {

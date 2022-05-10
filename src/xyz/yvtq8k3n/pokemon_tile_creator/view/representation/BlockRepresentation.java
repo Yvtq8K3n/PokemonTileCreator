@@ -54,14 +54,6 @@ public class BlockRepresentation extends Representation {
     }
 
     public void setImage(BufferedImage image, int x, int y) {
-        //Replace x(0, max) if it's out of viewport
-        x = Math.min(x, image.getWidth() - BLOCK);
-        x = Math.max(x, 0);
-
-        //Replace y(0, max) if it's out of viewport
-        y = Math.min(y, image.getHeight() - BLOCK);
-        y = Math.max(y, 0);
-
         //Crop from image wanted box
         this.initialLocation = new int[]{x, y};
         BufferedImage subImage = image.getSubimage(x, y, BLOCK, BLOCK);

@@ -3,45 +3,46 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.component.ColorScrollbar;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.component.ColorTextField;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.ColorRepresentation;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class MenuColorsPanel extends ActionPanel{
 
     //ColorsPanel
-    JPanel pnlColor;
-    JPanel pnlPalette;
+    public JPanel pnlColor;
+    public JPanel pnlPalette;
 
-    JPanel pnlColorMenu; //ColorMenu
-    JButton btnSave;
-    JButton btnRevert;
-    JButton btnAddToList;
+    public JPanel pnlColorMenu; //ColorMenu
+    public JButton btnSave;
+    public JButton btnRevert;
+    public JButton btnAddToList;
 
-    JPanel pnlColorPicker; //ColorPicker
-    ColorRepresentation colorRepresentation;
-    JTextField txtColorRed;
-    JTextField txtColorBlue;
-    JTextField txtColorGreen;
+    public JPanel pnlColorPicker; //ColorPicker
+    public ColorRepresentation colorRepresentation;
+    public ColorTextField colorTextField;
 
-    JPanel pnlColorScrollbar; //ColorScrollBar
-    ColorScrollbar colorScrollbar;
+    public JPanel pnlColorScrollbar; //ColorScrollBar
+    public ColorScrollbar colorScrollbar;
 
     //Palette
-    JPanel pnlPaletteMenu; //MenuPalette
-    JButton btnViewPalette;
-    JButton btnClustering;
+    public JPanel pnlPaletteMenu; //MenuPalette
+    public JButton btnViewPalette;
+    public JButton btnClustering;
 
-    JPanel pnlPaletteList; //ListPalette
-    JList lstPalette;
+    public JPanel pnlPaletteList; //ListPalette
+    public JList lstPalette;
 
-    JPanel pnlPaletteApply; //ApplyPalette
-    JLabel lblColors;
-    JTextField txtTotalColor;
-    JButton btnApplyPalette;
+    public JPanel pnlPaletteApply; //ApplyPalette
+    public JLabel lblColors;
+    public JTextField txtTotalColor;
+    public JButton btnApplyPalette;
 
 
     public MenuColorsPanel() {
@@ -96,23 +97,10 @@ public class MenuColorsPanel extends ActionPanel{
         pnlCenter.add(colorRepresentation);
 
         JPanel leftPanel = new JPanel();
+        colorTextField = new ColorTextField();
+        leftPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         leftPanel.setPreferredSize(new Dimension(50, 20));
-        txtColorRed = new JTextField();
-        txtColorRed.setForeground(Color.RED);
-        txtColorRed.setText("248");
-        txtColorRed.setColumns(2);
-        txtColorBlue = new JTextField();
-        txtColorBlue.setForeground(Color.BLUE);
-        txtColorBlue.setText("248");
-        txtColorBlue.setColumns(2);
-        txtColorGreen = new JTextField();
-        txtColorGreen.setForeground(Color.GREEN);
-        txtColorGreen.setText("248");
-        txtColorGreen.setColumns(2);
-        leftPanel.setLayout(new FlowLayout());
-        leftPanel.add(txtColorRed);
-        leftPanel.add(txtColorBlue);
-        leftPanel.add(txtColorGreen);
+        leftPanel.add(colorTextField);
 
         pnlColorPicker.setLayout(new BorderLayout(0, 0));
         Dimension dimFiller = TileHelper.createDimension(FILLER_DIMENSIONS);
@@ -229,5 +217,18 @@ public class MenuColorsPanel extends ActionPanel{
     }
 
     private void addEventListeners() {
+
+    }
+
+    public void setSelectedColor(Color color) {
+        colorRepresentation.setSelectedColor(color);
+        colorTextField.setSelectedColor(color);
+        colorScrollbar.setSelectedColor(color);
+    }
+
+    public void setChangingColor(Color color) {
+        colorRepresentation.setChangingColor(color);
+        colorTextField.setChangingColor(color);
+        colorScrollbar.setChangingColor(color);
     }
 }

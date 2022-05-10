@@ -47,6 +47,16 @@ public enum MainController {
          view.loadPanel.blockRepresentation.setImage(image, initialLocation[0], initialLocation[1]);
     }
 
+    public static void setDisplayColor(Color color) {
+        view.menuColorsPanel.setSelectedColor(color);
+        view.menuColorsPanel.repaint();
+    }
+
+    public static void setDisplayChangingColor(Color color) {
+        view.menuColorsPanel.setChangingColor(color);
+        view.menuColorsPanel.repaint();
+    }
+
     public static void setImageColorFilter(Color color) {
         view.imgDisplayOriginal.pnlTileRepresentation.setColorFilter(color);
         if (selectedOperator == operators[0]){
