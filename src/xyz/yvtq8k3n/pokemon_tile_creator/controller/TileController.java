@@ -10,7 +10,7 @@ public enum TileController{
     static ApplicationView view;
 
     public static void initController(ApplicationModel model, ApplicationView view) {
-        MainController.model = model;
-        MainController.view = view;
+        TileController.model = model;
+        TileController.view = view;
     }
 }

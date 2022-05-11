@@ -28,7 +28,7 @@ public class ColorsPanel extends ActionPanel{
 
     private void addEventListeners() {
         btnColorGrid.addActionListener(e -> pnlColorsRepresentation.changeGridIndex());
-        btnColorSorter.addActionListener(e -> MainController.changeColorSortingOrder());
+        //btnColorSorter.addActionListener(e -> MainController.changeColorSortingOrder());
     }
 
     private void initComponents() {

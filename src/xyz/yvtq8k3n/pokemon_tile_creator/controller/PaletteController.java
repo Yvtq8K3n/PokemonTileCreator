@@ -10,7 +10,7 @@ public enum PaletteController{
     static ApplicationView view;
 
     public static void initController(ApplicationModel model, ApplicationView view) {
-        MainController.model = model;
-        MainController.view = view;
+        PaletteController.model = model;
+        PaletteController.view = view;
     }
 }

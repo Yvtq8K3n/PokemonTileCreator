@@ -1,57 +1,78 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.model;
 
 import lombok.Data;
+import xyz.yvtq8k3n.pokemon_tile_creator.model.operators.AreaSelectorOperator;
+import xyz.yvtq8k3n.pokemon_tile_creator.model.operators.MultiSelectorOperator;
+import xyz.yvtq8k3n.pokemon_tile_creator.model.operators.Operator;
+import xyz.yvtq8k3n.pokemon_tile_creator.model.operators.SingleSelectorOperator;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.AreaSelectableBehaviour;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.MultiSelectableBehaviour;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
+
 import java.io.*;
+import java.util.ArrayList;
 
 @Data
 public class ApplicationModel {
-    Tileset tilesetOriginal;
-    Tileset tilesetConverted;
+    enum OperatorState{
+        SINGLE(0),
+        AREA(1),
+        MULTI(2);
+
+        private int value;
+
+        OperatorState(int value){
+            this.value = value;
+        }
+    }
+
+    //Create Tilesets
+    Tileset originalTileset;
+    Tileset generatedTileset;
+
+    //Create Operators
+    Operator[] operators;
+    Operator selectedOperator;
+
+    //Selectable Behaviours Components
+    private static ArrayList<SelectableBehaviour> selectableBehaviours;
+    private static ArrayList<AreaSelectableBehaviour> areaSelectableBehaviours;
+    private static ArrayList<MultiSelectableBehaviour> multiSelectableBehaviours;
 
     public ApplicationModel() {
-        this.tilesetOriginal = new Tileset();
-        this.tilesetConverted = new Tileset();
+        //this.originalTileset = new Tileset();
+        //this.generatedTileset = new Tileset();
+
+        //Create Operators
+        operators = new Operator[]{
+                new SingleSelectorOperator(),
+                new AreaSelectorOperator(),
+                new MultiSelectorOperator()
+        };
+        selectedOperator = operators[0];
+
+        //Create Selectors
+        selectableBehaviours = new ArrayList<>();
+        areaSelectableBehaviours = new ArrayList<>();
+        multiSelectableBehaviours = new ArrayList<>();
     }
 
-    public void createTileset(File imageFile) {
-        if (imageFile == null) throw new IllegalArgumentException("Expecting an image got invalid object");
-        try {
-            this.tilesetOriginal = new Tileset(imageFile);
-            applyPaletteToImage();
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Unable to create tileset:"+e.getMessage());
-        }
-    }
 
-    public void addNewPalette(byte[] palette) {
-        if (palette.length == 0) throw new IllegalArgumentException("Invalid Palette");
-        this.tilesetConverted.addPalette(palette);
-        applyPaletteToImage();
-    }
-
-    public void applyPaletteToImage(){
-        if (tilesetOriginal.hasImage()
-                && tilesetConverted.hasPalette()){
-            //Rearrange palette if it matches previous loaded palette
-            if (tilesetOriginal.isSamePalette(tilesetConverted.getPalette())){
-                tilesetOriginal.setPalette(tilesetConverted.getPalette());
-            }
-
-            //Automatically generates Image when both Palette and Image are loaded
-            tilesetConverted.generateImage(tilesetOriginal.getImage(), tilesetOriginal.getPalette());
-        }
+    public boolean isOperator(OperatorState operatorState){
+        int index = operatorState.value;
+        return selectedOperator == operators[index];
     }
 
     public ColorModel getOriginalColorModel(){
-        return tilesetOriginal.getColorModel();
+        return originalTileset.getColorModel();
     }
 
     public ColorModel getConvertedColorModel(){
-        return tilesetOriginal.getColorModel();
+        return originalTileset.getColorModel();
     }
 
-    public boolean hasConvertedImage(){
-        return tilesetConverted.hasImage();
+    public boolean hasGeneratedImage(){
+        return generatedTileset.hasImage();
     }
 
 }

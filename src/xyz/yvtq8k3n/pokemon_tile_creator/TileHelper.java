@@ -3,10 +3,12 @@ package xyz.yvtq8k3n.pokemon_tile_creator;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
 import static xyz.yvtq8k3n.pokemon_tile_creator.ColorHelper.COLOR_STEP;
+import static xyz.yvtq8k3n.pokemon_tile_creator.model.Tileset.PALETTE_LIMIT;
 
 public abstract class TileHelper {
     protected final static int BLOCK = 16;
@@ -16,14 +18,20 @@ public abstract class TileHelper {
         return new Dimension(dimension[0], dimension[1]);
     }
 
-    public static BufferedImage readImage(File file) throws IOException {
-        BufferedImage image = ImageIO.read(file);
-        for (int x = 0; x < image.getWidth(); x++) {
-            for (int y = 0; y < image.getHeight(); y++) {
-                Color pixelColor = new Color(image.getRGB(x, y));
-                image.setRGB(x, y, ColorHelper.round(pixelColor));
+    public static BufferedImage readImage(File file) {
+        BufferedImage image = null;
+        try{
+            image = ImageIO.read(file);
+            for (int x = 0; x < image.getWidth(); x++) {
+                for (int y = 0; y < image.getHeight(); y++) {
+                    Color pixelColor = new Color(image.getRGB(x, y));
+                    image.setRGB(x, y, ColorHelper.round(pixelColor));
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         return image;
     }
 
@@ -33,6 +41,32 @@ public abstract class TileHelper {
         g2.drawImage(source, 0, 0, null);
         g2.dispose();
         return b;
+    }
+
+    public static Color[] readPalette(byte[] palette) {
+        Color[] colors = new Color[PALETTE_LIMIT];
+
+        int counter = 0;
+        for (int i=0;i<palette.length;i+=4) {
+            byte blue = palette[i];
+            byte green = palette[i+1];
+            byte red = palette[i+2];
+            colors [counter] = new Color(red & 0xFF, green & 0xFF, blue & 0xFF);
+            counter++;
+        }
+       return colors;
+    }
+
+    //Converts the palette to a writable byte[]
+    public static byte[] getWritablePalette(Color[] palette) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        for (Color color: palette) {
+            outputStream.write(color.getBlue());
+            outputStream.write(color.getGreen());
+            outputStream.write(color.getRed());
+            outputStream.write(color.getAlpha());
+        }
+        return outputStream.toByteArray();
     }
 
 

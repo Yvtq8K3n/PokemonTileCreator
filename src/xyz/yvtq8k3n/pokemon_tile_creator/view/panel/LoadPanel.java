@@ -1,6 +1,7 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.LoadController;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.BlockRepresentation;
 
@@ -48,8 +49,14 @@ public class LoadPanel extends ActionPanel{
 
     private void addEventListeners() {
         //Right Menu
-        btnPalette.addActionListener(e -> MainController.loadPalette());
-        btnImage.addActionListener(e -> MainController.loadImage());
-        btnExport.addActionListener(e -> MainController.exportTileset());
+        btnPalette.addActionListener(e -> {
+            LoadController.loadPalette();
+            LoadController.createGenerateTileset();
+        });
+        btnImage.addActionListener(e -> {
+            LoadController.loadImageFromFile();
+            LoadController.createGenerateTileset();
+        });
+        btnExport.addActionListener(e -> LoadController.exportTileset());
     }
 }

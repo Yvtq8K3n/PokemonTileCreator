@@ -4,10 +4,10 @@ import xyz.yvtq8k3n.pokemon_tile_creator.FileReader;
 import xyz.yvtq8k3n.pokemon_tile_creator.FileWriter;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.Tileset;
-import xyz.yvtq8k3n.pokemon_tile_creator.operators.AreaSelectorOperator;
-import xyz.yvtq8k3n.pokemon_tile_creator.operators.MultiSelectorOperator;
-import xyz.yvtq8k3n.pokemon_tile_creator.operators.Operator;
-import xyz.yvtq8k3n.pokemon_tile_creator.operators.SingleSelectorOperator;
+import xyz.yvtq8k3n.pokemon_tile_creator.model.operators.AreaSelectorOperator;
+import xyz.yvtq8k3n.pokemon_tile_creator.model.operators.MultiSelectorOperator;
+import xyz.yvtq8k3n.pokemon_tile_creator.model.operators.Operator;
+import xyz.yvtq8k3n.pokemon_tile_creator.model.operators.SingleSelectorOperator;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.ApplicationView;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.AreaSelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.MultiSelectableBehaviour;
@@ -58,51 +58,34 @@ public enum MainController {
     }
 
     public static void setImageColorFilter(Color color) {
-        view.imgDisplayOriginal.pnlTileRepresentation.setColorFilter(color);
+        view.originalTilesetPanel.tileRepresentation.setColorFilter(color);
         if (selectedOperator == operators[0]){
             view.loadPanel.blockRepresentation.setColorFilter(color);
         }
     }
 
-    public static void loadPalette(){
-        //Call Helper File Reader to load Palette
-        byte [] palette = FileReader.loadPalette();
-        model.addNewPalette(palette);
 
-        //Call Model and Update
-        view.imgDisplayConverted.pnlPaletteRepresentation.setPalette(model.getTilesetConverted().getPalette());
-        if (model.getTilesetOriginal().hasImage()){
-            view.imgDisplayConverted.pnlTileRepresentation.setImage(model.getTilesetConverted().getImage());
-        }
-        updateView();
-    }
 
-    public static void loadImage(){
-        //Call Helper File Reader to load Image
-        File image = FileReader.loadImage();
-        loadImage(image);
-    }
-
-    public static void loadImage(File imageFile){
+   /* public static void loadImage(File imageFile){
         model.createTileset(imageFile);
-        view.imgDisplayOriginal.pnlTileRepresentation.setImage(model.getTilesetOriginal().getImage());
-        view.imgDisplayOriginal.pnlPaletteRepresentation.setPalette(model.getTilesetOriginal().getPalette());
-        if (model.getTilesetConverted().hasPalette()){
-            view.imgDisplayConverted.pnlTileRepresentation.setImage(model.getTilesetConverted().getImage());
+        view.originalTilesetPanel.tileRepresentation.setImage(model.getOriginalTileset().getImage());
+        view.originalTilesetPanel.paletteRepresentation.setPalette(model.getOriginalTileset().getPalette());
+        if (model.getGeneratedTileset().hasPalette()){
+            view.tilesetPanelConverted.tileRepresentation.setImage(model.getGeneratedTileset().getImage());
         }
-        view.loadPanel.blockRepresentation.setImage(model.getTilesetOriginal().getImage());
+        view.loadPanel.blockRepresentation.setImage(model.getOriginalTileset().getImage());
 
-        if (model.getTilesetOriginal().hasPalette()){
+        if (model.getOriginalTileset().hasPalette()){
             view.colorsPanelOriginal.pnlColorsRepresentation.setSortedColors(
                     model.getOriginalColorModel().getSortedColors());
             view.colorsPanelOriginal.lblCriteria.setText(
                     model.getOriginalColorModel().getSortingMethod());
         }
         updateView();
-    }
+    }*/
 
-    public static void changeColorSortingOrder() {
-        if (model.getTilesetOriginal().hasPalette()){
+    /*public static void changeColorSortingOrder() {
+        if (model.getOriginalTileset().hasPalette()){
             model.getOriginalColorModel().changeSortingMethod();
 
             view.colorsPanelOriginal.pnlColorsRepresentation.setSortedColors(
@@ -112,19 +95,11 @@ public enum MainController {
             view.colorsPanelOriginal.pnlColorsRepresentation.sortMethodChanged();
         }
         updateView();
-    }
+    }*/
 
 
     public static void updateView() {
         view.repaint();
-    }
-
-    public static void exportTileset() {
-        if (model.hasConvertedImage()){
-            Tileset paletteConverted = model.getTilesetConverted();
-            FileWriter.writeTileset(paletteConverted.getImage(),
-                    model.getTilesetOriginal().getWritablePalette());
-        }
     }
 
 

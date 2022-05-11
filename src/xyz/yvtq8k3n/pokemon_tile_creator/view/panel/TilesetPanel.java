@@ -2,28 +2,29 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
+import xyz.yvtq8k3n.pokemon_tile_creator.model.Tileset;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.PaletteRepresentation;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.TileRepresentation;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ImagePanel extends ActionPanel{
+public class TilesetPanel extends ActionPanel{
     private static final int[] FILLER_DIMENSIONS = {1, 5};
     private static final int[] OPTIONS_DIMENSIONS = {28, 28};
 
     public JButton btnGrid;
-    public TileRepresentation pnlTileRepresentation;
-    public PaletteRepresentation pnlPaletteRepresentation;
+    public TileRepresentation tileRepresentation;
+    public PaletteRepresentation paletteRepresentation;
 
-    public ImagePanel() {
+    public TilesetPanel() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         initComponents();
         addEventListeners();
     }
 
     private void addEventListeners() {
-        btnGrid.addActionListener(e -> pnlTileRepresentation.changeGridIndex());
+        btnGrid.addActionListener(e -> tileRepresentation.changeGridIndex());
     }
 
     private void initComponents() {
@@ -42,18 +43,29 @@ public class ImagePanel extends ActionPanel{
         pnlMenu.setLayout(new BoxLayout(pnlMenu, BoxLayout.LINE_AXIS));
         pnlMenu.add(pnlButtons);
 
-        pnlTileRepresentation = new TileRepresentation();
-        pnlTileRepresentation.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        tileRepresentation = new TileRepresentation();
+        tileRepresentation.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        pnlPaletteRepresentation = new PaletteRepresentation();
-        pnlPaletteRepresentation.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        paletteRepresentation = new PaletteRepresentation();
+        paletteRepresentation.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         //Add Components
         Dimension dimFiller = TileHelper.createDimension(FILLER_DIMENSIONS);
         add(pnlMenu);
         add(new Box.Filler(dimFiller, dimFiller, dimFiller));
-        add(pnlTileRepresentation);
+        add(tileRepresentation);
         add(new Box.Filler(dimFiller, dimFiller, dimFiller));
-        add(pnlPaletteRepresentation);
+        add(paletteRepresentation);
+    }
+
+    public void setTileset(Tileset tilesetOriginal) {
+        tileRepresentation.setImage(tilesetOriginal.getImage());
+        paletteRepresentation.setPalette(tilesetOriginal.getPalette());
+        repaint();
+    }
+
+    public void setPalette(Tileset generatedTileset) {
+        paletteRepresentation.setPalette(generatedTileset.getPalette());
+        repaint();
     }
 }

@@ -3,7 +3,7 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.ImagePanel;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.TilesetPanel;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.ColorsPanel;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.LoadPanel;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.MenuColorsPanel;
@@ -32,11 +32,11 @@ public class ApplicationView extends JFrame{
 
     //Center
     public JPanel pnlDisplayBodyContext;
-    public ImagePanel imgDisplayOriginal;
+    public TilesetPanel originalTilesetPanel;
 
     public JPanel actionPanel;
     public CardLayout actionCardLayout;
-    public ImagePanel imgDisplayConverted;
+    public TilesetPanel generatedTilesetPanel;
     public ColorsPanel colorsPanelOriginal;
 
     //Right
@@ -145,21 +145,21 @@ public class ApplicationView extends JFrame{
     public void initBodyComponents(){
         //CENTER
         pnlDisplayBodyContext = new JPanel();
-        imgDisplayOriginal = new ImagePanel();
+        originalTilesetPanel = new TilesetPanel();
 
         //ActionPanel
         actionPanel = new JPanel();
         actionCardLayout = new CardLayout();
-        imgDisplayConverted = new ImagePanel();
+        generatedTilesetPanel = new TilesetPanel();
         colorsPanelOriginal = new ColorsPanel();
 
         actionPanel.setLayout(actionCardLayout);
-        actionPanel.add(imgDisplayConverted, CONVERT_PANEL);
+        actionPanel.add(generatedTilesetPanel, CONVERT_PANEL);
         actionPanel.add(colorsPanelOriginal, COLORS_PANEL);
         actionCardLayout.show(actionPanel, CONVERT_PANEL);
 
         pnlDisplayBodyContext.setLayout(new FlowLayout());
-        pnlDisplayBodyContext.add(imgDisplayOriginal);
+        pnlDisplayBodyContext.add(originalTilesetPanel);
         pnlDisplayBodyContext.add(actionPanel);
     }
 

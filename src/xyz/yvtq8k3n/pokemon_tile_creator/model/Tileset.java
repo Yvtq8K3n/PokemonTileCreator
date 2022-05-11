@@ -4,7 +4,7 @@ import lombok.Data;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.FileWatcher;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.LoadController;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,63 +14,71 @@ import java.util.Arrays;
 
 @Data
 public class Tileset {
-    protected static final int PALETTE_LIMIT = 16;
-    private File imageFile;
+    public static final int PALETTE_LIMIT = 16;
+
+    private File fileImage;
     private BufferedImage image;
     private Color[] palette;
-    private ColorModel colorModel;
-    private MyFileWatcher fileWatcher;
 
-    protected Tileset() {
-        this.palette = new Color[0];
+    private ColorModel colorModel;
+    private MyFileWatcher fileWatcher; //I dont like this
+
+    public Tileset(Color[] palette) {
+        this.palette = palette;
     }
 
-    public Tileset(File imageFile) throws IOException {
+    public Tileset(File fileImage, BufferedImage image) {
         super();
-        this.imageFile = imageFile;
-        this.image = TileHelper.readImage(imageFile);
+        this.fileImage = fileImage;
+        this.image = image;
         this.colorModel = new ColorModel(this);
         this.palette = calculatePalette();
 
         if (fileWatcher != null) fileWatcher.stopThread();
-        fileWatcher = new MyFileWatcher(imageFile);
+        fileWatcher = new MyFileWatcher(fileImage);
         fileWatcher.start();
     }
+
+    public void updateImage(BufferedImage image){
+        this.image = image;
+        this.colorModel = new ColorModel(this);
+        this.palette = calculatePalette();
+    }
+
+    public void updatePalette(Color[] palette){
+        this.palette = calculatePalette();
+        this.colorModel = new ColorModel(this);
+    }
+
 
     public boolean hasImage(){
         return image != null;
     }
 
-    public void generateImage(BufferedImage image, Color[] colors){
-        BufferedImage image_clone = TileHelper.copyImage(image);
 
-        //Load both palettes
-        ArrayList<Color> colorsArray = new ArrayList<>(Arrays.asList(colors));
+    public void generateImage(Tileset originalTileset){
+        Color[] originalPalette = originalTileset.getPalette();
+        if (isSamePalette(originalPalette)){
+            setPalette(originalPalette);
+        }
+
+        generateImageFromTileset(originalTileset);
+    }
+
+    private void generateImageFromTileset(Tileset originalTileset){
+        BufferedImage image = TileHelper.copyImage(originalTileset.getImage());
+        ArrayList<Color> paletteList = new ArrayList<>(Arrays.asList(originalTileset.getPalette()));
 
         //Match Converted Palette with Original Palette by index
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
                 Color pixelColor = new Color(image.getRGB(x, y));
-                int colorIndex = colorsArray.indexOf(pixelColor);
+                int colorIndex = paletteList.indexOf(pixelColor);
                 if (colorIndex == -1) colorIndex = PALETTE_LIMIT - 1;
-                image_clone.setRGB(x, y, palette[colorIndex].getRGB());
+                image.setRGB(x, y, palette[colorIndex].getRGB());
             }
         }
-        this.image = image_clone;
-    }
-
-    public void addPalette(byte[] palette) {
-        Color[] colors = new Color[PALETTE_LIMIT];
-
-        int counter = 0;
-        for (int i=0;i<palette.length;i+=4) {
-            byte blue = palette[i];
-            byte green = palette[i+1];
-            byte red = palette[i+2];
-            colors [counter] = new Color(red & 0xFF, green & 0xFF, blue & 0xFF);
-            counter++;
-        }
-        this.palette = colors;
+        this.image = image;
     }
 
     public Color[] calculatePalette() {
@@ -91,17 +99,6 @@ public class Tileset {
         return true;
     }
 
-    //Converts the palette to a writable byte[]
-    public byte[] getWritablePalette() {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        for (Color color: palette) {
-            outputStream.write(color.getBlue());
-            outputStream.write(color.getGreen());
-            outputStream.write(color.getRed());
-            outputStream.write(color.getAlpha());
-        }
-        return outputStream.toByteArray();
-    }
 
     class MyFileWatcher extends FileWatcher {
         public MyFileWatcher(File file) {
@@ -109,10 +106,9 @@ public class Tileset {
             setDelay(200);
         }
 
-        int count = 1;
         @Override
         protected void doOnChange() {
-            MainController.loadImage(imageFile);
+            LoadController.reloadTilesets();
         }
     }
 }

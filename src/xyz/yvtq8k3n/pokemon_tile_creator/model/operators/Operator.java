@@ -1,4 +1,4 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.operators;
+package xyz.yvtq8k3n.pokemon_tile_creator.model.operators;
 
 import java.awt.event.*;
 
