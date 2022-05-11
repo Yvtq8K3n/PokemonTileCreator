@@ -90,9 +90,7 @@ public enum LoadController{
         }
     }
 
-    //Falta
     public static void setDisplayBlock(BufferedImage image, int[] initialLocation) {
         view.loadPanel.blockRepresentation.setImage(image, initialLocation[0], initialLocation[1]);
     }
-
 }

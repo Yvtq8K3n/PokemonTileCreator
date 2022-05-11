@@ -1,14 +1,14 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.component;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.OperatorController;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.PaletteController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-import java.awt.event.KeyEvent;
 
 public class ColorScrollbar extends JPanel {
     private static final int[] PARENT = {112, 80};
@@ -38,7 +38,7 @@ public class ColorScrollbar extends JPanel {
 
     }
 
-    public void setSelectedColor(Color color) {
+    public void setColor(Color color) {
         scrollRed.setValue(color.getRed());
         scrollGreen.setValue(color.getGreen());
         scrollBlue.setValue(color.getBlue());
@@ -95,7 +95,7 @@ public class ColorScrollbar extends JPanel {
         @Override
         public void adjustmentValueChanged(AdjustmentEvent e) {
             if (e.getValueIsAdjusting()){
-                MainController.setDisplayChangingColor(new Color(
+                PaletteController.setDisplayBlockReplacing(new Color(
                         scrollRed.getValue(),
                         scrollGreen.getValue(),
                         scrollBlue.getValue()

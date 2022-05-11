@@ -23,10 +23,6 @@ public class TilesetPanel extends ActionPanel{
         addEventListeners();
     }
 
-    private void addEventListeners() {
-        btnGrid.addActionListener(e -> tileRepresentation.changeGridIndex());
-    }
-
     private void initComponents() {
         JPanel pnlMenu = new JPanel();
 
@@ -57,6 +53,11 @@ public class TilesetPanel extends ActionPanel{
         add(new Box.Filler(dimFiller, dimFiller, dimFiller));
         add(paletteRepresentation);
     }
+
+    private void addEventListeners() {
+        btnGrid.addActionListener(e -> tileRepresentation.changeGridIndex());
+    }
+
 
     public void setTileset(Tileset tilesetOriginal) {
         tileRepresentation.setImage(tilesetOriginal.getImage());

@@ -10,8 +10,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class MenuColorsPanel extends ActionPanel{
 
@@ -220,10 +218,10 @@ public class MenuColorsPanel extends ActionPanel{
 
     }
 
-    public void setSelectedColor(Color color) {
-        colorRepresentation.setSelectedColor(color);
-        colorTextField.setSelectedColor(color);
-        colorScrollbar.setSelectedColor(color);
+    public void setDisplayColor(Color color) {
+        colorRepresentation.setColor(color);
+        colorTextField.setColor(color);
+        colorScrollbar.setColor(color);
     }
 
     public void setChangingColor(Color color) {

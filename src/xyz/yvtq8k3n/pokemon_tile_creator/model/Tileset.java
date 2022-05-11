@@ -70,8 +70,8 @@ public class Tileset {
         ArrayList<Color> paletteList = new ArrayList<>(Arrays.asList(originalTileset.getPalette()));
 
         //Match Converted Palette with Original Palette by index
-        for (int x = 0; x < image.getWidth(); x++) {
-            for (int y = 0; y < image.getHeight(); y++) {
+        for (int x = 0; x < image.getWidth() - 1; x++) {
+            for (int y = 0; y < image.getHeight() - 1; y++) {
                 Color pixelColor = new Color(image.getRGB(x, y));
                 int colorIndex = paletteList.indexOf(pixelColor);
                 if (colorIndex == -1) colorIndex = PALETTE_LIMIT - 1;

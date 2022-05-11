@@ -21,13 +21,18 @@ public abstract class TileHelper {
     public static BufferedImage readImage(File file) {
         BufferedImage image = null;
         try{
-            image = ImageIO.read(file);
-            for (int x = 0; x < image.getWidth(); x++) {
-                for (int y = 0; y < image.getHeight(); y++) {
-                    Color pixelColor = new Color(image.getRGB(x, y));
-                    image.setRGB(x, y, ColorHelper.round(pixelColor));
+            BufferedImage imageFile = ImageIO.read(file);
+
+            for (int x = 0; x < imageFile.getWidth(); x++) {
+                for (int y = 0; y < imageFile.getHeight(); y++) {
+                    Color pixelColor = new Color(imageFile.getRGB(x, y));
+                    imageFile.setRGB(x, y, ColorHelper.round(pixelColor));
                 }
             }
+
+            //Create a new Buffer image without Alpha
+            image = new BufferedImage(imageFile.getWidth(), imageFile.getHeight(), BufferedImage.TYPE_INT_RGB);
+            image.createGraphics().drawImage(imageFile, 0, 0, Color.WHITE, null);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -107,8 +112,7 @@ public abstract class TileHelper {
         Point startCoordinate = TileHelper.blockAdjustment(x, y);
         int scaledX = startCoordinate.x / BLOCK;
         int scaledY = startCoordinate.y / BLOCK;
-        int index = scaledX + scaledY * COLOR_STEP;
-        return index;
+        return scaledX + scaledY * COLOR_STEP;
     }
 
 

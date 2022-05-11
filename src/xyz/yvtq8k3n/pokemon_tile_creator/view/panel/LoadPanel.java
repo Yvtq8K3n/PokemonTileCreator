@@ -2,7 +2,7 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.LoadController;
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.PaletteController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.BlockRepresentation;
 
 import javax.swing.*;
@@ -56,6 +56,7 @@ public class LoadPanel extends ActionPanel{
         btnImage.addActionListener(e -> {
             LoadController.loadImageFromFile();
             LoadController.createGenerateTileset();
+            PaletteController.loadSortedColors();
         });
         btnExport.addActionListener(e -> LoadController.exportTileset());
     }

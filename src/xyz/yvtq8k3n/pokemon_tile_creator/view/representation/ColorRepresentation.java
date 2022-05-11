@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class ColorRepresentation extends Representation{
     public static final int[] DISPLAY_DIMENSIONS = {72, 72};
-    protected Color selectedColor;
+    protected Color color;
     protected Color changingColor;
 
     public ColorRepresentation() {
@@ -18,7 +18,7 @@ public class ColorRepresentation extends Representation{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(selectedColor);
+        g.setColor(color);
         g.fillRect(0, 0, DISPLAY_DIMENSIONS[0], DISPLAY_DIMENSIONS[1]);
 
         if(hasChangingColor()){
@@ -28,8 +28,8 @@ public class ColorRepresentation extends Representation{
         }
     }
 
-    public void setSelectedColor(Color selectedColor) {
-        this.selectedColor = selectedColor;
+    public void setColor(Color selectedColor) {
+        this.color = selectedColor;
         this.changingColor = null;
     }
 

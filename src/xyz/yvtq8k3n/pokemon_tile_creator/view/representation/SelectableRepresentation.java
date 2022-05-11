@@ -1,6 +1,6 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
 
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.OperatorController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.AreaSelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.MultiSelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
@@ -31,9 +31,9 @@ public abstract class SelectableRepresentation extends Representation implements
         this.multiSelector = new MultiSelector();
 
         //Add event listeners
-        MainController.addSelectableBehaviour(this);
-        MainController.addAreaSelectableBehaviour(this);
-        MainController.addMultiSelectableBehaviour(this);
+        OperatorController.addSelectableBehaviour(this);
+        OperatorController.addAreaSelectableBehaviour(this);
+        OperatorController.addMultiSelectableBehaviour(this);
     }
 
     abstract boolean hasRepresentation();
@@ -159,16 +159,16 @@ public abstract class SelectableRepresentation extends Representation implements
 
     @Override
     public void mousePressed(MouseEvent e) {
-        MainController.selectedOperator.mousePressed(e);
+        OperatorController.selectedOperator.mousePressed(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        MainController.selectedOperator.mouseReleased(e);
+        OperatorController.selectedOperator.mouseReleased(e);
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        MainController.selectedOperator.mouseDragged(e);
+        OperatorController.selectedOperator.mouseDragged(e);
     }
 }

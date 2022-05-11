@@ -1,7 +1,7 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.OperatorController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.Selector;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.SingleSelector;
 
@@ -56,12 +56,12 @@ public class PaletteRepresentation extends Representation {
         Color selectedColor = palette[x1 + y1];
 
         //Apply filter
-        MainController.setImageColorFilter(selectedColor);
+        OperatorController.setImageColorFilter(selectedColor);
         repaint();
     }
 
     public void releaseSelector(int x, int y) {
-        MainController.setImageColorFilter(null);
+        OperatorController.setImageColorFilter(null);
         repaint();
     }
 

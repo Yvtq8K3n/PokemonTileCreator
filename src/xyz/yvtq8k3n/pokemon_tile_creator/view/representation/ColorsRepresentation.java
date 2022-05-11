@@ -1,6 +1,7 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.OperatorController;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.PaletteController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.Selector;
 
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public class ColorsRepresentation extends SelectableRepresentation {
         int index = TileHelper.calculateColorsIndex(x, y);
         if (index>= 0 && index<sortedColors.length) {
             Color selectedColor = sortedColors[index];
-            MainController.setDisplayColor(selectedColor);
+            PaletteController.setDisplayBlockColor(selectedColor);
         }
     }
 

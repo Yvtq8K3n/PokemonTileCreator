@@ -2,12 +2,11 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.PaletteController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.ColorsRepresentation;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.PaletteRepresentation;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class ColorsPanel extends ActionPanel{
@@ -24,11 +23,6 @@ public class ColorsPanel extends ActionPanel{
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         initComponents();
         addEventListeners();
-    }
-
-    private void addEventListeners() {
-        btnColorGrid.addActionListener(e -> pnlColorsRepresentation.changeGridIndex());
-        //btnColorSorter.addActionListener(e -> MainController.changeColorSortingOrder());
     }
 
     private void initComponents() {
@@ -82,5 +76,19 @@ public class ColorsPanel extends ActionPanel{
         add(pnlColorsRepresentation);
         add(new Box.Filler(dimFiller, dimFiller, dimFiller));
         add(pnlPaletteRepresentation);
+    }
+
+    private void addEventListeners() {
+        btnColorGrid.addActionListener(e -> pnlColorsRepresentation.changeGridIndex());
+        btnColorSorter.addActionListener(e ->{
+            PaletteController.changeSortingMethod();
+            PaletteController.loadSortedColors();
+        });
+    }
+
+    public void setSortedColors(String sortingMethod, Color[] sortedColors){
+        lblCriteria.setText(sortingMethod);
+        pnlColorsRepresentation.setSortedColors(sortedColors);
+        repaint();
     }
 }

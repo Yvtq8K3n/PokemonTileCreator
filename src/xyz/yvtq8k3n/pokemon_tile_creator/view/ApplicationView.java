@@ -2,7 +2,7 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.OperatorController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.TilesetPanel;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.ColorsPanel;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.LoadPanel;
@@ -180,9 +180,9 @@ public class ApplicationView extends JFrame{
 
     private void addEventListeners() {
         //Menu
-        btnSelectOperator.addActionListener(e -> MainController.setOperatorSelection());
-        btnAreaSelectOperator.addActionListener(e -> MainController.setOperatorAreaSelection());
-        btnMultiSelectOperator.addActionListener(e -> MainController.setOperatorMultiSelection());
+        btnSelectOperator.addActionListener(e -> OperatorController.setOperatorSelection());
+        btnAreaSelectOperator.addActionListener(e -> OperatorController.setOperatorAreaSelection());
+        btnMultiSelectOperator.addActionListener(e -> OperatorController.setOperatorMultiSelection());
         btnActionConvert.addActionListener(e -> {
             actionCardLayout.show(actionPanel, CONVERT_PANEL);
             menuCardLayout.show(pnlRightMenu, CONVERT_PANEL);

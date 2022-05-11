@@ -2,7 +2,7 @@ package xyz.yvtq8k3n.pokemon_tile_creator;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.LoadController;
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.MainController;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.OperatorController;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.PaletteController;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.TileController;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel;
@@ -26,7 +26,7 @@ public class Main {
         PaletteController.initController(model, view);
         TileController.initController(model, view);
 
-        MainController.launchApplication(model, view);
-        MainController.updateView();
+        OperatorController.launchApplication(model, view);
+        OperatorController.updateView();
     }
 }
