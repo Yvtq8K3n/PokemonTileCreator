@@ -1,7 +1,6 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.LoadController;
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.OperatorController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.Selector;
 
 import java.awt.*;

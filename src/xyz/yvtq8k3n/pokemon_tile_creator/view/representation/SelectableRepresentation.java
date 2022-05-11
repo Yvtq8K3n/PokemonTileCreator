@@ -1,9 +1,10 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.OperatorController;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.operators.Operator;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.AreaSelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.MultiSelectableBehaviour;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SingleSelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.AreaSelector;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.MultiSelector;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.Selector;
@@ -11,11 +12,12 @@ import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.SingleSelector;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public abstract class SelectableRepresentation extends Representation implements SelectableBehaviour, AreaSelectableBehaviour, MultiSelectableBehaviour {
+public abstract class SelectableRepresentation extends Representation implements SingleSelectableBehaviour, AreaSelectableBehaviour, MultiSelectableBehaviour {
     protected static Color FILTER_BACKGROUND = Color.BLACK;
     protected static Color GRID_COLOR = Color.RED;
     private static final int[] GRID_SIZE = {16,8,0};
 
+    protected Operator currentOperator;
     protected SingleSelector singleSelector;
     protected AreaSelector areaSelector;
     protected MultiSelector multiSelector;
@@ -31,7 +33,7 @@ public abstract class SelectableRepresentation extends Representation implements
         this.multiSelector = new MultiSelector();
 
         //Add event listeners
-        OperatorController.addSelectableBehaviour(this);
+        OperatorController.addSingleSelectableBehaviour(this);
         OperatorController.addAreaSelectableBehaviour(this);
         OperatorController.addMultiSelectableBehaviour(this);
     }
@@ -159,16 +161,21 @@ public abstract class SelectableRepresentation extends Representation implements
 
     @Override
     public void mousePressed(MouseEvent e) {
-        OperatorController.selectedOperator.mousePressed(e);
+        currentOperator.mousePressed(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        OperatorController.selectedOperator.mouseReleased(e);
+        currentOperator.mouseReleased(e);
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        OperatorController.selectedOperator.mouseDragged(e);
+        currentOperator.mouseDragged(e);
+    }
+
+    @Override
+    public void setOperator(Operator current) {
+        this.currentOperator = current;
     }
 }

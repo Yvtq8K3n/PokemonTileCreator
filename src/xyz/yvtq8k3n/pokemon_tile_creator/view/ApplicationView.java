@@ -180,7 +180,7 @@ public class ApplicationView extends JFrame{
 
     private void addEventListeners() {
         //Menu
-        btnSelectOperator.addActionListener(e -> OperatorController.setOperatorSelection());
+        btnSelectOperator.addActionListener(e -> OperatorController.setOperatorSingleSelection());
         btnAreaSelectOperator.addActionListener(e -> OperatorController.setOperatorAreaSelection());
         btnMultiSelectOperator.addActionListener(e -> OperatorController.setOperatorMultiSelection());
         btnActionConvert.addActionListener(e -> {

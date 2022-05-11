@@ -1,4 +1,4 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.model.operators;
+package xyz.yvtq8k3n.pokemon_tile_creator.controller.operators;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.AreaSelectableBehaviour;
 

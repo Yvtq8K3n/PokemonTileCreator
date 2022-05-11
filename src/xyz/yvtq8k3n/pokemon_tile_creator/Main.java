@@ -20,13 +20,13 @@ public class Main {
             e.printStackTrace();
         }
         ApplicationModel model = new ApplicationModel();
+        OperatorController.initController(model);
+
         ApplicationView view = new ApplicationView();
+        OperatorController.setView(view);
 
         LoadController.initController(model, view);
         PaletteController.initController(model, view);
         TileController.initController(model, view);
-
-        OperatorController.launchApplication(model, view);
-        OperatorController.updateView();
     }
 }

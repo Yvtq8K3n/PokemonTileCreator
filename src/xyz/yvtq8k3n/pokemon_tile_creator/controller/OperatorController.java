@@ -1,104 +1,93 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.controller;
 
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.operators.Operator;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel;
-import xyz.yvtq8k3n.pokemon_tile_creator.model.operators.AreaSelectorOperator;
-import xyz.yvtq8k3n.pokemon_tile_creator.model.operators.MultiSelectorOperator;
-import xyz.yvtq8k3n.pokemon_tile_creator.model.operators.Operator;
-import xyz.yvtq8k3n.pokemon_tile_creator.model.operators.SingleSelectorOperator;
+import xyz.yvtq8k3n.pokemon_tile_creator.model.BehaviorManager;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.ApplicationView;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.AreaSelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.MultiSelectableBehaviour;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SingleSelectableBehaviour;
 
-import java.awt.*;
-import java.util.ArrayList;
+import static xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel.*;
 
 public enum OperatorController {
-    MAIN_CONTROLLER;
+    OPERATOR_CONTROLLER;
 
     static ApplicationModel model;
     static ApplicationView view;
 
-    static Operator[] operators;
-    public static Operator selectedOperator;
-
-    private static ArrayList<SelectableBehaviour> selectableBehaviours;
-    private static ArrayList<AreaSelectableBehaviour> areaSelectableBehaviours;
-    private static ArrayList<MultiSelectableBehaviour> multiSelectableBehaviours;
-
-    public static void launchApplication(ApplicationModel model, ApplicationView view) {
-        //Create Operator
-        OperatorController.operators = new Operator[]{
-                new SingleSelectorOperator(),
-                new AreaSelectorOperator(),
-                new MultiSelectorOperator()
-        };
-        selectedOperator = operators[0];
+    public static void initController(ApplicationModel model) {
         OperatorController.model = model;
+    }
+
+    public static void setView(ApplicationView view){
         OperatorController.view = view;
+
+        //When view is initialized set Operator
+        model.setCurrentOperator(OPERATOR_SINGLE);
     }
 
-    public static void setImageColorFilter(Color color) {
-        view.originalTilesetPanel.tileRepresentation.setColorFilter(color);
-        if (selectedOperator == operators[0]){
-            view.loadPanel.blockRepresentation.setColorFilter(color);
-        }
-    }
+    public static void setOperatorSingleSelection() {
+        Operator currentOperator = model.getCurrentOperator();
+        if(currentOperator == null) return;
 
-
-    public static void updateView() {
-        view.repaint();
-    }
-
-
-    public static void setOperatorSelection() {
-        if (!selectedOperator.equals(operators[0])){
+        if(!model.isCurrentOperator(OPERATOR_SINGLE)){
             System.out.println("Setting selector: Single Selector");
-            selectedOperator = operators[0];
+            model.setCurrentOperator(OPERATOR_SINGLE);
             reset();
         }
     }
 
     public static void setOperatorAreaSelection() {
-         if (!selectedOperator.equals(operators[1])){
+        Operator currentOperator = model.getCurrentOperator();
+        if(currentOperator == null) return;
+
+        if(!model.isCurrentOperator(OPERATOR_AREA)){
             System.out.println("Setting selector: Area Selector");
-            selectedOperator = operators[1];
+            model.setCurrentOperator(OPERATOR_AREA);
             reset();
-         }
+        }
     }
 
     public static void setOperatorMultiSelection() {
-        if (!selectedOperator.equals(operators[2])){
-            System.out.println("Setting selector: Area Selector");
-            selectedOperator = operators[2];
+        Operator currentOperator = model.getCurrentOperator();
+        if(currentOperator == null) return;
+
+        if(!model.isCurrentOperator(OPERATOR_MULTI)){
+            System.out.println("Setting selector: Multi Selector");
+            model.setCurrentOperator(OPERATOR_MULTI);
             reset();
         }
     }
 
-    public static void addSelectableBehaviour(SelectableBehaviour c){
-        if (selectableBehaviours == null){
-            selectableBehaviours = new ArrayList<>();
-        }
-        OperatorController.selectableBehaviours.add(c);
+    public static void addSingleSelectableBehaviour(SingleSelectableBehaviour c){
+        BehaviorManager behaviorManager = model.getBehaviorManager();
+        if (behaviorManager == null) return;
+
+        behaviorManager.addSelection(c);
+        behaviorManager.addSingleSelectableBehaviour(c);
     }
 
     public static void addAreaSelectableBehaviour(AreaSelectableBehaviour c){
-        if (areaSelectableBehaviours == null){
-            areaSelectableBehaviours = new ArrayList<>();
-        }
-        OperatorController.areaSelectableBehaviours.add(c);
+        BehaviorManager behaviorManager = model.getBehaviorManager();
+        if (behaviorManager == null) return;
+
+        behaviorManager.addSelection(c);
+        behaviorManager.addAreaSelectableBehaviour(c);
     }
 
     public static void addMultiSelectableBehaviour(MultiSelectableBehaviour c){
-        if (multiSelectableBehaviours == null){
-            multiSelectableBehaviours = new ArrayList<>();
-        }
-        OperatorController.multiSelectableBehaviours.add(c);
+        BehaviorManager behaviorManager = model.getBehaviorManager();
+        if (behaviorManager == null) return;
+
+        behaviorManager.addSelection(c);
+        behaviorManager.addMultiSelectableBehaviour(c);
     }
 
     public static void reset() {
-        for (SelectableBehaviour c: selectableBehaviours) {
+        System.out.println("THE WORLD IS ON FIRE");
+        /*for (SingleSelectableBehaviour c: singleSelectableBehaviours) {
             c.reset();
-        }
+        }*/
     }
 }

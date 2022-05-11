@@ -1,8 +1,9 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour;
 
-public interface SelectableBehaviour extends CustomBehaviour {
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.operators.Operator;
 
-    void startSingleSelector(int x, int y);
+public interface SelectableBehaviour {
+    void setOperator(Operator current);
 
-    void moveSingleSelector(int x, int y);
+    void reset();
 }
