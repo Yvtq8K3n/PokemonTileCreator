@@ -12,6 +12,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+import static xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel.*;
+
 public class ApplicationView extends JFrame{
     private static final int[] OPTIONS_DIMENSIONS = {32, 32};
 
@@ -180,9 +182,9 @@ public class ApplicationView extends JFrame{
 
     private void addEventListeners() {
         //Menu
-        btnSelectOperator.addActionListener(e -> OperatorController.setOperatorSingleSelection());
-        btnAreaSelectOperator.addActionListener(e -> OperatorController.setOperatorAreaSelection());
-        btnMultiSelectOperator.addActionListener(e -> OperatorController.setOperatorMultiSelection());
+        btnSelectOperator.addActionListener(e -> OperatorController.setSelectionOperator(OPERATOR_SINGLE));
+        btnAreaSelectOperator.addActionListener(e -> OperatorController.setSelectionOperator(OPERATOR_AREA));
+        btnMultiSelectOperator.addActionListener(e -> OperatorController.setSelectionOperator(OPERATOR_MULTI));
         btnActionConvert.addActionListener(e -> {
             actionCardLayout.show(actionPanel, CONVERT_PANEL);
             menuCardLayout.show(pnlRightMenu, CONVERT_PANEL);

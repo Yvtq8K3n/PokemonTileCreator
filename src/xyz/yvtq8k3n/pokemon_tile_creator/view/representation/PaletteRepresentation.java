@@ -1,8 +1,8 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.OperatorController;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.PaletteController;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.TileController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.Selector;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.SingleSelector;
 
@@ -35,18 +35,18 @@ public class PaletteRepresentation extends Representation {
                 }
             }
         }
-        if(selector.isActive()){
+       /* if(selector.isActive()){
             selector.drawComponent(g);
-        }
+        }*/
     }
 
     public void startSelector(int x, int y){
-        selector.setState(Selector.ACTIVE);
+        //selector.setState(Selector.ACTIVE);
         moveSelector(x, y);
     }
 
     public void moveSelector(int x, int y){
-        //Set selector location
+        /*//Set selector location
         selector.setInitialLocation(x, y);
 
         //Calculate the index of the wanted color by converting the x and y coordinates
@@ -57,17 +57,17 @@ public class PaletteRepresentation extends Representation {
         Color selectedColor = palette[x1 + y1];
 
         //Apply filter
-        PaletteController.setImageColorFilter(selectedColor);
-        repaint();
+        TileController.setColorFilter(selectedColor);
+        repaint();*/
     }
 
     public void releaseSelector(int x, int y) {
-        PaletteController.setImageColorFilter(null);
+        TileController.setColorFilter(null);
         repaint();
     }
 
     public void reset(){
-        selector.setState(Selector.INACTIVE);
+        //selector.setState(Selector.INACTIVE);
         repaint();
     }
 

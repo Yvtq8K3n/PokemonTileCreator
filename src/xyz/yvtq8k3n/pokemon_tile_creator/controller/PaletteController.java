@@ -7,8 +7,8 @@ import xyz.yvtq8k3n.pokemon_tile_creator.model.Tileset;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.ApplicationView;
 
 import java.awt.*;
+import java.util.List;
 
-import static xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel.OPERATOR_AREA;
 import static xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel.OPERATOR_SINGLE;
 
 public enum PaletteController{
@@ -43,22 +43,6 @@ public enum PaletteController{
         colorModel.changeSortingMethod();
     }
 
-    //*Needs substantial changes into model
-    //Create a new tmp tileset Apply over it the change
-    public static void setImageColorFilter(Color color) {
-        Operator currentOperator = model.getCurrentOperator();
-        if(currentOperator == null) return;
-
-        if(!model.isCurrentOperator(OPERATOR_SINGLE)){
-            /*view.originalTilesetPanel.tileRepresentation.setColorFilter(color);
-            if (operator.isC
-            if (selectedOperator == operators[0]){
-                view.loadPanel.blockRepresentation.setColorFilter(color);
-            }*/
-        }
-    }
-
-
     public static void setDisplayBlockColor(Color color) {
         view.menuColorsPanel.setDisplayColor(color);
         view.menuColorsPanel.repaint();
@@ -68,5 +52,4 @@ public enum PaletteController{
         view.menuColorsPanel.setChangingColor(color);
         view.menuColorsPanel.repaint();
     }
-
 }

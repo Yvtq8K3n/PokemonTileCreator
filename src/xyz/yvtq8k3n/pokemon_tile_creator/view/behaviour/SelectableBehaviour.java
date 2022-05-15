@@ -3,7 +3,9 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.operators.Operator;
 
 public interface SelectableBehaviour {
-    void setOperator(Operator current);
+    void startSelection(int x, int y);
+    void dragSelection(int x, int y);
+    void removeSelection(int x, int y);
 
-    void reset();
+    void setOperator(Operator current);
 }

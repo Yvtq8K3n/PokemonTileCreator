@@ -34,17 +34,17 @@ public class ColorsRepresentation extends SelectableRepresentation {
         }
     }
 
-    @Override
+    /*@Override
     public void reset(){
         super.reset();
 
         //Removes selectedColors from Selector
         selectedColors.clear();
-    }
+    }*/
 
 
     public void sortMethodChanged() {
-        multiSelector.resetSelectionEntries();
+       /* multiSelector.resetSelectionEntries();
         for (int i = 0; i < sortedColors.length; i++) {
             if (selectedColors.contains(sortedColors[i])){
                 System.out.println(i);
@@ -52,13 +52,13 @@ public class ColorsRepresentation extends SelectableRepresentation {
                 multiSelector.addSelectionEntry(point.x, point.y);
                 System.out.println(point.x+":"+point.y);
             }
-        }
+        }*/
     }
 
     @Override
     protected void drawPaintFilter(Graphics g, Selector selector) {}
 
-    @Override
+   /* @Override
     public void moveSingleSelector(int x, int y){
         super.moveSingleSelector(x, y);
 
@@ -80,7 +80,7 @@ public class ColorsRepresentation extends SelectableRepresentation {
     public void removeMultiSelectorPoint(int x, int y) {
         super.removeMultiSelectorPoint(x, y);
         removeSelectedColor(x, y);
-    }
+    }*/
 
     private void addSelectedColor(int x, int y) {
         int index = TileHelper.calculateColorsIndex(x, y);

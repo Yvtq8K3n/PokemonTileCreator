@@ -6,6 +6,7 @@ import xyz.yvtq8k3n.pokemon_tile_creator.model.BehaviorManager;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.ApplicationView;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.AreaSelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.MultiSelectableBehaviour;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SingleSelectableBehaviour;
 
 import static xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel.*;
@@ -27,44 +28,35 @@ public enum OperatorController {
         model.setCurrentOperator(OPERATOR_SINGLE);
     }
 
-    public static void setOperatorSingleSelection() {
+    public static void setSelectionOperator(int operatorState) {
         Operator currentOperator = model.getCurrentOperator();
-        if(currentOperator == null) return;
+        if(currentOperator == null) throw new IllegalArgumentException("Invalid operator selected");
 
-        if(!model.isCurrentOperator(OPERATOR_SINGLE)){
-            System.out.println("Setting selector: Single Selector");
-            model.setCurrentOperator(OPERATOR_SINGLE);
-            reset();
-        }
+        model.setCurrentOperator(operatorState);
+        System.out.println("Setting selector: "+model.getCurrentOperator().getClass().getName());
+        reset();
     }
 
-    public static void setOperatorAreaSelection() {
-        Operator currentOperator = model.getCurrentOperator();
-        if(currentOperator == null) return;
+    public static int getOperatorIndex(Operator operator) {
+        Operator[] operators = model.getOperators();
+        if(operators == null) throw new IllegalArgumentException("No valid operators found");
 
-        if(!model.isCurrentOperator(OPERATOR_AREA)){
-            System.out.println("Setting selector: Area Selector");
-            model.setCurrentOperator(OPERATOR_AREA);
-            reset();
-        }
+        return model.getOperatorIndex(operator);
     }
 
-    public static void setOperatorMultiSelection() {
-        Operator currentOperator = model.getCurrentOperator();
-        if(currentOperator == null) return;
 
-        if(!model.isCurrentOperator(OPERATOR_MULTI)){
-            System.out.println("Setting selector: Multi Selector");
-            model.setCurrentOperator(OPERATOR_MULTI);
-            reset();
-        }
+    public static void addSelectableBehaviour(SelectableBehaviour c){
+        BehaviorManager behaviorManager = model.getBehaviorManager();
+        if (behaviorManager == null) return;
+
+        behaviorManager.addSelectable(c);
     }
 
     public static void addSingleSelectableBehaviour(SingleSelectableBehaviour c){
         BehaviorManager behaviorManager = model.getBehaviorManager();
         if (behaviorManager == null) return;
 
-        behaviorManager.addSelection(c);
+        behaviorManager.addSelectable(c);
         behaviorManager.addSingleSelectableBehaviour(c);
     }
 
@@ -72,7 +64,7 @@ public enum OperatorController {
         BehaviorManager behaviorManager = model.getBehaviorManager();
         if (behaviorManager == null) return;
 
-        behaviorManager.addSelection(c);
+        behaviorManager.addSelectable(c);
         behaviorManager.addAreaSelectableBehaviour(c);
     }
 
@@ -80,7 +72,7 @@ public enum OperatorController {
         BehaviorManager behaviorManager = model.getBehaviorManager();
         if (behaviorManager == null) return;
 
-        behaviorManager.addSelection(c);
+        behaviorManager.addSelectable(c);
         behaviorManager.addMultiSelectableBehaviour(c);
     }
 

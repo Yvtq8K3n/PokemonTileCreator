@@ -12,22 +12,19 @@ import java.util.ArrayList;
 @Data
 public class BehaviorManager {
     //Selectable Behaviours Components
-    private ArrayList<SelectableBehaviour> selections;
+    private ArrayList<SelectableBehaviour> selectables;
     private ArrayList<SingleSelectableBehaviour> singleSelections;
     private ArrayList<AreaSelectableBehaviour> areaSelections;
     private ArrayList<MultiSelectableBehaviour> multiSelections;
 
     public BehaviorManager() {
         //Create Selectors
-        selections = new ArrayList<>();
+        selectables = new ArrayList<>();
         singleSelections = new ArrayList<>();
         areaSelections = new ArrayList<>();
         multiSelections = new ArrayList<>();
     }
 
-    public void addSelection(SelectableBehaviour selection){
-        if (!selections.contains(selection)) selections.add(selection);
-    }
 
     public void addSingleSelectableBehaviour(SingleSelectableBehaviour c){
         singleSelections.add(c);
@@ -42,8 +39,12 @@ public class BehaviorManager {
     }
 
     public void notifyOperatorChange(Operator current){
-        for (SelectableBehaviour s:singleSelections) {
+        for (SelectableBehaviour s: selectables) {
             s.setOperator(current);
         }
+    }
+
+    public void addSelectable(SelectableBehaviour c) {
+        selectables.add(c);
     }
 }

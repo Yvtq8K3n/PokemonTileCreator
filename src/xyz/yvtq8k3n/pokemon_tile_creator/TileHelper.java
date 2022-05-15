@@ -125,5 +125,16 @@ public abstract class TileHelper {
         int upScaledY = index / 8 * BLOCK;
         return new Point(upScaledX, upScaledY);
     }
+
+    public static Point applyBoundsConstraint(int x, int y){
+        //Replace x(0, max) if it's out of viewport
+        x = Math.min(x, 128 - BLOCK);
+        x = Math.max(x, 0);
+
+        //Replace y(0, max) if it's out of viewport
+        y = Math.min(y, 192 - BLOCK);
+        y = Math.max(y, 0);
+        return new Point(x, y);
+    }
 }
 

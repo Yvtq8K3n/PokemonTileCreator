@@ -36,7 +36,7 @@ public class TileRepresentation extends SelectableRepresentation {
             for (int i = 0; i < image.getWidth(); i++) {
                 for (int j = 0; j < image.getHeight(); j++) {
                     Color pixelColor = new Color(image.getRGB(i, j));
-                    if (area.contains(i, j ) &&
+                    if (area.contains(i, j) &&
                             !pixelColor.equals(colorFilter)){
                         g.fillRect(i, j, 1,1);
                     }
@@ -45,7 +45,7 @@ public class TileRepresentation extends SelectableRepresentation {
         }
     }
 
-    @Override
+    /*@Override
     public void moveSingleSelector(int x, int y){
         //Replace x(0, max) if it's out of viewport
         x = Math.min(x, image.getWidth() - BLOCK);
@@ -57,7 +57,7 @@ public class TileRepresentation extends SelectableRepresentation {
 
         super.moveSingleSelector(x, y);
         LoadController.setDisplayBlock(image, singleSelector.getInitialLocation());
-    }
+    }*/
 
     public boolean hasRepresentation(){
         return image != null;

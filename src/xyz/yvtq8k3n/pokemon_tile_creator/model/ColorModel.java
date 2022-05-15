@@ -112,4 +112,7 @@ public class ColorModel {
         return SORTING_METHODS[sortingIndex].toString();
     }
 
+    public List<Point> getColorLocations(Color color){
+        return colorsMap.get(color);
+    }
 }

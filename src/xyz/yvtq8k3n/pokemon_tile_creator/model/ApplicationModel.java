@@ -5,7 +5,8 @@ import xyz.yvtq8k3n.pokemon_tile_creator.controller.operators.AreaSelectorOperat
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.operators.MultiSelectorOperator;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.operators.Operator;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.operators.SingleSelectorOperator;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
+
+import java.util.Arrays;
 
 @Data
 public class ApplicationModel {
@@ -43,5 +44,9 @@ public class ApplicationModel {
     public void setCurrentOperator(int operatorState){
         currentOperator = operators[operatorState];
         behaviorManager.notifyOperatorChange(currentOperator);
+    }
+
+    public int getOperatorIndex(Operator operator){
+        return Arrays.asList(operators).indexOf(operator);
     }
 }

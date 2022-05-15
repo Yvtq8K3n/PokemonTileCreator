@@ -1,10 +1,13 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.selection;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.OperatorController;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.AreaSelectableBehaviour;
+
 import java.awt.*;
 import java.awt.geom.Area;
 
-public class AreaSelector extends SingleSelector{
+public class AreaSelector extends SingleSelector {
     private int[] resizeLocation;
 
     public AreaSelector() {
@@ -28,28 +31,16 @@ public class AreaSelector extends SingleSelector{
 
     @Override
     public void drawComponent(Graphics g) {
-        int[] minCoordinates = getStartingPoint();
-        int[] maxCoordinates = getEndingPoint();
+        if(isActive()) {
+            int[] minCoordinates = getStartingPoint();
+            int[] maxCoordinates = getEndingPoint();
 
-        /*if (hasImage()){
-            if (hasFilter()){
-                g.setColor(Color.BLACK);
-                for (int i = minCoordinates[0]; i < maxCoordinates[0] + BLOCK; i++) {
-                    for (int j = minCoordinates[1]; j < maxCoordinates[1] + BLOCK; j++) {
-                        Color pixelColor = new Color(image.getRGB(i, j));
-                        if (!pixelColor.equals(filter)){
-                            g.fillRect(i, j, 1,1);
-                        }
-                    }
-                }
-            }*/
-
-        //Draw selector
-        g.setColor(SELECTOR_COLOR);
-        g.drawRect(minCoordinates[0], minCoordinates[1],
-        maxCoordinates[0] - minCoordinates[0] + BLOCK,
-        maxCoordinates[1] - minCoordinates[1] + BLOCK);
-
+            //Draw selector
+            g.setColor(SELECTOR_COLOR);
+            g.drawRect(minCoordinates[0], minCoordinates[1],
+                    maxCoordinates[0] - minCoordinates[0] + BLOCK,
+                    maxCoordinates[1] - minCoordinates[1] + BLOCK);
+        }
     }
 
     @Override
@@ -63,5 +54,33 @@ public class AreaSelector extends SingleSelector{
                 maxCoordinates[1] - minCoordinates[1] + BLOCK);
         area.add(new Area(r));
         return area;
+    }
+
+    /*@Override
+    public void startAreaSelector(int x, int y) {
+        Point bound = TileHelper.applyBoundsConstraint(x, y);
+        startSelection(bound.x, bound.y);
+        resizeAreaSelector(x, y);
+    }
+
+
+    @Override
+    public void resizeAreaSelector(int x, int y) {
+        //if (!hasRepresentation()) return;
+        Point bound = TileHelper.applyBoundsConstraint(x, y);
+        resizeSelector(bound.x, bound.y);
+        //repaint();
+    }*/
+
+    @Override
+    public void startSelection(int x, int y) {
+        setInitialLocation(x, y);
+    }
+
+    @Override
+    public void dragSelection(int x, int y) {
+        resizeSelector(x, y);
+        System.out.println(x+":"+y);
+        state = Selector.ACTIVE;
     }
 }

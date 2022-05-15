@@ -1,12 +1,15 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.selection;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.OperatorController;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.operators.Operator;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.MultiSelectableBehaviour;
 
 import java.awt.*;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 
-public class MultiSelector extends Selector{
+public class MultiSelector extends Selector {
     ArrayList<Point> selectionPoints;
 
     public MultiSelector() {
@@ -15,15 +18,14 @@ public class MultiSelector extends Selector{
     }
 
     public void addSelectionEntry(int x, int y){
-        state = Selector.ACTIVE;
         Point selectionEntry = TileHelper.blockAdjustment(x, y);
         if (!selectionPoints.contains(selectionEntry)){
             selectionPoints.add(selectionEntry);
         }
+        setState(ACTIVE);
     }
 
     public void removeSelectionEntry(int x, int y){
-        state = Selector.ACTIVE;
         Point selectionEntry = TileHelper.blockAdjustment(x, y);
         selectionPoints.remove(selectionEntry);
     }
@@ -33,29 +35,7 @@ public class MultiSelector extends Selector{
     }
 
     @Override
-    public void setState(int state) {
-        super.setState(state);
-        selectionPoints.clear();
-    }
-
-    @Override
     public void drawComponent(Graphics g) {
-        /*if (hasFilter()){
-            g.setColor(Color.BLACK);
-
-            for (Point point:selectionPoints) {
-                int x = (int) point.getX();
-                int y = (int) point.getY();
-                for (int i = x; i < x + BLOCK; i++) {
-                    for (int j = y; j < y + BLOCK; j++) {
-                        Color pixelColor = new Color(image.getRGB(i, j));
-                        if (!pixelColor.equals(filter)){
-                            g.fillRect(i, j, 1,1);
-                        }
-                    }
-                }
-            }
-        }*/
 
         g.setColor(SELECTOR_COLOR);
         for (Point point:selectionPoints) {
@@ -71,5 +51,26 @@ public class MultiSelector extends Selector{
             area.add(new Area(r));
         }
         return area;
+    }
+
+    @Override
+    public void startSelection(int x, int y) {
+        addSelectionEntry(x, y);
+    }
+
+    @Override
+    public void dragSelection(int x, int y) {
+        addSelectionEntry(x, y);
+    }
+
+    @Override
+    public void removeSelection(int x, int y) {
+        removeSelectionEntry(x, y);
+    }
+
+    @Override
+    public void resetSelection() {
+        resetSelectionEntries();
+        state = Selector.INACTIVE;
     }
 }
