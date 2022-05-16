@@ -1,4 +1,4 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
+package xyz.yvtq8k3n.pokemon_tile_creator.view.representations;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 
@@ -8,46 +8,40 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 //Maybe I should change this to BlockDisplay and Display abstract class
-public class BlockRepresentation extends Representation {
-    private static final int[] DISPLAY_DIMENSIONS = {128, 128};
-    private static final int BLOCK = 16;
-    private BufferedImage image;
+public class ImageBlock extends BlockRepresentation {
     private int[] initialLocation;
-    private Color filter;
-    private boolean enableGrid;
+    private BufferedImage image;
 
-    public BlockRepresentation() {
+    private boolean enableGrid;
+    //private Color filter;
+
+    public ImageBlock() {
+        super();
         enableGrid = false;
-        filter = null;
-        setPreferredSize(TileHelper.createDimension(DISPLAY_DIMENSIONS));
-        setBorder(BorderFactory.createLineBorder(Color.RED));
+        //filter = null;
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    protected void drawRepresentation(Graphics g) {
+        g.drawImage(image, 0, 0, this);
 
-        if (image != null) {
-            g.drawImage(image, 0, 0, this);
-
-            if (filter != null){
-                g.setColor(Color.BLACK);
-                for (int i = 0; i < image.getWidth(); i++) {
-                    for (int j = 0; j < image.getHeight(); j++) {
-                        Color pixelColor = new Color(image.getRGB(i, j));
-                        if (!pixelColor.equals(filter)){
-                            g.fillRect(i, j, 1,1);
-                        }
+        /*if (filter != null){
+            g.setColor(Color.BLACK);
+            for (int i = 0; i < image.getWidth(); i++) {
+                for (int j = 0; j < image.getHeight(); j++) {
+                    Color pixelColor = new Color(image.getRGB(i, j));
+                    if (!pixelColor.equals(filter)){
+                        g.fillRect(i, j, 1,1);
                     }
                 }
             }
+        }*/
 
-            if (enableGrid){
-                g.setColor(Color.RED);
-                for (int i = 0; i < DISPLAY_DIMENSIONS[0]; i+=DISPLAY_DIMENSIONS[0]/2) {
-                    for (int j = 0; j < DISPLAY_DIMENSIONS[1]; j+=DISPLAY_DIMENSIONS[1]/2) {
-                        g.drawRect(i, j,DISPLAY_DIMENSIONS[0]/2,DISPLAY_DIMENSIONS[1]/2);
-                    }
+        if (enableGrid){
+            g.setColor(Color.RED);
+            for (int i = 0; i < DISPLAY_DIMENSIONS[0]; i+=DISPLAY_DIMENSIONS[0]/2) {
+                for (int j = 0; j < DISPLAY_DIMENSIONS[1]; j+=DISPLAY_DIMENSIONS[1]/2) {
+                    g.drawRect(i, j,DISPLAY_DIMENSIONS[0]/2,DISPLAY_DIMENSIONS[1]/2);
                 }
             }
         }
@@ -85,9 +79,15 @@ public class BlockRepresentation extends Representation {
         return destinationBufferedImage;
     }
 
-    public void setColorFilter(Color color) {
+    /*public void setColorFilter(Color color) {
         this.filter = color;
         repaint();
+    }*/
+
+
+    @Override
+    public boolean hasRepresentation() {
+        return image != null;
     }
 
     @Override

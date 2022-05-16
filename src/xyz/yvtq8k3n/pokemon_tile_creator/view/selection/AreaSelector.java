@@ -1,8 +1,6 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.selection;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.OperatorController;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.AreaSelectableBehaviour;
 
 import java.awt.*;
 import java.awt.geom.Area;

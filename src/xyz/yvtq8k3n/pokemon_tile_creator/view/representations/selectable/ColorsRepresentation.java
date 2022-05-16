@@ -1,13 +1,12 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
+package xyz.yvtq8k3n.pokemon_tile_creator.view.representations.selectable;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.PaletteController;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.Selector;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.selectable.MultiSelectableRepresentation;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
 
-public class ColorsRepresentation extends SelectableRepresentation {
+public class ColorsRepresentation extends MultiSelectableRepresentation {
     private static final int[] IMG_DIMENSIONS = {128, 320};
     protected List<Color> selectedColors;
     protected Color[] sortedColors;
@@ -19,19 +18,15 @@ public class ColorsRepresentation extends SelectableRepresentation {
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (hasRepresentation()) {
-            for (int i = 0; i < sortedColors.length; i++) {
-                int x = i % 8;
-                int y = i / 8;
-                g.setColor(sortedColors[i]);
-                g.fillRect(x * BLOCK, y * BLOCK, BLOCK, BLOCK);
-            }
-
-            //Draw Selectors
-            paintSelectors(g);
+    protected void drawRepresentation(Graphics g) {
+        for (int i = 0; i < sortedColors.length; i++) {
+            int x = i % 8;
+            int y = i / 8;
+            g.setColor(sortedColors[i]);
+            g.fillRect(x * BLOCK, y * BLOCK, BLOCK, BLOCK);
         }
+
+        selectorInUse.drawComponent(g);
     }
 
     /*@Override
@@ -55,8 +50,8 @@ public class ColorsRepresentation extends SelectableRepresentation {
         }*/
     }
 
-    @Override
-    protected void drawPaintFilter(Graphics g, Selector selector) {}
+    /*@Override
+    protected void drawPaintFilter(Graphics g, Selector selector) {}*/
 
    /* @Override
     public void moveSingleSelector(int x, int y){

@@ -1,31 +1,30 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
+package xyz.yvtq8k3n.pokemon_tile_creator.view.representations.selectable;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.OperatorController;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.TileController;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.operators.Operator;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.AreaSelector;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.MultiSelector;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.Selector;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.SingleSelector;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-public abstract class SelectableRepresentation extends Representation implements SelectableBehaviour {
+public abstract class PaintFilterRepresentation extends SelectableRepresentation implements SelectableBehaviour {
     protected static Color FILTER_BACKGROUND = Color.BLACK;
     protected static Color GRID_COLOR = Color.RED;
     private static final int[] GRID_SIZE = {16,8,0};
 
     protected Operator currentOperator;
-    protected Selector selectorInUse;
     protected Selector[] selectors;
     protected Color colorFilter;
     private List<Point> colorFilterLocation;
     protected int gridIndex;
     protected int gridSize;
 
-    public SelectableRepresentation() {
+    public PaintFilterRepresentation() {
         super();
         this.gridIndex = GRID_SIZE.length-1;
         this.selectors = new Selector[]{
@@ -37,23 +36,7 @@ public abstract class SelectableRepresentation extends Representation implements
         OperatorController.addSelectableBehaviour(this);
     }
 
-    public void startSelection(int x, int y){
-        selectorInUse.startSelection(x, y);
-        repaint();
-    }
-
-    public void dragSelection(int x, int y){
-        selectorInUse.dragSelection(x, y);
-        repaint();
-    }
-    public void removeSelection(int x, int y){
-        selectorInUse.removeSelection(x, y);
-        repaint();
-    }
-
-    abstract boolean hasRepresentation();
-
-    protected void paintSelectors(Graphics g) {
+    protected void drawSelector(Graphics g) {
         drawGridComponent(g);
         if (hasRepresentation() && selectorInUse != null){
             drawPaintFilter(g, selectorInUse);
@@ -100,9 +83,12 @@ public abstract class SelectableRepresentation extends Representation implements
     @Override
     public void setOperator(Operator current) {
         int index = OperatorController.getOperatorIndex(current);
+        this.selectorInUse.resetSelection();
         this.selectorInUse = selectors[index];
         this.currentOperator = current;
+        repaint();
     }
+
 
     @Override
     public void mousePressed(MouseEvent e) {

@@ -1,7 +1,6 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.controller.operators;
 
-import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SelectableBehaviour;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.behaviour.SingleSelectableBehaviour;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.selectable.SelectableBehaviour;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;

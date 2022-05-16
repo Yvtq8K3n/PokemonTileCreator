@@ -1,4 +1,4 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
+package xyz.yvtq8k3n.pokemon_tile_creator.view.representations;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +14,19 @@ public abstract class Representation extends JPanel implements MouseMotionListen
         addMouseListener(this);
         addMouseMotionListener(this);
     }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        if (hasRepresentation()) {
+            drawRepresentation(g);
+        }
+    }
+
+    protected abstract void drawRepresentation(Graphics g);
+
+    public abstract boolean hasRepresentation();
 
     @Override
     public void mouseClicked(MouseEvent e) {

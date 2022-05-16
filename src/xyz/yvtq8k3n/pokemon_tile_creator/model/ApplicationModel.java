@@ -43,10 +43,13 @@ public class ApplicationModel {
 
     public void setCurrentOperator(int operatorState){
         currentOperator = operators[operatorState];
-        behaviorManager.notifyOperatorChange(currentOperator);
     }
 
     public int getOperatorIndex(Operator operator){
         return Arrays.asList(operators).indexOf(operator);
+    }
+
+    public Operator getOperator(int operatorState) {
+        return operators[operatorState];
     }
 }

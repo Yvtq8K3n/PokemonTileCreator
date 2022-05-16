@@ -3,8 +3,8 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.PaletteController;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.ColorsRepresentation;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.PaletteRepresentation;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.selectable.ColorsRepresentation;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.selectable.PaletteRepresentation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -79,7 +79,7 @@ public class ColorsPanel extends ActionPanel{
     }
 
     private void addEventListeners() {
-        btnColorGrid.addActionListener(e -> pnlColorsRepresentation.changeGridIndex());
+        //btnColorGrid.addActionListener(e -> pnlColorsRepresentation.changeGridIndex());
         btnColorSorter.addActionListener(e ->{
             PaletteController.changeSortingMethod();
             PaletteController.loadSortedColors();

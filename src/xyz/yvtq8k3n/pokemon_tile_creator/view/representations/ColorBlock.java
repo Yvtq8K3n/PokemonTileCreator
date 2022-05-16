@@ -1,22 +1,27 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view.representation;
+package xyz.yvtq8k3n.pokemon_tile_creator.view.representations;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ColorRepresentation extends Representation{
+public class ColorBlock extends Representation{
     public static final int[] DISPLAY_DIMENSIONS = {72, 72};
     protected Color color;
     protected Color changingColor;
 
-    public ColorRepresentation() {
+    public ColorBlock() {
         setPreferredSize(TileHelper.createDimension(DISPLAY_DIMENSIONS));
         setBorder(BorderFactory.createLineBorder(Color.RED));
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    public boolean hasRepresentation() {
+        return false;
+    }
+
+    @Override
+    protected void drawRepresentation(Graphics g) {
         super.paintComponent(g);
         g.setColor(color);
         g.fillRect(0, 0, DISPLAY_DIMENSIONS[0], DISPLAY_DIMENSIONS[1]);

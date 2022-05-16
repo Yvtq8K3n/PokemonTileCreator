@@ -2,9 +2,9 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.component.ColorScrollbar;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.component.ColorTextField;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.ColorRepresentation;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.components.ColorScrollbar;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.components.ColorTextField;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.ColorBlock;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -23,7 +23,7 @@ public class MenuColorsPanel extends ActionPanel{
     public JButton btnAddToList;
 
     public JPanel pnlColorPicker; //ColorPicker
-    public ColorRepresentation colorRepresentation;
+    public ColorBlock colorBlock;
     public ColorTextField colorTextField;
 
     public JPanel pnlColorScrollbar; //ColorScrollBar
@@ -88,11 +88,11 @@ public class MenuColorsPanel extends ActionPanel{
         pnlColorPicker = new JPanel();
 
         JPanel pnlCenter = new JPanel();
-        colorRepresentation = new ColorRepresentation();
+        colorBlock = new ColorBlock();
         pnlCenter.setLayout(new FlowLayout(FlowLayout.CENTER));
         Dimension dimFillerA = TileHelper.createDimension(new int[]{10,2});
         pnlCenter.add(new Box.Filler(dimFillerA, dimFillerA, dimFillerA));
-        pnlCenter.add(colorRepresentation);
+        pnlCenter.add(colorBlock);
 
         JPanel leftPanel = new JPanel();
         colorTextField = new ColorTextField();
@@ -219,13 +219,13 @@ public class MenuColorsPanel extends ActionPanel{
     }
 
     public void setDisplayColor(Color color) {
-        colorRepresentation.setColor(color);
+        colorBlock.setColor(color);
         colorTextField.setColor(color);
         colorScrollbar.setColor(color);
     }
 
     public void setChangingColor(Color color) {
-        colorRepresentation.setChangingColor(color);
+        colorBlock.setChangingColor(color);
         colorTextField.setChangingColor(color);
         colorScrollbar.setChangingColor(color);
     }

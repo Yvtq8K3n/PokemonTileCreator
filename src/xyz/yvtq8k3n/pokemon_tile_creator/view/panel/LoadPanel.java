@@ -3,7 +3,8 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.LoadController;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.PaletteController;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.representation.BlockRepresentation;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.ColorBlock;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.ImageBlock;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,7 @@ import java.awt.*;
 public class LoadPanel extends ActionPanel{
 
     public JPanel pnlBlockDisplay;
-    public BlockRepresentation blockRepresentation;
+    public ImageBlock imageBlock;
 
     public JPanel pnlButtons;
     public JButton btnPalette;
@@ -27,8 +28,8 @@ public class LoadPanel extends ActionPanel{
     private void initComponents() {
         pnlBlockDisplay = new JPanel();
 
-        blockRepresentation = new BlockRepresentation();
-        pnlBlockDisplay.add(blockRepresentation);
+        imageBlock = new ImageBlock();
+        pnlBlockDisplay.add(imageBlock);
 
         pnlButtons = new JPanel();
         pnlButtons.setPreferredSize(TileHelper.createDimension(MENU_DIMENSION));

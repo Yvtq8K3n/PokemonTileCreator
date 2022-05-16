@@ -1,16 +1,9 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view.component;
+package xyz.yvtq8k3n.pokemon_tile_creator.view.components;
 
-import lombok.experimental.Helper;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.text.Document;
 import java.awt.*;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 

@@ -91,6 +91,6 @@ public enum LoadController{
     }
 
     public static void setDisplayBlock(BufferedImage image, int[] initialLocation) {
-        view.loadPanel.blockRepresentation.setImage(image, initialLocation[0], initialLocation[1]);
+        view.loadPanel.imageBlock.setImage(image, initialLocation[0], initialLocation[1]);
     }
 }
