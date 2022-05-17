@@ -1,9 +1,5 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.selection;
 
-import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.OperatorController;
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.operators.Operator;
-
 import java.awt.*;
 import java.awt.geom.Area;
 
@@ -31,12 +27,12 @@ public class SingleSelector extends Selector{
     }
 
     @Override
-    public Area getSelectorArea() {
-        Area area = new Area();
+    public Area getSelectionArea() {
         Rectangle r = new Rectangle(initialLocation[0], initialLocation[1], BLOCK, BLOCK);
-        area.add(new Area(r));
-        return area;
+        return new Area(r);
     }
+
+
 
    /* @Override
     public void startSingleSelector(int x, int y){

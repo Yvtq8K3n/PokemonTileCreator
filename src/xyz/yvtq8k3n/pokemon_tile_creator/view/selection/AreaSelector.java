@@ -42,7 +42,7 @@ public class AreaSelector extends SingleSelector {
     }
 
     @Override
-    public Area getSelectorArea() {
+    public Area getSelectionArea() {
         int[] minCoordinates = getStartingPoint();
         int[] maxCoordinates = getEndingPoint();
 
@@ -53,22 +53,6 @@ public class AreaSelector extends SingleSelector {
         area.add(new Area(r));
         return area;
     }
-
-    /*@Override
-    public void startAreaSelector(int x, int y) {
-        Point bound = TileHelper.applyBoundsConstraint(x, y);
-        startSelection(bound.x, bound.y);
-        resizeAreaSelector(x, y);
-    }
-
-
-    @Override
-    public void resizeAreaSelector(int x, int y) {
-        //if (!hasRepresentation()) return;
-        Point bound = TileHelper.applyBoundsConstraint(x, y);
-        resizeSelector(bound.x, bound.y);
-        //repaint();
-    }*/
 
     @Override
     public void startSelection(int x, int y) {

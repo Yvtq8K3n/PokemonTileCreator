@@ -93,14 +93,15 @@ public abstract class TileHelper {
         return new int[]{minX, minY};
     }
 
-
     /** Given an
      * @param x coordinate
      * @param y coordinate
      * @return a Point that its multiple of BLOCK
      */
     public static Point blockAdjustment(int x, int y){
-        return new Point(BLOCK * Math.floorDiv(x, BLOCK),BLOCK * Math.floorDiv(y, BLOCK));
+        Point constrained = applyBoundsConstraint(x, y);
+        return new Point(BLOCK * Math.floorDiv(constrained.x, BLOCK),
+                BLOCK * Math.floorDiv(constrained.y, BLOCK));
     }
 
     /** Maps the
@@ -132,7 +133,7 @@ public abstract class TileHelper {
         x = Math.max(x, 0);
 
         //Replace y(0, max) if it's out of viewport
-        y = Math.min(y, 192 - BLOCK);
+        y = Math.min(y, 320 - BLOCK);
         y = Math.max(y, 0);
         return new Point(x, y);
     }

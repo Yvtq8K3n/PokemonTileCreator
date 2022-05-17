@@ -32,6 +32,25 @@ public class PaletteRepresentation extends SelectableRepresentation {
         selectorInUse.drawComponent(g);
     }
 
+    @Override
+    public void startSelection(int x, int y) {
+        super.startSelection(x, y);
+        int index = TileHelper.calculateColorsIndex(x, y);
+        TileController.setColorFilter(palette[index]);
+    }
+
+    @Override
+    public void dragSelection(int x, int y) {
+        super.dragSelection(x, y);
+        int index = TileHelper.calculateColorsIndex(x, y);
+        TileController.setColorFilter(palette[index]);
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        super.mouseReleased(e);
+        TileController.setColorFilter(null);
+    }
 
     @Override
     public boolean hasRepresentation() {

@@ -27,27 +27,26 @@ public class MultiSelector extends Selector {
         selectionPoints.remove(selectionEntry);
     }
 
-    public void resetSelectionEntries(){
-        selectionPoints.clear();
-    }
-
     @Override
-    public void drawComponent(Graphics g) {
-
-        g.setColor(SELECTOR_COLOR);
-        for (Point point:selectionPoints) {
-            g.drawRect(point.x, point.y, BLOCK, BLOCK);
-        }
-    }
-
-    @Override
-    public Area getSelectorArea() {
+    public Area getSelectionArea() {
         Area area = new Area();
         for (Point point:selectionPoints) {
             Rectangle r = new Rectangle((int)point.getX(), (int)point.getY(), BLOCK, BLOCK);
             area.add(new Area(r));
         }
         return area;
+    }
+
+    public void resetSelectionEntries(){
+        selectionPoints.clear();
+    }
+
+    @Override
+    public void drawComponent(Graphics g) {
+        g.setColor(SELECTOR_COLOR);
+        for (Point point:selectionPoints) {
+            g.drawRect(point.x, point.y, BLOCK, BLOCK);
+        }
     }
 
     @Override

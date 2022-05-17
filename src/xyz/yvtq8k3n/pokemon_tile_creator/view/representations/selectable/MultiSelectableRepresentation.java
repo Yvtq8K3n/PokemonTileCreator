@@ -24,10 +24,14 @@ public abstract class MultiSelectableRepresentation extends SelectableRepresenta
     //Changes selector everytime operator changes
     @Override
     public void setOperator(Operator current) {
-        int index = OperatorController.getOperatorIndex(current);
-        this.selectorInUse.resetSelection();
-        this.selectorInUse = selectors[index];
         this.operatorInUse = current;
+        int index = OperatorController.getOperatorIndex(current);
+        changeSelector(selectors[index]);
         repaint();
+    }
+
+    public void changeSelector(Selector selector){
+        this.selectorInUse.resetSelection();
+        this.selectorInUse = selector;
     }
 }

@@ -8,6 +8,7 @@ public abstract class Selector {
     protected final static int BLOCK = 16;
     public static final int INACTIVE = 0;
     public static final int ACTIVE = 1;
+    protected Area selectionArea;
     protected int state;
 
     public Selector() {
@@ -21,13 +22,15 @@ public abstract class Selector {
 
     public abstract void drawComponent(Graphics g);
 
-    public abstract Area getSelectorArea();
+    public boolean hasArea() {return selectionArea != null; }
+    public abstract Area getSelectionArea();
 
     public boolean isActive() {
         return state == ACTIVE;
     }
-
     public void setState(int state){
         this.state = state;
     }
+
+
 }

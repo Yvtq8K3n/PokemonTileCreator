@@ -49,18 +49,12 @@ public class ImageBlock extends BlockRepresentation {
 
     public void setImage(BufferedImage image, int x, int y) {
         //Crop from image wanted box
-        this.initialLocation = new int[]{x, y};
-        BufferedImage subImage = image.getSubimage(x, y, BLOCK, BLOCK);
+        Point adjusted = TileHelper.blockAdjustment(x, y);
+        BufferedImage subImage = image.getSubimage(adjusted.x, adjusted.y, BLOCK, BLOCK);
 
         //Scale image
         this.image = generateScaledImage(subImage);
         repaint();
-    }
-
-    public void setImage(BufferedImage image) {
-        if (initialLocation!=null){
-            setImage(image, initialLocation[0], initialLocation[1]);
-        }
     }
 
     private BufferedImage generateScaledImage(BufferedImage image) {

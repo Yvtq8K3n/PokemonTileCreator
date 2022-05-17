@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+import static xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel.OPERATOR_SINGLE;
+
 public enum LoadController{
     LOAD_CONTROLLER;
 
@@ -90,7 +92,9 @@ public enum LoadController{
         }
     }
 
-    public static void setDisplayBlock(BufferedImage image, int[] initialLocation) {
-        view.loadPanel.imageBlock.setImage(image, initialLocation[0], initialLocation[1]);
+    public static void setDisplayBlock(BufferedImage image, int x, int y) {
+        if(model.isCurrentOperator(OPERATOR_SINGLE)){
+            view.loadPanel.imageBlock.setImage(image, x, y);
+        }
     }
 }
