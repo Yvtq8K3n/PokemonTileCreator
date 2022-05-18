@@ -11,6 +11,7 @@ import static xyz.yvtq8k3n.pokemon_tile_creator.ColorHelper.COLOR_STEP;
 import static xyz.yvtq8k3n.pokemon_tile_creator.model.Tileset.PALETTE_LIMIT;
 
 public abstract class TileHelper {
+    private static final int PALETTE_LIMIT = 16;
     protected final static int BLOCK = 16;
     protected final static int STEP = 16;
 
@@ -136,6 +137,13 @@ public abstract class TileHelper {
         y = Math.min(y, 320 - BLOCK);
         y = Math.max(y, 0);
         return new Point(x, y);
+    }
+
+    public static int applyBoundsConstraint(int index){
+        //Replace x(0, max) if it's out of viewport
+        index = Math.min(index, PALETTE_LIMIT - 1);
+        index = Math.max(index, 0);
+        return index;
     }
 }
 

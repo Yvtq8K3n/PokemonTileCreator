@@ -9,33 +9,31 @@ import java.awt.image.BufferedImage;
 
 //Maybe I should change this to BlockDisplay and Display abstract class
 public class ImageBlock extends BlockRepresentation {
-    private int[] initialLocation;
+    protected static Color FILTER_BACKGROUND = Color.BLACK;
     private BufferedImage image;
-
     private boolean enableGrid;
-    //private Color filter;
+    private Color colorFilter;
 
     public ImageBlock() {
         super();
         enableGrid = false;
-        //filter = null;
     }
 
     @Override
     protected void drawRepresentation(Graphics g) {
         g.drawImage(image, 0, 0, this);
 
-        /*if (filter != null){
-            g.setColor(Color.BLACK);
+        if (colorFilter != null){
+            g.setColor(FILTER_BACKGROUND);
             for (int i = 0; i < image.getWidth(); i++) {
                 for (int j = 0; j < image.getHeight(); j++) {
                     Color pixelColor = new Color(image.getRGB(i, j));
-                    if (!pixelColor.equals(filter)){
+                    if (!pixelColor.equals(colorFilter)){
                         g.fillRect(i, j, 1,1);
                     }
                 }
             }
-        }*/
+        }
 
         if (enableGrid){
             g.setColor(Color.RED);
@@ -73,10 +71,10 @@ public class ImageBlock extends BlockRepresentation {
         return destinationBufferedImage;
     }
 
-    /*public void setColorFilter(Color color) {
-        this.filter = color;
+    public void setColorFilter(Color color) {
+        this.colorFilter = color;
         repaint();
-    }*/
+    }
 
 
     @Override

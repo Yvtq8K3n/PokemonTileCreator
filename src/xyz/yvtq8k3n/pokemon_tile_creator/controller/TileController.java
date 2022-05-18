@@ -32,5 +32,8 @@ public enum TileController{
 
     public static void setColorFilter(Color color) {
         view.originalTilesetPanel.tileRepresentation.setColorFilter(color);
+        if (model.isCurrentOperator(OPERATOR_SINGLE)){
+            view.loadPanel.imageBlock.setColorFilter(color);
+        }
     }
 }

@@ -36,6 +36,7 @@ public class PaletteRepresentation extends SelectableRepresentation {
     public void startSelection(int x, int y) {
         super.startSelection(x, y);
         int index = TileHelper.calculateColorsIndex(x, y);
+        index = TileHelper.applyBoundsConstraint(index);
         TileController.setColorFilter(palette[index]);
     }
 
@@ -43,6 +44,7 @@ public class PaletteRepresentation extends SelectableRepresentation {
     public void dragSelection(int x, int y) {
         super.dragSelection(x, y);
         int index = TileHelper.calculateColorsIndex(x, y);
+        index = TileHelper.applyBoundsConstraint(index);
         TileController.setColorFilter(palette[index]);
     }
 
