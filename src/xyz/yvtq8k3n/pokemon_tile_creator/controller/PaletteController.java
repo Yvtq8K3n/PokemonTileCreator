@@ -1,15 +1,11 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.controller;
 
-import xyz.yvtq8k3n.pokemon_tile_creator.controller.operators.Operator;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.ColorModel;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.Tileset;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.ApplicationView;
 
 import java.awt.*;
-import java.util.List;
-
-import static xyz.yvtq8k3n.pokemon_tile_creator.model.ApplicationModel.OPERATOR_SINGLE;
 
 public enum PaletteController{
     PALETTE_CONTROLLER;
