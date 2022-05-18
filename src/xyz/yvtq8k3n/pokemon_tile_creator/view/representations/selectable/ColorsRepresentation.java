@@ -1,5 +1,6 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.representations.selectable;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.PaletteController;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.MultiSelector;
 
 import java.util.ArrayList;
@@ -35,37 +36,41 @@ public class ColorsRepresentation extends MultiSelectableRepresentation {
     @Override
     public void startSelection(int x, int y) {
         super.startSelection(x, y);
-        addSelectedColor(x, y);
+        int index = TileHelper.calculateColorsIndex(x, y);
+        if (index >= 0 && index<sortedColors.length) {
+            Color color = sortedColors[index];
+            PaletteController.addSelectedColor(color);
+        }
     }
 
     @Override
     public void dragSelection(int x, int y) {
         super.dragSelection(x, y);
-        addSelectedColor(x, y);
+        int index = TileHelper.calculateColorsIndex(x, y);
+        if (index >= 0 && index<sortedColors.length) {
+            Color color = sortedColors[index];
+            PaletteController.addSelectedColor(color);
+        }
     }
 
     @Override
     public void removeSelection(int x, int y) {
         super.removeSelection(x, y);
-        removeSelectedColor(x, y);
-    }
-
-
-    private void addSelectedColor(int x, int y) {
         int index = TileHelper.calculateColorsIndex(x, y);
-        if (index >= 0 && index<sortedColors.length){
+        if (index >= 0 && index<sortedColors.length) {
             Color color = sortedColors[index];
-            if (!selectedColors.contains(color)){
-                this.selectedColors.add(color);
-            }
+            PaletteController.removeSelectedColor(color);
         }
     }
 
-    private void removeSelectedColor(int x, int y) {
-        int index = TileHelper.calculateColorsIndex(x, y);
-        if (index > 0 && index<sortedColors.length){
-            this.selectedColors.remove(sortedColors[index]);
-        }
+    public void addSelectedColor(Color color) {
+        if (!selectedColors.contains(color)) this.selectedColors.add(color);
+        System.out.println(selectedColors.size());
+    }
+
+    public void removeSelectedColor(Color color) {
+        this.selectedColors.remove(color);
+        System.out.println(selectedColors.size());
     }
 
     public void sortMethodChanged() {

@@ -48,4 +48,17 @@ public enum PaletteController{
         view.menuColorsPanel.setChangingColor(color);
         view.menuColorsPanel.repaint();
     }
+
+    public static void addSelectedColor(Color color) {
+        view.menuColorsPanel.setDisplayColor(color);
+        if (model.isCurrentOperator(ApplicationModel.OPERATOR_MULTI)){
+            view.colorsPanelOriginal.addSelectedColor(color);
+        }
+    }
+
+    public static void removeSelectedColor(Color color) {
+        if (model.isCurrentOperator(ApplicationModel.OPERATOR_MULTI)){
+            view.colorsPanelOriginal.removeSelectedColor(color);
+        }
+    }
 }

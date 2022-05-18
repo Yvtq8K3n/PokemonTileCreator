@@ -1,7 +1,6 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.representations;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -16,13 +15,7 @@ public class ColorBlock extends Representation{
     }
 
     @Override
-    public boolean hasRepresentation() {
-        return false;
-    }
-
-    @Override
     protected void drawRepresentation(Graphics g) {
-        super.paintComponent(g);
         g.setColor(color);
         g.fillRect(0, 0, DISPLAY_DIMENSIONS[0], DISPLAY_DIMENSIONS[1]);
 
@@ -36,7 +29,11 @@ public class ColorBlock extends Representation{
     public void setColor(Color selectedColor) {
         this.color = selectedColor;
         this.changingColor = null;
+        repaint();
     }
+
+    @Override
+    public boolean hasRepresentation() {return color != null; }
 
     public boolean hasChangingColor(){
         return changingColor != null;

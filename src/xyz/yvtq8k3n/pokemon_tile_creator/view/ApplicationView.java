@@ -194,4 +194,6 @@ public class ApplicationView extends JFrame{
             menuCardLayout.show(pnlRightMenu, COLORS_PANEL);
         });
     }
+
+
 }

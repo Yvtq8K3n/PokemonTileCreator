@@ -91,4 +91,17 @@ public class ColorsPanel extends ActionPanel{
         pnlColorsRepresentation.setSortedColors(sortedColors);
         repaint();
     }
+
+    public void setSelectedColor(Color color) {
+        //pnlColorsRepresentation
+    }
+
+    public void addSelectedColor(Color color) {
+        pnlColorsRepresentation.addSelectedColor(color);
+    }
+
+    public void removeSelectedColor(Color color) {
+        pnlColorsRepresentation.removeSelectedColor(color);
+    }
+
 }
