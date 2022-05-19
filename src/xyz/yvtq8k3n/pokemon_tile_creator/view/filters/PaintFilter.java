@@ -9,12 +9,17 @@ public abstract class PaintFilter {
     protected BufferedImage image;
     protected Color colorFilter;
 
-    public abstract void drawComponent(Graphics g);
+    public final void drawComponent(Graphics g){
+        if (hasColorFilter()){
+            drawPaintFilter(g);
+        }
+    }
+    protected abstract void drawPaintFilter(Graphics g);
 
     protected void setColorFilter(Color colorFilter){
         this.colorFilter = colorFilter;
     }
-    public boolean hasColorFilter() {return colorFilter!=null;}
+    public boolean hasColorFilter() {return colorFilter != null;}
     public void resetFilter() {
         this.colorFilter = null;
     }

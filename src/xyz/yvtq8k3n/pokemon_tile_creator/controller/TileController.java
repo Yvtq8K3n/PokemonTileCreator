@@ -22,11 +22,16 @@ public enum TileController{
     }
 
     public static void setColorFilter(Color color) {
-        System.out.println("filter!");
         view.originalTilesetPanel.tileRepresentation.setPaletteColorFilter(color);
+
+        //Apply filter to ImageBlock in case of OPERATOR_SINGLE
         if (model.isCurrentOperator(OPERATOR_SINGLE)){
             view.loadPanel.imageBlock.setColorFilter(color);
         }
+    }
+
+    public static void softResetColorFilter() {
+        view.originalTilesetPanel.tileRepresentation.softResetColorFilter();
     }
 
     public static List<Point> getColor(Color color){

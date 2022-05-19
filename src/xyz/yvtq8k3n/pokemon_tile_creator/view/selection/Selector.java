@@ -21,8 +21,6 @@ public abstract class Selector {
     public abstract void resetSelection();
 
     public abstract void drawComponent(Graphics g);
-
-    public boolean hasArea() {return selectionArea != null; }
     public abstract Area getSelectionArea();
 
     public boolean isActive() {

@@ -10,16 +10,18 @@ public class PaletteColorFilter extends PaintFilter{
     public PaletteColorFilter() {
     }
 
-    public void drawComponent(Graphics g) {
-        if(hasColorFilter()){
-            Area area = selector.getSelectionArea();
-            g.setColor(FILTER_BACKGROUND);
+    @Override
+    protected void drawPaintFilter(Graphics g) {
+        g.setColor(FILTER_BACKGROUND);
+        Area area = selector.getSelectionArea();
+
+        if (area != null) {
             for (int i = 0; i < image.getWidth(); i++) {
                 for (int j = 0; j < image.getHeight(); j++) {
                     Color pixelColor = new Color(image.getRGB(i, j));
-                    if (area.contains(i, j ) &&
-                            !pixelColor.equals(colorFilter)){
-                        g.fillRect(i, j, 1,1);
+                    if (area.contains(i, j) &&
+                            !pixelColor.equals(colorFilter)) {
+                        g.fillRect(i, j, 1, 1);
                     }
                 }
             }

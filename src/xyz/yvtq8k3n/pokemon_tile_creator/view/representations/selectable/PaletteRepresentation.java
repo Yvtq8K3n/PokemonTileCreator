@@ -2,8 +2,6 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view.representations.selectable;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.TileController;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.Representation;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.selection.SingleSelector;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -51,7 +49,7 @@ public class PaletteRepresentation extends SelectableRepresentation {
     @Override
     public void mouseReleased(MouseEvent e) {
         super.mouseReleased(e);
-        TileController.setColorFilter(null);
+        TileController.softResetColorFilter();
     }
 
     @Override
