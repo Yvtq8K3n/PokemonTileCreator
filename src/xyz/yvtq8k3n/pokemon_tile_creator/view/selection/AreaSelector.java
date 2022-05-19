@@ -43,14 +43,18 @@ public class AreaSelector extends SingleSelector {
 
     @Override
     public Area getSelectionArea() {
-        int[] minCoordinates = getStartingPoint();
-        int[] maxCoordinates = getEndingPoint();
+        Area area = null;
+        try{
+            int[] minCoordinates = getStartingPoint();
+            int[] maxCoordinates = getEndingPoint();
 
-        Area area = new Area();
-        Rectangle r = new Rectangle(minCoordinates[0], minCoordinates[1],
-                maxCoordinates[0] - minCoordinates[0] + BLOCK,
-                maxCoordinates[1] - minCoordinates[1] + BLOCK);
-        area.add(new Area(r));
+            Rectangle r = new Rectangle(minCoordinates[0], minCoordinates[1],
+                    maxCoordinates[0] - minCoordinates[0] + BLOCK,
+                    maxCoordinates[1] - minCoordinates[1] + BLOCK);
+            area = new Area(r);
+        }catch (Exception ex){
+            throw new IllegalArgumentException("Unable to generate a valid area for selector");
+        }
         return area;
     }
 

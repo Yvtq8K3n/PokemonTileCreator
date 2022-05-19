@@ -28,24 +28,15 @@ public class SingleSelector extends Selector{
 
     @Override
     public Area getSelectionArea() {
-        Rectangle r = new Rectangle(initialLocation[0], initialLocation[1], BLOCK, BLOCK);
-        return new Area(r);
+        Area area = null;
+        try{
+            Rectangle r = new Rectangle(initialLocation[0], initialLocation[1], BLOCK, BLOCK);
+            area = new Area(r);
+        }catch (Exception ex){
+            throw new IllegalArgumentException("Unable to generate a valid area for selector");
+        }
+        return area;
     }
-
-
-
-   /* @Override
-    public void startSingleSelector(int x, int y){
-        moveSingleSelector(x, y);
-    }
-
-    @Override
-    public void moveSingleSelector(int x, int y){
-        //if (!hasRepresentation()) return;
-        //Set selector location
-        Point bound = TileHelper.applyBoundsConstraint(x, y);
-        startSelection(bound.x, bound.y);
-    }*/
 
     public int[] getInitialLocation() {
         return initialLocation;

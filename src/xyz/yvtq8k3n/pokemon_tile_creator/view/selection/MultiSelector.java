@@ -29,13 +29,20 @@ public class MultiSelector extends Selector {
 
     @Override
     public Area getSelectionArea() {
-        Area area = new Area();
-        for (Point point:selectionPoints) {
-            Rectangle r = new Rectangle((int)point.getX(), (int)point.getY(), BLOCK, BLOCK);
-            area.add(new Area(r));
+        Area area = null;
+        try{
+            for (Point point:selectionPoints) {
+                Rectangle r = new Rectangle((int)point.getX(), (int)point.getY(), BLOCK, BLOCK);
+                if (area == null) area = new Area(r);
+                else area.add(new Area(r));
+            }
+        }catch (Exception ex){
+            throw new IllegalArgumentException("Unable to generate a valid area for selector");
         }
         return area;
     }
+
+
 
     public void resetSelectionEntries(){
         selectionPoints.clear();
