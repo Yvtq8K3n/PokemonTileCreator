@@ -25,24 +25,25 @@ public abstract class PaintFilterRepresentation extends GridRepresentation{
     public void setColorFilter(Color original, Color filter) {
         setPaintFilterInUse(paintFilters[COLOR_FILTER]);
         if (paintFilterInUse instanceof ColorFilter colorFilter) colorFilter.setColorFilter(original, filter);
-        repaint();
     }
 
     public void setPaletteColorFilter(Color color) {
         setPaintFilterInUse(paintFilters[PALETTE_COLOR_FILTER]);
         if (paintFilterInUse instanceof PaletteColorFilter paletteColorFilter) paletteColorFilter.setColorFilter(color, selectorInUse);
-        repaint();
     }
 
     public void softResetColorFilter() {
-        this.paintFilterInUse = paintFilters[COLOR_FILTER];
-        repaint();
+        setPaintFilterInUse(paintFilters[COLOR_FILTER]);
+    }
+    
+    public void hardResetColorFilter(){
+        this.paintFilterInUse.resetFilter();
     }
 
     //Set Images
     public void setPaintFilterInUse(PaintFilter paintFilterInUse) {
-        this.paintFilterInUse.resetFilter();
         this.paintFilterInUse = paintFilterInUse;
+        repaint();
     }
     public void setImage(BufferedImage image){
         for (PaintFilter paintFilter: paintFilters){
