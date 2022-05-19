@@ -3,7 +3,7 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.PaletteController;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.selectable.ColorsRepresentation;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.selectable.multiple.ColorsRepresentation;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.selectable.PaletteRepresentation;
 
 import javax.swing.*;
@@ -79,7 +79,7 @@ public class ColorsPanel extends ActionPanel{
     }
 
     private void addEventListeners() {
-        //btnColorGrid.addActionListener(e -> pnlColorsRepresentation.changeGridIndex());
+        btnColorGrid.addActionListener(e -> pnlColorsRepresentation.changeGrid());
         btnColorSorter.addActionListener(e ->{
             PaletteController.changeSortingMethod();
             PaletteController.loadSortedColors();
@@ -92,16 +92,8 @@ public class ColorsPanel extends ActionPanel{
         repaint();
     }
 
-    public void setSelectedColor(Color color) {
-        //pnlColorsRepresentation
-    }
 
-    public void addSelectedColor(Color color) {
-        pnlColorsRepresentation.addSelectedColor(color);
+    public void updateSelectedColors() {
+        pnlColorsRepresentation.setSelectedColors(PaletteController.getSelectedColors());
     }
-
-    public void removeSelectedColor(Color color) {
-        pnlColorsRepresentation.removeSelectedColor(color);
-    }
-
 }

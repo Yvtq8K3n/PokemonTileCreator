@@ -23,12 +23,6 @@ public class GridViewer {
         gridIndex = gridSize.length - 1;
     }
 
-    public GridViewer(Dimension dimension) {
-        this();
-        this.width = dimension.width;
-        this.height = dimension.height;
-    }
-
     public void drawGrid(Graphics g){
         if (hasGrid()) {
             g.setColor(GRID_COLOR);
@@ -53,5 +47,10 @@ public class GridViewer {
 
     private boolean hasGrid(){
         return gridSize[gridIndex] > 0;
+    }
+
+    public void setGridBounds(Dimension dimension) {
+        this.width = dimension.width;
+        this.height = dimension.height;
     }
 }

@@ -4,7 +4,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.model.Tileset;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.selectable.PaletteRepresentation;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.selectable.TileRepresentation;
+import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.selectable.multiple.TileRepresentation;
 
 import javax.swing.*;
 import java.awt.*;

@@ -7,8 +7,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Data
 public class ColorModel {
@@ -19,28 +17,28 @@ public class ColorModel {
             ColorUnitFrequencySorting.CRITERIA
     };
 
-    private Tileset tileset;
     private List<Color> allColors;
     private Color[] allDistinctColors;
     private Map<Color, List<Point>> colorsMap;
     private ColorUnit[] sortedColors;
     public int sortingIndex;
+    private List<Color> selectedColors;
 
     protected ColorModel() {
         this.sortingIndex = 0;
+        this.selectedColors = new ArrayList<>();
     }
 
     public ColorModel(Tileset tileset) {
         this();
-        this.tileset = tileset;
-        this.allColors = retrieveAllColors();  //Contains all colors
+        this.allColors = retrieveAllColors(tileset);  //Contains all colors
         this.allDistinctColors = retrieveAllDistinctColors();  //Contains only first occurrence of each color
-        this.colorsMap = calculateColorsMap(); //Group colors to count occurrences
+        this.colorsMap = calculateColorsMap(tileset); //Group colors to count occurrences
         this.sortedColors = generateColorUnits();
     }
 
     //Loads all colors present in buffered into a 1D-Array
-    private List<Color> retrieveAllColors() {
+    private List<Color> retrieveAllColors(Tileset tileset) {
         BufferedImage image = tileset.getImage();
         List<Color> colors = new ArrayList<>();
 
@@ -54,7 +52,7 @@ public class ColorModel {
     }
 
     //Group all colors by their respective color
-    private Map<Color, List<Point>> calculateColorsMap() {
+    private Map<Color, List<Point>> calculateColorsMap(Tileset tileset) {
         Map<Color, List<Point>> colorsGroup = new HashMap();
         Iterator<Color> itColors = allColors.listIterator();
 
@@ -114,5 +112,13 @@ public class ColorModel {
 
     public List<Point> getColorLocations(Color color){
         return colorsMap.get(color);
+    }
+
+    public void addSelectedColor(Color color) {
+        if (!selectedColors.contains(color)) this.selectedColors.add(color);
+    }
+
+    public void removeSelectedColor(Color color) {
+        this.selectedColors.remove(color);
     }
 }
