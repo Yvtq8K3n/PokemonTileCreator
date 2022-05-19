@@ -35,7 +35,7 @@ public abstract class PaintFilterRepresentation extends GridRepresentation{
     public void softResetColorFilter() {
         setPaintFilterInUse(paintFilters[COLOR_FILTER]);
     }
-    
+
     public void hardResetColorFilter(){
         this.paintFilterInUse.resetFilter();
     }
