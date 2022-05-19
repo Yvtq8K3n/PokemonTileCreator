@@ -1,16 +1,14 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
+package xyz.yvtq8k3n.pokemon_tile_creator.view;
 
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.LoadController;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.PaletteController;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.ColorBlock;
 import xyz.yvtq8k3n.pokemon_tile_creator.view.representations.ImageBlock;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class LoadPanel extends ActionPanel{
-
     public JPanel pnlBlockDisplay;
     public ImageBlock imageBlock;
 

@@ -3,10 +3,6 @@ package xyz.yvtq8k3n.pokemon_tile_creator.view;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.OperatorController;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.TilesetPanel;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.ColorsPanel;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.LoadPanel;
-import xyz.yvtq8k3n.pokemon_tile_creator.view.panel.MenuColorsPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

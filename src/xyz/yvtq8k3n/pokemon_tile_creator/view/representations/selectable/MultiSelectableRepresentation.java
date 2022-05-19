@@ -26,11 +26,11 @@ public abstract class MultiSelectableRepresentation extends SelectableRepresenta
     public void setOperator(Operator current) {
         this.operatorInUse = current;
         int index = OperatorController.getOperatorIndex(current);
-        changeSelector(selectors[index]);
+        setSelectorInUse(selectors[index]);
         repaint();
     }
 
-    public void changeSelector(Selector selector){
+    public void setSelectorInUse(Selector selector){
         this.selectorInUse.resetSelection();
         this.selectorInUse = selector;
     }

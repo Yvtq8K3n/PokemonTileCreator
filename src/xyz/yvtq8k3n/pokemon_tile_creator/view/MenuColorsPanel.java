@@ -1,4 +1,4 @@
-package xyz.yvtq8k3n.pokemon_tile_creator.view.panel;
+package xyz.yvtq8k3n.pokemon_tile_creator.view;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
@@ -218,15 +218,17 @@ public class MenuColorsPanel extends ActionPanel{
 
     }
 
-    public void setDisplayColor(Color color) {
-        colorBlock.setColor(color);
-        colorTextField.setColor(color);
-        colorScrollbar.setColor(color);
+    public void setColorBlockSlot1(Color color) {
+        colorBlock.setColorSlot1(color);
+        colorTextField.setSelectedColor(color);
+        colorScrollbar.setSelectedColor(color);
+        repaint();
     }
 
-    public void setChangingColor(Color color) {
-        colorBlock.setChangingColor(color);
-        colorTextField.setChangingColor(color);
-        colorScrollbar.setChangingColor(color);
+    public void setColorBlockSlot2(Color color) {
+        colorBlock.setColorSlot2(color);
+        colorTextField.setSelectedColor(color);
+        colorScrollbar.setSelectedColor(color);
+        repaint();
     }
 }

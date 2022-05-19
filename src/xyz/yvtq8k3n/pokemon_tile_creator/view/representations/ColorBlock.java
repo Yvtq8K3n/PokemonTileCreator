@@ -6,8 +6,8 @@ import java.awt.*;
 
 public class ColorBlock extends Representation{
     public static final int[] DISPLAY_DIMENSIONS = {72, 72};
-    protected Color color;
-    protected Color changingColor;
+    protected Color colorSlot1;
+    protected Color colorSlot2;
 
     public ColorBlock() {
         setPreferredSize(TileHelper.createDimension(DISPLAY_DIMENSIONS));
@@ -16,30 +16,30 @@ public class ColorBlock extends Representation{
 
     @Override
     protected void drawRepresentation(Graphics g) {
-        g.setColor(color);
+        g.setColor(colorSlot1);
         g.fillRect(0, 0, DISPLAY_DIMENSIONS[0], DISPLAY_DIMENSIONS[1]);
 
         if(hasChangingColor()){
-            g.setColor(changingColor);
+            g.setColor(colorSlot2);
             g.fillRect( DISPLAY_DIMENSIONS[0]/2, 0,
                     DISPLAY_DIMENSIONS[0], DISPLAY_DIMENSIONS[1]);
         }
     }
 
-    public void setColor(Color selectedColor) {
-        this.color = selectedColor;
-        this.changingColor = null;
+    public void setColorSlot1(Color selectedColor) {
+        this.colorSlot1 = selectedColor;
+        this.colorSlot2 = null;
         repaint();
     }
 
     @Override
-    public boolean hasRepresentation() {return color != null; }
+    public boolean hasRepresentation() {return colorSlot1 != null; }
 
     public boolean hasChangingColor(){
-        return changingColor != null;
+        return colorSlot2 != null;
     }
 
-    public void setChangingColor(Color changingColor) {
-        this.changingColor = changingColor;
+    public void setColorSlot2(Color colorSlot2) {
+        this.colorSlot2 = colorSlot2;
     }
 }

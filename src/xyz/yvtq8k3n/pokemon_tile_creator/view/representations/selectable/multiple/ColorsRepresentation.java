@@ -89,8 +89,8 @@ public class ColorsRepresentation extends GridRepresentation {
     }
 
     @Override
-    public void changeSelector(Selector selector) {
-        super.changeSelector(selector);
+    public void setSelectorInUse(Selector selector) {
+        super.setSelectorInUse(selector);
         updateMultiSelector();
     }
 

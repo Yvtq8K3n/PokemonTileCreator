@@ -65,13 +65,7 @@ public class ColorTextField extends JPanel {
         add(txtColorBlue);
     }
 
-    public void setColor(Color color) {
-        txtColorRed.setText(String.valueOf(color.getRed()));
-        txtColorGreen.setText(String.valueOf(color.getGreen()));
-        txtColorBlue.setText(String.valueOf(color.getBlue()));
-    }
-
-    public void setChangingColor(Color color) {
+    public void setSelectedColor(Color color) {
         txtColorRed.setText(String.valueOf(color.getRed()));
         txtColorGreen.setText(String.valueOf(color.getGreen()));
         txtColorBlue.setText(String.valueOf(color.getBlue()));

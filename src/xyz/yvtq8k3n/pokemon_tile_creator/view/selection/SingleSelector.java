@@ -18,7 +18,7 @@ public class SingleSelector extends Selector{
     }
 
     @Override
-     public void drawComponent(Graphics g) {
+    public void drawComponent(Graphics g) {
         if(isActive()){
             //Draw selector
             g.setColor(SELECTOR_COLOR);

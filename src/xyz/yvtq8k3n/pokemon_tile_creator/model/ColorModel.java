@@ -17,11 +17,15 @@ public class ColorModel {
             ColorUnitFrequencySorting.CRITERIA
     };
 
+    //Mapping
     private List<Color> allColors;
     private Color[] allDistinctColors;
     private Map<Color, List<Point>> colorsMap;
     private ColorUnit[] sortedColors;
     public int sortingIndex;
+
+    //Controls
+    private Color currentColor;
     private List<Color> selectedColors;
 
     protected ColorModel() {
@@ -121,4 +125,5 @@ public class ColorModel {
     public void removeSelectedColor(Color color) {
         this.selectedColors.remove(color);
     }
+
 }

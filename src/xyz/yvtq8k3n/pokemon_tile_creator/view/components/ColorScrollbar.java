@@ -37,13 +37,7 @@ public class ColorScrollbar extends JPanel {
 
     }
 
-    public void setColor(Color color) {
-        scrollRed.setValue(color.getRed());
-        scrollGreen.setValue(color.getGreen());
-        scrollBlue.setValue(color.getBlue());
-    }
-
-    public void setChangingColor(Color color) {
+    public void setSelectedColor(Color color) {
         scrollRed.setValue(color.getRed());
         scrollGreen.setValue(color.getGreen());
         scrollBlue.setValue(color.getBlue());
@@ -94,7 +88,7 @@ public class ColorScrollbar extends JPanel {
         @Override
         public void adjustmentValueChanged(AdjustmentEvent e) {
             if (e.getValueIsAdjusting()){
-                PaletteController.setDisplayBlockReplacing(new Color(
+                PaletteController.setColorBlockSlot2(new Color(
                         scrollRed.getValue(),
                         scrollGreen.getValue(),
                         scrollBlue.getValue()
