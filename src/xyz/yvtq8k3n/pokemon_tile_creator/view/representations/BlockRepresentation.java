@@ -4,7 +4,6 @@ import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public abstract class BlockRepresentation extends Representation {
     protected static final int[] DISPLAY_DIMENSIONS = {128, 128};
@@ -13,12 +12,5 @@ public abstract class BlockRepresentation extends Representation {
         super();
         setPreferredSize(TileHelper.createDimension(DISPLAY_DIMENSIONS));
         setBorder(BorderFactory.createLineBorder(Color.RED));
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        //Can hava press event
-        //On Color shows rgbs
-        //On Image shows grid
     }
 }

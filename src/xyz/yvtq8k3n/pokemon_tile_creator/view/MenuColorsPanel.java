@@ -60,10 +60,10 @@ public class MenuColorsPanel extends ActionPanel{
         createColorMenu();
         createColorPicker();
         createColorScrollbar();
-        pnlColor.setLayout(new BorderLayout());
-        pnlColor.add(pnlColorMenu, BorderLayout.PAGE_START);
-        pnlColor.add(pnlColorPicker, BorderLayout.CENTER);
-        pnlColor.add(pnlColorScrollbar, BorderLayout.PAGE_END);
+        pnlColor.setLayout(new BoxLayout(pnlColor, BoxLayout.PAGE_AXIS));
+        pnlColor.add(pnlColorMenu);
+        pnlColor.add(pnlColorPicker);
+        pnlColor.add(pnlColorScrollbar);
 
         //Create Palette components
         pnlPalette = new JPanel();
@@ -80,8 +80,8 @@ public class MenuColorsPanel extends ActionPanel{
         pnlPalette.add(pnlPaletteApply, BorderLayout.PAGE_END);
 
         //Add Components
-        add(pnlColor, BorderLayout.CENTER);
-        add(pnlPalette, BorderLayout.PAGE_END);
+        add(pnlColor, BorderLayout.PAGE_START);
+        add(pnlPalette, BorderLayout.CENTER);
     }
 
     private void createColorPicker() {
@@ -89,20 +89,17 @@ public class MenuColorsPanel extends ActionPanel{
 
         JPanel pnlCenter = new JPanel();
         colorBlock = new ColorBlock();
-        pnlCenter.setLayout(new FlowLayout(FlowLayout.CENTER));
-        Dimension dimFillerA = TileHelper.createDimension(new int[]{10,2});
-        pnlCenter.add(new Box.Filler(dimFillerA, dimFillerA, dimFillerA));
+        pnlCenter.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 8));
+        pnlCenter.add(Box.createHorizontalGlue());
         pnlCenter.add(colorBlock);
+        pnlCenter.add(Box.createHorizontalGlue());
 
         JPanel leftPanel = new JPanel();
         colorTextField = new ColorTextField();
         leftPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        leftPanel.setPreferredSize(new Dimension(50, 20));
         leftPanel.add(colorTextField);
 
-        pnlColorPicker.setLayout(new BorderLayout(0, 0));
-        Dimension dimFiller = TileHelper.createDimension(FILLER_DIMENSIONS);
-        add(new Box.Filler(dimFiller, dimFiller, dimFiller), BorderLayout.PAGE_START);
+        pnlColorPicker.setLayout(new BorderLayout());
         pnlColorPicker.add(pnlCenter, BorderLayout.CENTER);
         pnlColorPicker.add(leftPanel, BorderLayout.LINE_END);
     }
@@ -159,7 +156,7 @@ public class MenuColorsPanel extends ActionPanel{
     private void createColorMenu() {
         pnlColorMenu = new JPanel();
         pnlColorMenu.setBorder(BorderFactory.createCompoundBorder(
-                new EmptyBorder(5, 5, 5, 5),
+                new EmptyBorder(5, 5, 0, 5),
                 new LineBorder(Color.BLACK))
         );
 

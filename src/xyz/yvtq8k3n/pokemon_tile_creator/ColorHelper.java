@@ -63,7 +63,7 @@ public abstract class ColorHelper {
     /** Given a
      * @param colorValue rounds it to the supported scaling factor of the ROM
      */
-    private static int round(int colorValue){
+    public static int round(int colorValue){
         colorValue = Math.floorDiv(colorValue, COLOR_STEP) * COLOR_STEP;
         colorValue = Math.min(colorValue, COLOR_RANGE[1]);
         colorValue = Math.max(colorValue, COLOR_RANGE[0]);

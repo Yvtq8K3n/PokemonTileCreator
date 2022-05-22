@@ -1,6 +1,8 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.components;
 
+import xyz.yvtq8k3n.pokemon_tile_creator.ColorHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
+import xyz.yvtq8k3n.pokemon_tile_creator.controller.PaletteController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,66 +10,90 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class ColorTextField extends JPanel {
-    private static final int[] COLOR_FIELD = {40, 92};
+    private static int STEP = 8;
+    private static int MAX_VALUE = 31;
+    private static int MIN_VALUE = 0;
     JTextField txtColorRed;
     JTextField txtColorGreen;
     JTextField txtColorBlue;
 
     public ColorTextField() {
         initComponents();
-        setPreferredSize(TileHelper.createDimension(COLOR_FIELD));
         addEventListeners();
+    }
+
+    private void initComponents() {
+        txtColorRed = new JTextField();
+        txtColorRed.setForeground(Color.RED);
+        txtColorRed.setText(String.valueOf(MAX_VALUE));
+        txtColorRed.setColumns(2);
+
+        txtColorGreen = new JTextField();
+        txtColorGreen.setForeground(Color.GREEN);
+        txtColorGreen.setText(String.valueOf(MAX_VALUE));
+        txtColorGreen.setColumns(2);
+
+        txtColorBlue = new JTextField();
+        txtColorBlue.setForeground(Color.BLUE);
+        txtColorBlue.setText(String.valueOf(MAX_VALUE));
+        txtColorBlue.setColumns(2);
+
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        add(txtColorRed);
+        add(txtColorGreen);
+        add(txtColorBlue);
     }
 
     private void addEventListeners() {
         txtColorRed.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 JTextField textField = (JTextField) e.getSource();
-                String text = textField.getText();
-                textField.setText(text.toUpperCase());
+                int colorValue = Integer.valueOf(textField.getText());
+                colorValue = boundsConstraint(colorValue) * STEP;
+                System.out.println(colorValue);
+                PaletteController.setColorBlockSlot2(new Color(
+                        colorValue,
+                        Integer.valueOf(txtColorGreen.getText()),
+                        Integer.valueOf(txtColorBlue.getText())
+                ));
             }
         });
         txtColorGreen.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 JTextField textField = (JTextField) e.getSource();
-                String text = textField.getText();
-                textField.setText(text.toUpperCase());
+                int colorValue = Integer.valueOf(textField.getText());
+                colorValue = boundsConstraint(colorValue) * STEP;
+                PaletteController.setColorBlockSlot2(new Color(
+                        Integer.valueOf(txtColorRed.getText()),
+                        colorValue,
+                        Integer.valueOf(txtColorBlue.getText())
+                ));
             }
         });
         txtColorBlue.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 JTextField textField = (JTextField) e.getSource();
-                String text = textField.getText();
-                textField.setText(text.toUpperCase());
+                int colorValue = Integer.valueOf(textField.getText());
+                colorValue = boundsConstraint(colorValue) * STEP;
+                PaletteController.setColorBlockSlot2(new Color(
+                        Integer.valueOf(txtColorRed.getText()),
+                        Integer.valueOf(txtColorGreen.getText()),
+                        colorValue * STEP
+                ));
             }
         });
     }
 
-    private void initComponents() {
-        txtColorRed = new JTextField();
-        txtColorRed.setForeground(Color.RED);
-        txtColorRed.setText("248");
-        txtColorRed.setColumns(2);
-
-        txtColorGreen = new JTextField();
-        txtColorGreen.setForeground(Color.GREEN);
-        txtColorGreen.setText("248");
-        txtColorGreen.setColumns(2);
-
-        txtColorBlue = new JTextField();
-        txtColorBlue.setForeground(Color.BLUE);
-        txtColorBlue.setText("248");
-        txtColorBlue.setColumns(2);
-
-        setLayout(new FlowLayout(FlowLayout.CENTER));
-        add(txtColorRed);
-        add(txtColorGreen);
-        add(txtColorBlue);
-    }
 
     public void setSelectedColor(Color color) {
-        txtColorRed.setText(String.valueOf(color.getRed()));
-        txtColorGreen.setText(String.valueOf(color.getGreen()));
-        txtColorBlue.setText(String.valueOf(color.getBlue()));
+        txtColorRed.setText(String.valueOf(color.getRed() / STEP));
+        txtColorGreen.setText(String.valueOf(color.getGreen() / STEP));
+        txtColorBlue.setText(String.valueOf(color.getBlue() / STEP));
+    }
+
+    private int boundsConstraint(int value){
+        value = Math.min(value, MAX_VALUE);
+        value = Math.max(value, MIN_VALUE);
+        return value;
     }
 }

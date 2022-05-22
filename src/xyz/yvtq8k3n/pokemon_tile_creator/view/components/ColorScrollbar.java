@@ -21,9 +21,9 @@ public class ColorScrollbar extends JPanel {
 
     private void initComponents() {
         JPanel pnlGrid = new JPanel();
-        scrollRed = new ScrollComponent("R: ", Color.RED);
-        scrollGreen = new ScrollComponent("G: ", Color.GREEN);
-        scrollBlue =  new ScrollComponent("B: ", Color.BLUE);
+        scrollRed = new ScrollComponent(Color.RED);
+        scrollGreen = new ScrollComponent( Color.GREEN);
+        scrollBlue =  new ScrollComponent(Color.BLUE);
 
         pnlGrid.setLayout(new GridLayout(3, 1, 0,4));
         pnlGrid.add(scrollRed);
@@ -48,18 +48,18 @@ public class ColorScrollbar extends JPanel {
         public static final int MAX_VALUE = 248;
         public static final int MIN_VALUE = 0;
 
-        JLabel lblColorName;
         JScrollBar jScrollBar;
+        JLabel lblColorName;
 
-        public ScrollComponent(String colorName, Color foreground) {
+        public ScrollComponent(Color foreground) {
             initComponents();
-            lblColorName.setText(colorName);
+            lblColorName.setText(String.valueOf(MAX_VALUE));
             lblColorName.setForeground(foreground);
         }
 
         private void initComponents() {
             lblColorName = new JLabel();
-            lblColorName.setFont(new Font("Arial", Font.BOLD, 16));
+            lblColorName.setFont(new Font("SansSerif", Font.BOLD, 12));
             lblColorName.setPreferredSize(TileHelper.createDimension(LBL_SIZE));
             lblColorName.setHorizontalAlignment(JLabel.RIGHT);
             lblColorName.setBorder(new EmptyBorder(0,-1,0,0));
@@ -72,13 +72,14 @@ public class ColorScrollbar extends JPanel {
             pnlScroll.add(jScrollBar);
 
             setLayout(new BorderLayout());
-            add(lblColorName, BorderLayout.LINE_START);
             add(pnlScroll, BorderLayout.CENTER);
+            add(lblColorName, BorderLayout.LINE_END);
         }
 
         public void setValue(int value) {
             value = value / 8 * 8;
             jScrollBar.setValue(value);
+            lblColorName.setText(String.valueOf(value));
         }
 
         public int getValue() {
