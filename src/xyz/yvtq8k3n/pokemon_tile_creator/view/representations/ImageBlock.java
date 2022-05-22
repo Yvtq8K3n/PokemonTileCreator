@@ -37,9 +37,9 @@ public class ImageBlock extends BlockRepresentation {
 
         if (enableGrid){
             g.setColor(Color.RED);
-            for (int i = 0; i < DISPLAY_DIMENSIONS[0]; i+=DISPLAY_DIMENSIONS[0]/2) {
-                for (int j = 0; j < DISPLAY_DIMENSIONS[1]; j+=DISPLAY_DIMENSIONS[1]/2) {
-                    g.drawRect(i, j,DISPLAY_DIMENSIONS[0]/2,DISPLAY_DIMENSIONS[1]/2);
+            for (int i = 0; i < DISPLAY_DIMENSION; i+=DISPLAY_DIMENSION/2) {
+                for (int j = 0; j < DISPLAY_DIMENSION; j+=DISPLAY_DIMENSION/2) {
+                    g.drawRect(i, j,DISPLAY_DIMENSION/2,DISPLAY_DIMENSION/2);
                 }
             }
         }

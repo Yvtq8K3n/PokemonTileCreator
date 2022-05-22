@@ -1,7 +1,5 @@
 package xyz.yvtq8k3n.pokemon_tile_creator.view.components;
 
-import xyz.yvtq8k3n.pokemon_tile_creator.ColorHelper;
-import xyz.yvtq8k3n.pokemon_tile_creator.TileHelper;
 import xyz.yvtq8k3n.pokemon_tile_creator.controller.PaletteController;
 
 import javax.swing.*;
@@ -49,12 +47,12 @@ public class ColorTextField extends JPanel {
             public void keyReleased(KeyEvent e) {
                 JTextField textField = (JTextField) e.getSource();
                 int colorValue = Integer.valueOf(textField.getText());
-                colorValue = boundsConstraint(colorValue) * STEP;
+                colorValue = boundsConstraint(colorValue);
                 System.out.println(colorValue);
                 PaletteController.setColorBlockSlot2(new Color(
-                        colorValue,
-                        Integer.valueOf(txtColorGreen.getText()),
-                        Integer.valueOf(txtColorBlue.getText())
+                        colorValue * STEP,
+                        Integer.valueOf(txtColorGreen.getText()) * STEP,
+                        Integer.valueOf(txtColorBlue.getText()) * STEP
                 ));
             }
         });
@@ -62,11 +60,11 @@ public class ColorTextField extends JPanel {
             public void keyReleased(KeyEvent e) {
                 JTextField textField = (JTextField) e.getSource();
                 int colorValue = Integer.valueOf(textField.getText());
-                colorValue = boundsConstraint(colorValue) * STEP;
+                colorValue = boundsConstraint(colorValue);
                 PaletteController.setColorBlockSlot2(new Color(
-                        Integer.valueOf(txtColorRed.getText()),
-                        colorValue,
-                        Integer.valueOf(txtColorBlue.getText())
+                        Integer.valueOf(txtColorRed.getText()) * STEP,
+                        colorValue * STEP,
+                        Integer.valueOf(txtColorBlue.getText()) * STEP
                 ));
             }
         });
@@ -74,10 +72,10 @@ public class ColorTextField extends JPanel {
             public void keyReleased(KeyEvent e) {
                 JTextField textField = (JTextField) e.getSource();
                 int colorValue = Integer.valueOf(textField.getText());
-                colorValue = boundsConstraint(colorValue) * STEP;
+                colorValue = boundsConstraint(colorValue);
                 PaletteController.setColorBlockSlot2(new Color(
-                        Integer.valueOf(txtColorRed.getText()),
-                        Integer.valueOf(txtColorGreen.getText()),
+                        Integer.valueOf(txtColorRed.getText()) * STEP,
+                        Integer.valueOf(txtColorGreen.getText()) * STEP,
                         colorValue * STEP
                 ));
             }

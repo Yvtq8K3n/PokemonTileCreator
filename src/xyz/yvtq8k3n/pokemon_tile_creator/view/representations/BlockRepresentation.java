@@ -6,11 +6,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class BlockRepresentation extends Representation {
-    protected static final int[] DISPLAY_DIMENSIONS = {128, 128};
+    protected static final int DISPLAY_DIMENSION = 128;
+    public static final int STEP = 8;
 
     public BlockRepresentation() {
         super();
-        setPreferredSize(TileHelper.createDimension(DISPLAY_DIMENSIONS));
+        setPreferredSize(TileHelper.createDimension(new int[]{DISPLAY_DIMENSION, DISPLAY_DIMENSION}));
         setBorder(BorderFactory.createLineBorder(Color.RED));
     }
 }

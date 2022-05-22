@@ -146,7 +146,7 @@ public class MenuColorsPanel extends ActionPanel{
 
     private void createPaletteList() {
         pnlPaletteList = new JPanel();
-        lstPalette = new JList(new String[]{ "Monday","Tuesday","Wednesday",
+        lstPalette = new JList(new String[]{ "Monday","Tuesday","Wednesday","Monday","Tuesday","Wednesday",
                 "Thursday"});
 
         pnlPaletteList.setLayout(new FlowLayout(FlowLayout.CENTER));
